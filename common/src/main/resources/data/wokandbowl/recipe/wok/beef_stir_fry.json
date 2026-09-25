@@ -1,0 +1,18 @@
+{
+  "type": "wokandbowl:wok",
+  "ingredients": [
+    {
+      "item": "wokandbowl:rice"
+    },
+    {
+      "item": "farm_and_charm:minced_beef"
+    },
+    {
+      "item": "farm_and_charm:onion"
+    }
+  ],
+  "result": {
+    "id": "wokandbowl:beef_stir_fry",
+    "count": 1
+  }
+}

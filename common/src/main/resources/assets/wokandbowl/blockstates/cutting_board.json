@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "wokandbowl:block/cutting_board" },
+    "facing=east": { "model": "wokandbowl:block/cutting_board", "y": 90 },
+    "facing=south": { "model": "wokandbowl:block/cutting_board", "y": 180 },
+    "facing=west": { "model": "wokandbowl:block/cutting_board", "y": 270 }
+  }
+}

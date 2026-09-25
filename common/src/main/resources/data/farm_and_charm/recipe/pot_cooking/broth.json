@@ -1,0 +1,24 @@
+{
+  "type": "farm_and_charm:pot_cooking",
+  "ingredients": [
+    {
+      "item": "wokandbowl:fish_bones"
+    },
+    {
+      "item": "farm_and_charm:onion"
+    },
+    {
+      "tag": "farm_and_charm:water_bottles"
+    }
+  ],
+  "requireContainer": true,
+  "container": {
+    "id": "minecraft:bowl",
+    "count": 1
+  },
+  "result": {
+    "id": "wokandbowl:broth",
+    "count": 1
+  },
+  "requiresLearning": false
+}

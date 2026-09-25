@@ -1,0 +1,12 @@
+{
+  "type": "wokandbowl:wok",
+  "ingredients": [
+    {
+      "item": "wokandbowl:rice"
+    }
+  ],
+  "result": {
+    "id": "wokandbowl:simple_fried_rice",
+    "count": 1
+  }
+}

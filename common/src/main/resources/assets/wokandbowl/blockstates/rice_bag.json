@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "wokandbowl:block/rice_bag"
+    },
+    "facing=east": {
+      "model": "wokandbowl:block/rice_bag",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "wokandbowl:block/rice_bag",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "wokandbowl:block/rice_bag",
+      "y": 270
+    }
+  }
+}

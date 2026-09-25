@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "wokandbowl:sticky_rice"
+    }
+  },
+  "result": {
+    "id": "wokandbowl:sticky_rice_bag",
+    "count": 1
+  }
+}

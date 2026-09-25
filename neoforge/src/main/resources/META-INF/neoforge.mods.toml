@@ -1,0 +1,45 @@
+modLoader = "javafml"
+loaderVersion = "[4,)"
+license = "Custom"
+issueTrackerURL = "https://github.com/satisfyu/Let-s-Do-Hub"
+
+[[mixins]]
+config = "wokandbowl-common.mixins.json"
+
+[[mods]]
+modId = "wokandbowl"
+version = "${version}"
+displayName = "[Let's Do] Wok & Bowl"
+authors = "satisfy"
+description = '''
+Fire up the wok – combine fresh ingredients, discover new dishes, and find the perfect moment to serve!
+'''
+logoFile = "pack.png"
+
+[[dependencies.wokandbowl]]
+modId = "neoforge"
+type = "required"
+versionRange = "[21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.wokandbowl]]
+modId = "minecraft"
+type = "required"
+versionRange = "[1.21.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.wokandbowl]]
+modId = "architectury"
+type = "required"
+versionRange = "[13.0.8,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.wokandbowl]]
+modId = "farm_and_charm"
+type = "required"
+versionRange = "[1.1.25,)"
+ordering = "AFTER"
+side = "BOTH"

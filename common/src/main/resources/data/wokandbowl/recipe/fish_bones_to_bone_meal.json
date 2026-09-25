@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "wokandbowl:fish_bones"
+    },
+    {
+      "item": "wokandbowl:fish_bones"
+    }
+  ],
+  "result": {
+    "id": "minecraft:bone_meal",
+    "count": 1
+  }
+}

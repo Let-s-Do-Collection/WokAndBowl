@@ -1,0 +1,15 @@
+{
+  "type": "wokandbowl:cutting_board_assembly",
+  "ingredients": [
+    {
+      "item": "farm_and_charm:dough"
+    },
+    {
+      "item": "wokandbowl:chopped_pork"
+    }
+  ],
+  "result": {
+    "id": "wokandbowl:raw_pork_dumplings",
+    "count": 1
+  }
+}

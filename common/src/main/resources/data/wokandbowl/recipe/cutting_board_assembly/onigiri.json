@@ -1,0 +1,15 @@
+{
+  "type": "wokandbowl:cutting_board_assembly",
+  "ingredients": [
+    {
+      "item": "wokandbowl:steamed_rice"
+    },
+    {
+      "item": "minecraft:kelp"
+    }
+  ],
+  "result": {
+    "id": "wokandbowl:onigiri",
+    "count": 1
+  }
+}

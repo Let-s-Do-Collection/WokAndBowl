@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "wokandbowl",
+  "version": "${version}",
+  "name": "[Let's Do] Wok & Bowl",
+  "description": "Fire up the wok – combine fresh ingredients, discover new dishes, and find the perfect moment to serve!",
+  "authors": [
+    "satisfy"
+  ],
+  "contact": {
+    "issues": "https://github.com/satisfyu/Let-s-Do-Hub",
+    "sources": "https://github.com/satisfyu/WokAndBowl"
+  },
+  "license": "Custom",
+  "icon": "pack.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.satisfy.wokandbowl.fabric.WokAndBowlFabric"
+    ],
+    "client": [
+      "net.satisfy.wokandbowl.fabric.client.WokAndBowlClientFabric"
+    ],
+    "modmenu": [
+      "net.satisfy.wokandbowl.fabric.core.config.ModMenu"
+    ]
+  },
+  "mixins": [
+    "wokandbowl-common.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.16.14",
+    "fabric": "*",
+    "minecraft": ">=1.21.1",
+    "architectury": ">=13.0.8",
+    "cloth-config": "*",
+    "farm_and_charm": ">=1.1.25"
+  }
+}

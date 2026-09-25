@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "side": "wokandbowl:block/rattan_basket_side",
+    "top": "wokandbowl:block/rattan_basket_top",
+    "bottom": "wokandbowl:block/rattan_basket_bottom"
+  }
+}

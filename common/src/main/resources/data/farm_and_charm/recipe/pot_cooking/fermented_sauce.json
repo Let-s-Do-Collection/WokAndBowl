@@ -1,0 +1,27 @@
+{
+  "type": "farm_and_charm:pot_cooking",
+  "ingredients": [
+    {
+      "item": "minecraft:dried_kelp"
+    },
+    {
+      "tag": "wokandbowl:mushrooms"
+    },
+    {
+      "item": "farm_and_charm:yeast"
+    },
+    {
+      "tag": "farm_and_charm:water_bottles"
+    }
+  ],
+  "requireContainer": true,
+  "container": {
+    "id": "minecraft:glass_bottle",
+    "count": 1
+  },
+  "result": {
+    "id": "wokandbowl:fermented_sauce",
+    "count": 1
+  },
+  "requiresLearning": false
+}

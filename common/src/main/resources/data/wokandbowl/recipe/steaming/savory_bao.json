@@ -1,0 +1,11 @@
+{
+  "type": "wokandbowl:steaming",
+  "ingredient": {
+    "item": "wokandbowl:raw_savory_bao"
+  },
+  "result": {
+    "id": "wokandbowl:savory_bao",
+    "count": 1
+  },
+  "steaming_time": 300
+}

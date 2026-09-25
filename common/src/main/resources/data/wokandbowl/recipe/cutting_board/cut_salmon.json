@@ -1,0 +1,17 @@
+{
+  "type": "wokandbowl:cutting_board",
+  "ingredient": {
+    "item": "minecraft:salmon"
+  },
+  "result": {
+    "id": "wokandbowl:cut_salmon",
+    "count": 2
+  },
+  "byproducts": [
+    {
+      "id": "wokandbowl:fish_bones",
+      "count": 1
+    }
+  ],
+  "chops": 3
+}

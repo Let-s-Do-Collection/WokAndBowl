@@ -1,0 +1,18 @@
+{
+  "type": "wokandbowl:wok",
+  "ingredients": [
+    {
+      "item": "wokandbowl:rice"
+    },
+    {
+      "item": "farm_and_charm:onion"
+    },
+    {
+      "item": "minecraft:carrot"
+    }
+  ],
+  "result": {
+    "id": "wokandbowl:vegetable_fried_rice",
+    "count": 1
+  }
+}

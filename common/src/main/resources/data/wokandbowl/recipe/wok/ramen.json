@@ -1,0 +1,24 @@
+{
+  "type": "wokandbowl:wok",
+  "ingredients": [
+    {
+      "item": "farm_and_charm:raw_pasta"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "tag": "wokandbowl:mushrooms"
+    },
+    {
+      "tag": "wokandbowl:cured_meat"
+    },
+    {
+      "item": "wokandbowl:broth"
+    }
+  ],
+  "result": {
+    "id": "wokandbowl:ramen",
+    "count": 1
+  }
+}

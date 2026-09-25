@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "PPP",
+    "B B",
+    "B B"
+  ],
+  "key": {
+    "P": {
+      "item": "minecraft:bamboo_planks"
+    },
+    "B": {
+      "item": "minecraft:bamboo"
+    }
+  },
+  "result": {
+    "id": "wokandbowl:rattan_table",
+    "count": 1
+  }
+}
