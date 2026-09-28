@@ -16,6 +16,11 @@ public class DataComponentRegistry {
             .networkSynchronized(ByteBufCodecs.VAR_INT)
             .build());
 
+    public static final RegistrySupplier<DataComponentType<String>> BURNT_BY = COMPONENTS.register("burnt_by", () -> DataComponentType.<String>builder()
+            .persistent(Codec.STRING)
+            .networkSynchronized(ByteBufCodecs.STRING_UTF8)
+            .build());
+
     public static void init() {
         COMPONENTS.register();
     }

@@ -1,0 +1,38 @@
+{
+  "parent": "wokandbowl:main/cut_salmon",
+  "display": {
+    "icon": {
+      "id": "wokandbowl:seaweed_salmon_rolls"
+    },
+    "title": {
+      "translate": "advancement.wokandbowl.seaweed_salmon_rolls"
+    },
+    "description": {
+      "translate": "advancement.wokandbowl.seaweed_salmon_rolls.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "seaweed_salmon_rolls": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wokandbowl:seaweed_salmon_rolls"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "seaweed_salmon_rolls"
+    ]
+  ],
+  "rewards": {
+    "experience": 25
+  }
+}

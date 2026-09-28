@@ -1,0 +1,80 @@
+{
+  "variants": {
+    "facing=north,mature=false": [
+      {
+        "model": "wokandbowl:block/rattan_branch_a"
+      },
+      {
+        "model": "wokandbowl:block/rattan_branch_b"
+      }
+    ],
+    "facing=north,mature=true": [
+      {
+        "model": "wokandbowl:block/rattan_branch_a_mature"
+      },
+      {
+        "model": "wokandbowl:block/rattan_branch_b_mature"
+      }
+    ],
+    "facing=east,mature=false": [
+      {
+        "model": "wokandbowl:block/rattan_branch_a",
+        "y": 90
+      },
+      {
+        "model": "wokandbowl:block/rattan_branch_b",
+        "y": 90
+      }
+    ],
+    "facing=east,mature=true": [
+      {
+        "model": "wokandbowl:block/rattan_branch_a_mature",
+        "y": 90
+      },
+      {
+        "model": "wokandbowl:block/rattan_branch_b_mature",
+        "y": 90
+      }
+    ],
+    "facing=south,mature=false": [
+      {
+        "model": "wokandbowl:block/rattan_branch_a",
+        "y": 180
+      },
+      {
+        "model": "wokandbowl:block/rattan_branch_b",
+        "y": 180
+      }
+    ],
+    "facing=south,mature=true": [
+      {
+        "model": "wokandbowl:block/rattan_branch_a_mature",
+        "y": 180
+      },
+      {
+        "model": "wokandbowl:block/rattan_branch_b_mature",
+        "y": 180
+      }
+    ],
+    "facing=west,mature=false": [
+      {
+        "model": "wokandbowl:block/rattan_branch_a",
+        "y": 270
+      },
+      {
+        "model": "wokandbowl:block/rattan_branch_b",
+        "y": 270
+      }
+    ],
+    "facing=west,mature=true": [
+      {
+        "model": "wokandbowl:block/rattan_branch_a_mature",
+        "y": 270
+      },
+      {
+        "model": "wokandbowl:block/rattan_branch_b_mature",
+        "y": 270
+      }
+    ]
+  }
+}

@@ -13,7 +13,7 @@
   ],
   "requireContainer": true,
   "container": {
-    "id": "minecraft:bowl",
+    "id": "minecraft:glass_bottle",
     "count": 1
   },
   "result": {

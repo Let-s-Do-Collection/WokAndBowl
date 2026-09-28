@@ -49,6 +49,49 @@ public class WokAndBowlFabricConfig implements ConfigData {
     @ConfigEntry.Gui.Tooltip
     public boolean stickyRiceFertilizerRequired = true;
 
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 600)
+    @ConfigEntry.Gui.Tooltip
+    public int tatamiRestedSeconds = 60;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean blockInfo = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean wokOwnerOnly = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean wokQualityEnabled = true;
+
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 4)
+    @ConfigEntry.Gui.Tooltip
+    public int rattanBasketRange = 1;
+
+    @ConfigEntry.Gui.Tooltip
+    public float rattanGrowthSpeed = 1.0F;
+
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 99)
+    @ConfigEntry.Gui.Tooltip
+    public int ingredientCubbySlotSize = 64;
+
+    @ConfigEntry.Gui.Tooltip
+    public float rattanBranchDensity = 0.07F;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean rattanLeafParticles = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean cushionBounce = true;
+
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 32000)
+    @ConfigEntry.Gui.Tooltip
+    public int burntRiceBurnTime = 1600;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean wokRecipeHints = true;
+
+    @ConfigEntry.Gui.Tooltip
+    public boolean cleaverHeadDrops = true;
+
     @ConfigEntry.Gui.CollapsibleObject
     @ConfigEntry.Gui.Tooltip
     public FoodSettings food = new FoodSettings();
@@ -59,6 +102,8 @@ public class WokAndBowlFabricConfig implements ConfigData {
             wokMaxCookingSeconds = wokBaseCookingSeconds;
         }
         riceGrowthSpeed = Math.clamp(riceGrowthSpeed, 0.1F, 25.0F);
+        rattanGrowthSpeed = Math.clamp(rattanGrowthSpeed, 0.1F, 10.0F);
+        rattanBranchDensity = Math.clamp(rattanBranchDensity, 0.0F, 1.0F);
         food.validate();
     }
 
@@ -72,9 +117,9 @@ public class WokAndBowlFabricConfig implements ConfigData {
         @ConfigEntry.Gui.CollapsibleObject
         public FoodValue steamedRice = new FoodValue(WokFood.STEAMED_RICE);
         @ConfigEntry.Gui.CollapsibleObject
-        public FoodValue onigiri = new FoodValue(WokFood.ONIGIRI);
+        public FoodValue riceBall = new FoodValue(WokFood.RICE_BALL);
         @ConfigEntry.Gui.CollapsibleObject
-        public FoodValue mochi = new FoodValue(WokFood.MOCHI);
+        public FoodValue sweetRiceCake = new FoodValue(WokFood.SWEET_RICE_CAKE);
         @ConfigEntry.Gui.CollapsibleObject
         public FoodValue simpleFriedRice = new FoodValue(WokFood.SIMPLE_FRIED_RICE);
         @ConfigEntry.Gui.CollapsibleObject
@@ -88,7 +133,7 @@ public class WokAndBowlFabricConfig implements ConfigData {
         @ConfigEntry.Gui.CollapsibleObject
         public FoodValue stirFriedNoodles = new FoodValue(WokFood.STIR_FRIED_NOODLES);
         @ConfigEntry.Gui.CollapsibleObject
-        public FoodValue ramen = new FoodValue(WokFood.RAMEN);
+        public FoodValue noodleBowl = new FoodValue(WokFood.NOODLE_BOWL);
         @ConfigEntry.Gui.CollapsibleObject
         public FoodValue burntRice = new FoodValue(WokFood.BURNT_RICE);
         @ConfigEntry.Gui.CollapsibleObject
@@ -96,11 +141,11 @@ public class WokAndBowlFabricConfig implements ConfigData {
         @ConfigEntry.Gui.CollapsibleObject
         public FoodValue vegetableDumplings = new FoodValue(WokFood.VEGETABLE_DUMPLINGS);
         @ConfigEntry.Gui.CollapsibleObject
-        public FoodValue savoryBao = new FoodValue(WokFood.SAVORY_BAO);
+        public FoodValue savoryBun = new FoodValue(WokFood.SAVORY_BUN);
         @ConfigEntry.Gui.CollapsibleObject
-        public FoodValue sweetBao = new FoodValue(WokFood.SWEET_BAO);
+        public FoodValue sweetBun = new FoodValue(WokFood.SWEET_BUN);
         @ConfigEntry.Gui.CollapsibleObject
-        public FoodValue sushiRolls = new FoodValue(WokFood.SUSHI_ROLLS);
+        public FoodValue seaweedSalmonRolls = new FoodValue(WokFood.SEAWEED_SALMON_ROLLS);
 
         public FoodValue get(WokFood food) {
             return switch (food) {
@@ -108,21 +153,21 @@ public class WokAndBowlFabricConfig implements ConfigData {
                 case CHOPPED_PORK -> choppedPork;
                 case CURED_MEAT -> curedMeat;
                 case STEAMED_RICE -> steamedRice;
-                case ONIGIRI -> onigiri;
-                case MOCHI -> mochi;
+                case RICE_BALL -> riceBall;
+                case SWEET_RICE_CAKE -> sweetRiceCake;
                 case SIMPLE_FRIED_RICE -> simpleFriedRice;
                 case EGG_FRIED_RICE -> eggFriedRice;
                 case VEGETABLE_FRIED_RICE -> vegetableFriedRice;
                 case BEEF_STIR_FRY -> beefStirFry;
                 case FISH_STIR_FRY -> fishStirFry;
                 case STIR_FRIED_NOODLES -> stirFriedNoodles;
-                case RAMEN -> ramen;
+                case NOODLE_BOWL -> noodleBowl;
                 case BURNT_RICE -> burntRice;
                 case PORK_DUMPLINGS -> porkDumplings;
                 case VEGETABLE_DUMPLINGS -> vegetableDumplings;
-                case SAVORY_BAO -> savoryBao;
-                case SWEET_BAO -> sweetBao;
-                case SUSHI_ROLLS -> sushiRolls;
+                case SAVORY_BUN -> savoryBun;
+                case SWEET_BUN -> sweetBun;
+                case SEAWEED_SALMON_ROLLS -> seaweedSalmonRolls;
             };
         }
 

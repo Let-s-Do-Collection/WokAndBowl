@@ -73,4 +73,69 @@ public abstract class PlatformHelper {
     public static int getWokTwoStarBonus() {
         throw new AssertionError();
     }
+
+    @ExpectPlatform
+    public static boolean isBlockInfoEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getTatamiRestedSeconds() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isWokOwnerOnly() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isWokQualityEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getRattanBasketRange() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static float getRattanGrowthSpeed() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getIngredientCubbySlotSize() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static float getRattanBranchDensity() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isRattanLeafParticlesEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isCushionBounceEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getBurntRiceBurnTime() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isWokRecipeHintsEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isCleaverHeadDropsEnabled() {
+        throw new AssertionError();
+    }
 }

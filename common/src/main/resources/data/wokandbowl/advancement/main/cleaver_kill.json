@@ -1,0 +1,46 @@
+{
+  "parent": "wokandbowl:main/get_cleaver",
+  "display": {
+    "icon": {
+      "id": "minecraft:zombie_head"
+    },
+    "title": {
+      "translate": "advancement.wokandbowl.cleaver_kill"
+    },
+    "description": {
+      "translate": "advancement.wokandbowl.cleaver_kill.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "kill": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "player": [
+          {
+            "condition": "minecraft:entity_properties",
+            "entity": "this",
+            "predicate": {
+              "equipment": {
+                "mainhand": {
+                  "items": "#wokandbowl:cleavers"
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "kill"
+    ]
+  ],
+  "rewards": {
+    "experience": 25
+  }
+}

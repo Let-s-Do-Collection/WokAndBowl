@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <em>The Asian kitchen extension to Farm & Charm</em>
+  <em>The wok cooking extension to Farm & Charm</em>
 </p>
 
 <br>
@@ -18,7 +18,7 @@
 
 <br>
 
-Wok & Bowl brings the heat of the Asian kitchen into your world. Flood your rice paddies, prepare your ingredients on the cutting board, toss them into a hot wok and serve your dish at just the right moment.
+Wok & Bowl brings wok cooking inspired by East Asian cuisine into your world. Flood your rice paddies, prepare your ingredients on the cutting board, toss them into a hot wok and serve your dish at just the right moment.
 
 <br>
 
@@ -34,10 +34,10 @@ Wok & Bowl builds on the ingredients of [Let's Do] Farm & Charm and adds its own
 
 <br>
 
-- Flooded Rice Paddies for growing Rice and Sticky Rice  
+- Wild Rice in swamps and flooded Rice Paddies for growing Rice and Sticky Rice  
 - Sticky Rice that needs fertilizer as it grows  
 - A Cutting Board and Cleaver for filleting fish and chopping meat  
-- Assemble dumplings, bao and sushi rolls by hand on the Cutting Board  
+- Assemble dumplings, buns, seaweed salmon rolls, rice balls and sweet rice cakes by hand on the Cutting Board  
 
 <br>
 
@@ -50,9 +50,10 @@ Good food starts with good preparation.
 <br>
 
 - Add ingredients one after another and discover new dishes along the way  
-- Fried Rice, Stir-Fries, Stir-Fried Noodles and Ramen  
-- Serve at the right moment for the best quality – or end up with Burnt Rice  
-- Place a Bamboo Steamer on your wok to steam rice, dumplings and bao  
+- Fried Rice, Stir-Fries, Stir-Fried Noodles and Noodle Bowls  
+- Toss the wok when it calls for it and finish every dish with Fermented Sauce  
+- Serve at the right moment for up to three stars – or end up with Burnt Rice  
+- Place a Bamboo Steamer on your wok to steam rice, dumplings and buns  
 
 <br>
 
@@ -64,13 +65,30 @@ Timing is everything.
 
 <br>
 
-- The Rattan Basket that automatically collects what your cutting board and steamer produce  
-- Fermented Sauce, Broth and Cured Meat made with Farm & Charm's Cooking Pot and Silo  
+- The Rattan Basket that automatically collects what your stations produce  
+- The Ingredient Cubby to keep your ingredients within reach  
+- Rice Bags, Fermented Sauce, Broth and Cured Meat made with Farm & Charm's Cooking Pot and Silo  
 - Fish Bones that go into broth, bone meal or cat food – nothing goes to waste  
 
 <br>
 
 A tidy kitchen is a happy kitchen.
+
+<br>
+
+## Furnish Your Home
+
+<br>
+
+- Rattan Branches that grow on jungle trees  
+- Rattan Blocks, Rattan Mats and Rattan Tables  
+- Tatami Blocks and Tatami Mats – eat a meal on tatami to feel well rested  
+- Dyeable Paper Lanterns you can switch on and off  
+- Dyeable Floor Cushions to sit and bounce on  
+
+<br>
+
+Make yourself at home.
 
 <br>
 

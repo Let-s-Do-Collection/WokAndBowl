@@ -3,6 +3,8 @@
   "values": [
     "wokandbowl:cutting_board",
     "wokandbowl:rattan_basket",
-    "wokandbowl:rattan_table"
+    "wokandbowl:rattan_table",
+    "wokandbowl:rattan_branch",
+    "wokandbowl:rattan_block"
   ]
 }

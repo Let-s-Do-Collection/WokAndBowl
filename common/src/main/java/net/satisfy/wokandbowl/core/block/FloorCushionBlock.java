@@ -4,7 +4,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -16,26 +20,54 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.farm_and_charm.core.util.GeneralUtil;
+import net.satisfy.wokandbowl.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class FloorCushionBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
 
     private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 4, 15);
-    private static final double SEAT_OFFSET = -0.1;
+    private static final double SEAT_OFFSET = -0.0375;
+    private static final float FALL_DAMAGE_FACTOR = 0.5F;
+    private static final double BOUNCE_LIVING = 0.66;
+    private static final double BOUNCE_OTHER = 0.53;
 
     public FloorCushionBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(COLOR, DyeColor.RED));
     }
 
     @Override
     protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+        if (stack.getItem() instanceof DyeItem dye) {
+            return DyeHelper.dye(stack, dye.getDyeColor(), state, COLOR, level, pos, player);
+        }
         return GeneralUtil.onUse(level, player, hand, hitResult, SEAT_OFFSET);
+    }
+
+    @Override
+    public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        super.fallOn(level, state, pos, entity, fallDistance * FALL_DAMAGE_FACTOR);
+    }
+
+    @Override
+    public void updateEntityAfterFallOn(BlockGetter level, Entity entity) {
+        if (entity.isSuppressingBounce() || !PlatformHelper.isCushionBounceEnabled()) {
+            super.updateEntityAfterFallOn(level, entity);
+            return;
+        }
+        Vec3 movement = entity.getDeltaMovement();
+        if (movement.y < 0.0) {
+            double factor = entity instanceof LivingEntity ? BOUNCE_LIVING : BOUNCE_OTHER;
+            entity.setDeltaMovement(movement.x, -movement.y * factor, movement.z);
+        }
     }
 
     @Override
@@ -66,6 +98,6 @@ public class FloorCushionBlock extends Block {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, COLOR);
     }
 }

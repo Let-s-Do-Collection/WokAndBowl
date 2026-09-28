@@ -1,18 +1,12 @@
 package net.satisfy.wokandbowl.core.item;
 
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TooltipFlag;
 import net.satisfy.wokandbowl.core.registry.DataComponentRegistry;
 import net.satisfy.wokandbowl.platform.PlatformHelper;
 
-import java.util.List;
-
-public class WokDishItem extends Item {
+public class WokDishItem extends WokAndBowlFoodItem {
     public static final int MAX_QUALITY = 3;
 
     public WokDishItem(Properties properties) {
@@ -35,14 +29,5 @@ public class WokDishItem extends Item {
             case 2 -> PlatformHelper.getWokTwoStarBonus();
             default -> 0;
         };
-    }
-
-    @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-        Integer quality = stack.get(DataComponentRegistry.QUALITY.get());
-        if (quality != null) {
-            String stars = "★".repeat(quality) + "☆".repeat(MAX_QUALITY - quality);
-            tooltip.add(Component.translatable("tooltip.wokandbowl.quality", stars).withStyle(ChatFormatting.GOLD));
-        }
     }
 }

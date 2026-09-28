@@ -1,3 +1,6 @@
 {
-  "parent": "wokandbowl:block/wok"
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "wokandbowl:item/wok"
+  }
 }

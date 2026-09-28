@@ -1,7 +1,6 @@
 package net.satisfy.wokandbowl.core.block.crops;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -67,7 +66,6 @@ public class StickyRiceCropBlock extends RiceCropBlock {
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (isHungry(state) && stack.is(Items.BONE_MEAL)) {
-            player.displayClientMessage(Component.translatable("message.wokandbowl.sticky_rice.needs_fertilizer"), true);
             return ItemInteractionResult.sidedSuccess(level.isClientSide());
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hit);

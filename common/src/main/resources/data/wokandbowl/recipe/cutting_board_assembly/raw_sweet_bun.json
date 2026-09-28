@@ -1,0 +1,15 @@
+{
+  "type": "wokandbowl:cutting_board_assembly",
+  "ingredients": [
+    {
+      "item": "farm_and_charm:dough"
+    },
+    {
+      "item": "minecraft:honey_bottle"
+    }
+  ],
+  "result": {
+    "id": "wokandbowl:raw_sweet_bun",
+    "count": 1
+  }
+}

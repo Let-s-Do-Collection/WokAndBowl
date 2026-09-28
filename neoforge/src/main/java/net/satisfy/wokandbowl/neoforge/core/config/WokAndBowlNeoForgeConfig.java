@@ -20,6 +20,19 @@ public class WokAndBowlNeoForgeConfig {
     public static int wokTwoStarBonus = 5;
     public static float riceGrowthSpeed = 4.0F;
     public static boolean stickyRiceFertilizerRequired = true;
+    public static boolean blockInfo = true;
+    public static int tatamiRestedSeconds = 60;
+    public static boolean cleaverHeadDrops = true;
+    public static int burntRiceBurnTime = 1600;
+    public static boolean wokRecipeHints = true;
+    public static boolean wokOwnerOnly = true;
+    public static boolean wokQualityEnabled = true;
+    public static int rattanBasketRange = 1;
+    public static float rattanGrowthSpeed = 1.0F;
+    public static int ingredientCubbySlotSize = 64;
+    public static float rattanBranchDensity = 0.07F;
+    public static boolean rattanLeafParticles = true;
+    public static boolean cushionBounce = true;
 
     private static final ModConfigSpec.Builder BUILDER = new ModConfigSpec.Builder();
 
@@ -51,6 +64,46 @@ public class WokAndBowlNeoForgeConfig {
     private static final ModConfigSpec.BooleanValue STICKY_RICE_FERTILIZER_REQUIRED = BUILDER
             .comment("Whether sticky rice pauses at every second growth stage until it is fertilized.")
             .define("stickyRiceFertilizerRequired", true);
+
+    private static final ModConfigSpec.IntValue TATAMI_RESTED_SECONDS = BUILDER
+            .comment("Seconds of the Rested effect when eating Wok & Bowl food on tatami. 0 disables it.")
+            .defineInRange("tatamiRestedSeconds", 60, 0, 600);
+    private static final ModConfigSpec.BooleanValue WOK_OWNER_ONLY = BUILDER
+            .comment("Only the player who started a dish can add ingredients, toss and serve it.")
+            .define("wokOwnerOnly", true);
+    private static final ModConfigSpec.BooleanValue WOK_QUALITY_ENABLED = BUILDER
+            .comment("Enables tossing, timing and star ratings. When disabled, dishes never burn and always get three stars.")
+            .define("wokQualityEnabled", true);
+    private static final ModConfigSpec.IntValue RATTAN_BASKET_RANGE = BUILDER
+            .comment("How many blocks around the rattan basket it collects from.")
+            .defineInRange("rattanBasketRange", 1, 1, 4);
+    private static final ModConfigSpec.DoubleValue RATTAN_GROWTH_SPEED = BUILDER
+            .comment("How fast harvested rattan branches grow back. Higher is faster.")
+            .defineInRange("rattanGrowthSpeed", 1.0, 0.1, 10.0);
+    private static final ModConfigSpec.IntValue INGREDIENT_CUBBY_SLOT_SIZE = BUILDER
+            .comment("How many items fit into each slot of the ingredient cubby.")
+            .defineInRange("ingredientCubbySlotSize", 64, 1, 99);
+    private static final ModConfigSpec.DoubleValue RATTAN_BRANCH_DENSITY = BUILDER
+            .comment("Chance per free jungle log side to grow a rattan branch during world generation.")
+            .defineInRange("rattanBranchDensity", 0.07, 0.0, 1.0);
+    private static final ModConfigSpec.BooleanValue RATTAN_LEAF_PARTICLES = BUILDER
+            .comment("Shows falling leaves when harvesting or breaking rattan branches.")
+            .define("rattanLeafParticles", true);
+    private static final ModConfigSpec.BooleanValue CUSHION_BOUNCE = BUILDER
+            .comment("Floor cushions bounce you up when you land on them.")
+            .define("cushionBounce", true);
+    private static final ModConfigSpec.IntValue BURNT_RICE_BURN_TIME = BUILDER
+            .comment("How long burnt rice burns as furnace fuel. 1600 equals charcoal, 0 disables it.")
+            .defineInRange("burntRiceBurnTime", 1600, 0, 32000);
+    private static final ModConfigSpec.BooleanValue WOK_RECIPE_HINTS = BUILDER
+            .comment("Shows which ingredients can start, continue and finish a dish when looking at the wok.")
+            .define("wokRecipeHints", true);
+    private static final ModConfigSpec.BooleanValue CLEAVER_HEAD_DROPS = BUILDER
+            .comment("Mobs and players killed with a cleaver always drop their head, if they have one.")
+            .define("cleaverHeadDrops", true);
+    private static final ModConfigSpec.BooleanValue BLOCK_INFO = BUILDER
+            .comment("Shows what is inside a block and what can be done next when you look at it.")
+            .define("blockInfo", true);
 
     private static final Map<WokFood, FoodValue> FOOD = new EnumMap<>(WokFood.class);
 
@@ -98,6 +151,19 @@ public class WokAndBowlNeoForgeConfig {
         wokTwoStarBonus = WOK_TWO_STAR_BONUS.get();
         riceGrowthSpeed = RICE_GROWTH_SPEED.get().floatValue();
         stickyRiceFertilizerRequired = STICKY_RICE_FERTILIZER_REQUIRED.get();
+        blockInfo = BLOCK_INFO.get();
+        tatamiRestedSeconds = TATAMI_RESTED_SECONDS.get();
+        cleaverHeadDrops = CLEAVER_HEAD_DROPS.get();
+        burntRiceBurnTime = BURNT_RICE_BURN_TIME.get();
+        wokRecipeHints = WOK_RECIPE_HINTS.get();
+        wokOwnerOnly = WOK_OWNER_ONLY.get();
+        wokQualityEnabled = WOK_QUALITY_ENABLED.get();
+        rattanBasketRange = RATTAN_BASKET_RANGE.get();
+        rattanGrowthSpeed = RATTAN_GROWTH_SPEED.get().floatValue();
+        ingredientCubbySlotSize = INGREDIENT_CUBBY_SLOT_SIZE.get();
+        rattanBranchDensity = RATTAN_BRANCH_DENSITY.get().floatValue();
+        rattanLeafParticles = RATTAN_LEAF_PARTICLES.get();
+        cushionBounce = CUSHION_BOUNCE.get();
     }
 
     private record FoodValue(ModConfigSpec.IntValue nutrition, ModConfigSpec.DoubleValue saturation) {

@@ -2,16 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "building",
   "pattern": [
-    "PPP",
-    "B B",
-    "B B"
+    "RRR",
+    "C C",
+    "C C"
   ],
   "key": {
-    "P": {
-      "item": "minecraft:bamboo_planks"
+    "R": {
+      "item": "wokandbowl:rattan_block"
     },
-    "B": {
-      "item": "minecraft:bamboo"
+    "C": {
+      "item": "wokandbowl:rattan_cane"
     }
   },
   "result": {

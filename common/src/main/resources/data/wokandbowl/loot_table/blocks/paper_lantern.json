@@ -7,7 +7,16 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "wokandbowl:paper_lantern"
+          "name": "wokandbowl:paper_lantern",
+          "functions": [
+            {
+              "function": "minecraft:copy_state",
+              "block": "wokandbowl:paper_lantern",
+              "properties": [
+                "color"
+              ]
+            }
+          ]
         }
       ],
       "conditions": [

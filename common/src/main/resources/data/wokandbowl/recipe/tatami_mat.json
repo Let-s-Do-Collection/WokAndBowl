@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "TT"
+  ],
+  "key": {
+    "T": {
+      "item": "wokandbowl:tatami_block"
+    }
+  },
+  "result": {
+    "id": "wokandbowl:tatami_mat",
+    "count": 6
+  }
+}

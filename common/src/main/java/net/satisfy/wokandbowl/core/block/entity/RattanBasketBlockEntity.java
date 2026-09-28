@@ -1,6 +1,17 @@
 package net.satisfy.wokandbowl.core.block.entity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.WorldlyContainer;
+import net.satisfy.wokandbowl.WokAndBowl;
+import net.satisfy.wokandbowl.core.particle.BasketItemParticleOptions;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.phys.AABB;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -16,11 +27,16 @@ import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.satisfy.wokandbowl.core.registry.EntityTypeRegistry;
+import net.satisfy.wokandbowl.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
 public class RattanBasketBlockEntity extends RandomizableContainerBlockEntity {
     private static final int SIZE = 27;
-    private static final int RANGE = 1;
+    private static final int PULL_INTERVAL = 20;
+    private static final int CATCH_INTERVAL = 4;
+    private static final int FRESH_DROP_AGE = 40;
+    public static final TagKey<Block> CATCHES_DROPS = TagKey.create(Registries.BLOCK, WokAndBowl.identifier("basket_catches_drops"));
+    public static final TagKey<Block> IGNORED = TagKey.create(Registries.BLOCK, WokAndBowl.identifier("basket_ignores"));
 
     private NonNullList<ItemStack> inventory = NonNullList.withSize(SIZE, ItemStack.EMPTY);
 
@@ -30,15 +46,97 @@ public class RattanBasketBlockEntity extends RandomizableContainerBlockEntity {
 
     public static ItemStack collect(Level level, BlockPos source, ItemStack stack) {
         ItemStack remaining = stack;
-        for (BlockPos pos : BlockPos.betweenClosed(source.offset(-RANGE, -RANGE, -RANGE), source.offset(RANGE, RANGE, RANGE))) {
+        int range = PlatformHelper.getRattanBasketRange();
+        for (BlockPos pos : BlockPos.betweenClosed(source.offset(-range, -range, -range), source.offset(range, range, range))) {
             if (remaining.isEmpty()) {
                 break;
             }
             if (level.getBlockEntity(pos) instanceof RattanBasketBlockEntity basket) {
-                remaining = HopperBlockEntity.addItem(null, basket, remaining, null);
+                remaining = basket.receive(remaining, source);
             }
         }
         return remaining;
+    }
+
+    public static void serverTick(Level level, BlockPos pos, BlockState state, RattanBasketBlockEntity basket) {
+        if (level.getGameTime() % PULL_INTERVAL == 0) {
+            basket.pullFromNeighbours(level);
+        }
+        if (level.getGameTime() % CATCH_INTERVAL == 0) {
+            basket.catchStationDrops(level);
+        }
+    }
+
+    private void catchStationDrops(Level level) {
+        int range = PlatformHelper.getRattanBasketRange();
+        AABB area = new AABB(this.worldPosition).inflate(range + 1);
+        for (ItemEntity drop : level.getEntitiesOfClass(ItemEntity.class, area, drop -> drop.isAlive() && drop.getOwner() == null && drop.getAge() < FRESH_DROP_AGE)) {
+            BlockPos station = this.findStation(level, drop.blockPosition(), range);
+            if (station == null) {
+                continue;
+            }
+            ItemStack stack = drop.getItem();
+            int before = stack.getCount();
+            ItemStack remaining = this.receive(stack.copy(), station);
+            if (remaining.getCount() != before) {
+                if (remaining.isEmpty()) {
+                    drop.discard();
+                } else {
+                    drop.setItem(remaining);
+                }
+            }
+        }
+    }
+
+    private @Nullable BlockPos findStation(Level level, BlockPos dropPos, int range) {
+        for (BlockPos pos : BlockPos.betweenClosed(dropPos.offset(-1, -1, -1), dropPos.offset(1, 1, 1))) {
+            if (level.getBlockState(pos).is(CATCHES_DROPS) && pos.closerThan(this.worldPosition, range + 1.5)) {
+                return pos.immutable();
+            }
+        }
+        return null;
+    }
+
+    private ItemStack receive(ItemStack stack, BlockPos source) {
+        ItemStack icon = stack.copyWithCount(1);
+        int before = stack.getCount();
+        ItemStack remaining = HopperBlockEntity.addItem(null, this, stack, null);
+        if (remaining.getCount() < before) {
+            this.showFlight(icon, source);
+        }
+        return remaining;
+    }
+
+    private void pullFromNeighbours(Level level) {
+        int range = PlatformHelper.getRattanBasketRange();
+        for (BlockPos pos : BlockPos.betweenClosed(this.worldPosition.offset(-range, -range, -range), this.worldPosition.offset(range, range, range))) {
+            if (level.getBlockState(pos).is(IGNORED) || !(level.getBlockEntity(pos) instanceof WorldlyContainer container) || container instanceof RattanBasketBlockEntity) {
+                continue;
+            }
+            this.pullFrom(container, pos.immutable());
+        }
+    }
+
+    private void pullFrom(WorldlyContainer container, BlockPos source) {
+        for (int slot : container.getSlotsForFace(Direction.DOWN)) {
+            ItemStack stack = container.getItem(slot);
+            if (stack.isEmpty() || !container.canTakeItemThroughFace(slot, stack, Direction.DOWN)) {
+                continue;
+            }
+            int before = stack.getCount();
+            ItemStack remaining = this.receive(stack.copy(), source);
+            if (remaining.getCount() != before) {
+                container.setItem(slot, remaining);
+                container.setChanged();
+            }
+        }
+    }
+
+    private void showFlight(ItemStack icon, BlockPos source) {
+        if (this.level instanceof ServerLevel serverLevel) {
+            Vector3f target = new Vector3f(this.worldPosition.getX() + 0.5F, this.worldPosition.getY() + 0.7F, this.worldPosition.getZ() + 0.5F);
+            serverLevel.sendParticles(new BasketItemParticleOptions(icon, target), source.getX() + 0.5, source.getY() + 0.6, source.getZ() + 0.5, 1, 0.0, 0.0, 0.0, 0.0);
+        }
     }
 
     public static void collectOrDrop(Level level, BlockPos source, ItemStack stack) {

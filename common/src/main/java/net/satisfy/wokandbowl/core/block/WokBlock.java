@@ -55,12 +55,12 @@ public class WokBlock extends BaseEntityBlock {
     public static final BooleanProperty HAS_STEAMER = BooleanProperty.create("has_steamer");
 
     private static final VoxelShape SHAPE = Shapes.or(
-            Block.box(3, 0, 3, 13, 2, 13),
-            Block.box(2, 2, 2, 14, 5, 14),
-            Block.box(7, 3, 14, 9, 4, 18)
+            Block.box(3, 0, 3, 13, 1, 13),
+            Block.box(2, 1, 2, 14, 4, 14),
+            Block.box(0, 2, 5, 16, 4, 11)
     );
 
-    private static final VoxelShape STEAMER_SHAPE = Shapes.or(SHAPE, Block.box(3, 5, 3, 13, 12, 13));
+    private static final VoxelShape STEAMER_SHAPE = Shapes.or(SHAPE, Block.box(4, 4, 4, 12, 12, 12));
 
     private static final Map<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
     private static final Map<Direction, VoxelShape> STEAMER_SHAPES = new EnumMap<>(Direction.class);
@@ -103,7 +103,7 @@ public class WokBlock extends BaseEntityBlock {
 
     @Override
     protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (state.getValue(HAS_STEAMER) || !(level.getBlockEntity(pos) instanceof WokBlockEntity wok)) {
+        if (stack.isEmpty() || state.getValue(HAS_STEAMER) || !(level.getBlockEntity(pos) instanceof WokBlockEntity wok)) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         if (level.isClientSide) {

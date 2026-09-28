@@ -2,15 +2,15 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "B B",
-    "BCB",
-    "BBB"
+    "C C",
+    "CBC",
+    "CCC"
   ],
   "key": {
-    "B": {
-      "item": "minecraft:bamboo"
-    },
     "C": {
+      "item": "wokandbowl:rattan_cane"
+    },
+    "B": {
       "item": "minecraft:chest"
     }
   },

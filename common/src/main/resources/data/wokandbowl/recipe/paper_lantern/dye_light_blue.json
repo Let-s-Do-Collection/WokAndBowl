@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "paper_lantern_dye",
+  "ingredients": [
+    {
+      "item": "wokandbowl:paper_lantern"
+    },
+    {
+      "item": "minecraft:light_blue_dye"
+    }
+  ],
+  "result": {
+    "id": "wokandbowl:paper_lantern",
+    "count": 1,
+    "components": {
+      "minecraft:block_state": {
+        "color": "light_blue"
+      }
+    }
+  }
+}

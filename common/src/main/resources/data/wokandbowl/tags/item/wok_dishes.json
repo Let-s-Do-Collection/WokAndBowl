@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "wokandbowl:simple_fried_rice",
+    "wokandbowl:egg_fried_rice",
+    "wokandbowl:vegetable_fried_rice",
+    "wokandbowl:beef_stir_fry",
+    "wokandbowl:fish_stir_fry",
+    "wokandbowl:stir_fried_noodles",
+    "wokandbowl:noodle_bowl"
+  ]
+}

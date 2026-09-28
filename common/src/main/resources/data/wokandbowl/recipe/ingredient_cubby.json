@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BBB",
+    "B B",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:brick"
+    }
+  },
+  "result": {
+    "id": "wokandbowl:ingredient_cubby",
+    "count": 1
+  }
+}

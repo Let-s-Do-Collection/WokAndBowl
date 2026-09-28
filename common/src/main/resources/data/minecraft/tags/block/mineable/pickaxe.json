@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "wokandbowl:wok"
+    "wokandbowl:wok",
+    "wokandbowl:ingredient_cubby"
   ]
 }

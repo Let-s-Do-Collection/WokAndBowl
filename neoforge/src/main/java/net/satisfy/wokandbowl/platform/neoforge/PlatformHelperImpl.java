@@ -59,4 +59,56 @@ public class PlatformHelperImpl {
     public static int getWokTwoStarBonus() {
         return WokAndBowlNeoForgeConfig.wokTwoStarBonus;
     }
+
+    public static boolean isBlockInfoEnabled() {
+        return WokAndBowlNeoForgeConfig.blockInfo;
+    }
+
+    public static int getTatamiRestedSeconds() {
+        return WokAndBowlNeoForgeConfig.tatamiRestedSeconds;
+    }
+
+    public static boolean isWokOwnerOnly() {
+        return WokAndBowlNeoForgeConfig.wokOwnerOnly;
+    }
+
+    public static boolean isWokQualityEnabled() {
+        return WokAndBowlNeoForgeConfig.wokQualityEnabled;
+    }
+
+    public static int getRattanBasketRange() {
+        return WokAndBowlNeoForgeConfig.rattanBasketRange;
+    }
+
+    public static float getRattanGrowthSpeed() {
+        return WokAndBowlNeoForgeConfig.rattanGrowthSpeed;
+    }
+
+    public static int getIngredientCubbySlotSize() {
+        return WokAndBowlNeoForgeConfig.ingredientCubbySlotSize;
+    }
+
+    public static float getRattanBranchDensity() {
+        return WokAndBowlNeoForgeConfig.rattanBranchDensity;
+    }
+
+    public static boolean isRattanLeafParticlesEnabled() {
+        return WokAndBowlNeoForgeConfig.rattanLeafParticles;
+    }
+
+    public static boolean isCushionBounceEnabled() {
+        return WokAndBowlNeoForgeConfig.cushionBounce;
+    }
+
+    public static int getBurntRiceBurnTime() {
+        return WokAndBowlNeoForgeConfig.burntRiceBurnTime;
+    }
+
+    public static boolean isWokRecipeHintsEnabled() {
+        return WokAndBowlNeoForgeConfig.wokRecipeHints;
+    }
+
+    public static boolean isCleaverHeadDropsEnabled() {
+        return WokAndBowlNeoForgeConfig.cleaverHeadDrops;
+    }
 }

@@ -25,6 +25,8 @@ import net.minecraft.world.level.block.Mirror;
 import net.minecraft.world.level.block.RenderShape;
 import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -33,6 +35,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.wokandbowl.core.block.entity.RattanBasketBlockEntity;
+import net.satisfy.wokandbowl.core.registry.EntityTypeRegistry;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,6 +60,11 @@ public class RattanBasketBlock extends BaseEntityBlock {
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new RattanBasketBlockEntity(pos, state);
+    }
+
+    @Override
+    public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
+        return level.isClientSide ? null : createTickerHelper(type, EntityTypeRegistry.RATTAN_BASKET_BLOCK_ENTITY.get(), RattanBasketBlockEntity::serverTick);
     }
 
     @Override

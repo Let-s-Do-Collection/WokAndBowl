@@ -64,4 +64,56 @@ public class PlatformHelperImpl {
     public static int getWokTwoStarBonus() {
         return config().wokTwoStarBonus;
     }
+
+    public static boolean isBlockInfoEnabled() {
+        return config().blockInfo;
+    }
+
+    public static int getTatamiRestedSeconds() {
+        return config().tatamiRestedSeconds;
+    }
+
+    public static boolean isWokOwnerOnly() {
+        return config().wokOwnerOnly;
+    }
+
+    public static boolean isWokQualityEnabled() {
+        return config().wokQualityEnabled;
+    }
+
+    public static int getRattanBasketRange() {
+        return config().rattanBasketRange;
+    }
+
+    public static float getRattanGrowthSpeed() {
+        return config().rattanGrowthSpeed;
+    }
+
+    public static int getIngredientCubbySlotSize() {
+        return config().ingredientCubbySlotSize;
+    }
+
+    public static float getRattanBranchDensity() {
+        return config().rattanBranchDensity;
+    }
+
+    public static boolean isRattanLeafParticlesEnabled() {
+        return config().rattanLeafParticles;
+    }
+
+    public static boolean isCushionBounceEnabled() {
+        return config().cushionBounce;
+    }
+
+    public static int getBurntRiceBurnTime() {
+        return config().burntRiceBurnTime;
+    }
+
+    public static boolean isWokRecipeHintsEnabled() {
+        return config().wokRecipeHints;
+    }
+
+    public static boolean isCleaverHeadDropsEnabled() {
+        return config().cleaverHeadDrops;
+    }
 }

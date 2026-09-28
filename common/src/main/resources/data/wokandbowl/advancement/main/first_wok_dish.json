@@ -1,0 +1,35 @@
+{
+  "parent": "wokandbowl:main/fermented_sauce",
+  "display": {
+    "icon": {
+      "id": "wokandbowl:egg_fried_rice"
+    },
+    "title": {
+      "translate": "advancement.wokandbowl.first_wok_dish"
+    },
+    "description": {
+      "translate": "advancement.wokandbowl.first_wok_dish.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "dish": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#wokandbowl:wok_dishes"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "dish"
+    ]
+  ]
+}

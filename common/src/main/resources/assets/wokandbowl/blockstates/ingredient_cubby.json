@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "wokandbowl:block/ingredient_cubby"
+    },
+    "facing=east": {
+      "model": "wokandbowl:block/ingredient_cubby",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "wokandbowl:block/ingredient_cubby",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "wokandbowl:block/ingredient_cubby",
+      "y": 270
+    }
+  }
+}

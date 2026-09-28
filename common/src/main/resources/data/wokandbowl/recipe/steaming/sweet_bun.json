@@ -1,0 +1,11 @@
+{
+  "type": "wokandbowl:steaming",
+  "ingredient": {
+    "item": "wokandbowl:raw_sweet_bun"
+  },
+  "result": {
+    "id": "wokandbowl:sweet_bun",
+    "count": 1
+  },
+  "steaming_time": 300
+}

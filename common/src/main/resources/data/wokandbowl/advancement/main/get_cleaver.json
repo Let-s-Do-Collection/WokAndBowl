@@ -1,0 +1,35 @@
+{
+  "parent": "wokandbowl:main/root",
+  "display": {
+    "icon": {
+      "id": "wokandbowl:cleaver"
+    },
+    "title": {
+      "translate": "advancement.wokandbowl.get_cleaver"
+    },
+    "description": {
+      "translate": "advancement.wokandbowl.get_cleaver.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "cleaver": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wokandbowl:cleaver"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "cleaver"
+    ]
+  ]
+}
