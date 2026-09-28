@@ -2,7 +2,7 @@
   "type": "wokandbowl:cutting_board_assembly",
   "ingredients": [
     {
-      "item": "wokandbowl:steamed_rice"
+      "tag": "wokandbowl:rice_ball_rice"
     },
     {
       "item": "minecraft:kelp"

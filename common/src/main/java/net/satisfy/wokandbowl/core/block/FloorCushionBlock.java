@@ -2,6 +2,9 @@ package net.satisfy.wokandbowl.core.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ColorParticleOption;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -26,6 +29,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.farm_and_charm.core.util.GeneralUtil;
+import net.satisfy.wokandbowl.core.registry.ParticleTypeRegistry;
 import net.satisfy.wokandbowl.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -36,6 +40,8 @@ public class FloorCushionBlock extends Block {
     private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 4, 15);
     private static final double SEAT_OFFSET = -0.0375;
     private static final float FALL_DAMAGE_FACTOR = 0.5F;
+    private static final float FEATHER_FALL_DISTANCE = 0.5F;
+    private static final int FEATHERS = 6;
     private static final double BOUNCE_LIVING = 0.66;
     private static final double BOUNCE_OTHER = 0.53;
 
@@ -54,6 +60,10 @@ public class FloorCushionBlock extends Block {
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
+        if (fallDistance > FEATHER_FALL_DISTANCE && level instanceof ServerLevel serverLevel) {
+            ColorParticleOption feather = ColorParticleOption.create(ParticleTypeRegistry.FEATHER.get(), FastColor.ARGB32.opaque(state.getValue(COLOR).getTextureDiffuseColor()));
+            serverLevel.sendParticles(feather, pos.getX() + 0.5, pos.getY() + 0.3, pos.getZ() + 0.5, FEATHERS, 0.3, 0.05, 0.3, 0.04);
+        }
         super.fallOn(level, state, pos, entity, fallDistance * FALL_DAMAGE_FACTOR);
     }
 

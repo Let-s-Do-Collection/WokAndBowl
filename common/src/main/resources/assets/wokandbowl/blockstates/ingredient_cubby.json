@@ -1,18 +1,33 @@
 {
   "variants": {
-    "facing=north": {
+    "facing=north,open=true": {
       "model": "wokandbowl:block/ingredient_cubby"
     },
-    "facing=east": {
+    "facing=north,open=false": {
+      "model": "wokandbowl:block/ingredient_cubby_closed"
+    },
+    "facing=east,open=true": {
       "model": "wokandbowl:block/ingredient_cubby",
       "y": 90
     },
-    "facing=south": {
+    "facing=east,open=false": {
+      "model": "wokandbowl:block/ingredient_cubby_closed",
+      "y": 90
+    },
+    "facing=south,open=true": {
       "model": "wokandbowl:block/ingredient_cubby",
       "y": 180
     },
-    "facing=west": {
+    "facing=south,open=false": {
+      "model": "wokandbowl:block/ingredient_cubby_closed",
+      "y": 180
+    },
+    "facing=west,open=true": {
       "model": "wokandbowl:block/ingredient_cubby",
+      "y": 270
+    },
+    "facing=west,open=false": {
+      "model": "wokandbowl:block/ingredient_cubby_closed",
       "y": 270
     }
   }

@@ -26,7 +26,8 @@
     "count": 1,
     "components": {
       "minecraft:block_state": {
-        "color": "brown"
+        "color": "brown",
+        "dyed": "true"
       }
     }
   }

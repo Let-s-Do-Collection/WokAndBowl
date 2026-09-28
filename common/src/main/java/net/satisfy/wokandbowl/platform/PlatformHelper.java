@@ -138,4 +138,78 @@ public abstract class PlatformHelper {
     public static boolean isCleaverHeadDropsEnabled() {
         throw new AssertionError();
     }
+    @ExpectPlatform
+    public static boolean isRicePaddyFertilizedFarmlandRequired() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getPaperLanternLightLevel() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isWokSteamParticlesEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isBasketFlightAnimationEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isFirefliesEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isCushionFeathersEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isItemTooltipsEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean isWokTossTimingEnabled() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getWokPerfectTossTicks() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static float getWokCampfireHeat() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static float getWokStoveHeat() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static float getWokSoulFireHeat() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getTatamiRestedFlameBonus() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getWokSoulFlameBonus() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static int getWokDishCount() {
+        throw new AssertionError();
+    }
 }

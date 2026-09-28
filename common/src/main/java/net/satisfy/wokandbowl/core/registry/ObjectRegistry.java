@@ -7,6 +7,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraft.world.item.Items;
@@ -18,7 +19,6 @@ import net.minecraft.world.level.block.CarpetBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.satisfy.farm_and_charm.core.block.BonemealableFlowerBlock;
 import net.satisfy.farm_and_charm.core.block.FacingBlock;
 import net.satisfy.farm_and_charm.core.util.GeneralUtil;
 import net.satisfy.wokandbowl.WokAndBowl;
@@ -33,6 +33,7 @@ import net.satisfy.wokandbowl.core.block.RattanBranchBlock;
 import net.satisfy.wokandbowl.core.block.RattanTableBlock;
 import net.satisfy.wokandbowl.core.block.TatamiMatBlock;
 import net.satisfy.wokandbowl.core.block.RicePaddyBlock;
+import net.satisfy.wokandbowl.core.block.WildRiceBlock;
 import net.satisfy.wokandbowl.core.block.WokBlock;
 import net.satisfy.wokandbowl.core.block.crops.RiceCropBlock;
 import net.satisfy.wokandbowl.core.block.crops.StickyRiceCropBlock;
@@ -49,19 +50,21 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class ObjectRegistry {
+    private static final float CLEAVER_DAMAGE = 4.0F;
+    private static final float CLEAVER_SPEED = -2.8F;
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(WokAndBowl.MOD_ID, Registries.ITEM);
     public static final Registrar<Item> ITEM_REGISTRAR = ITEMS.getRegistrar();
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(WokAndBowl.MOD_ID, Registries.BLOCK);
     public static final Registrar<Block> BLOCK_REGISTRAR = BLOCKS.getRegistrar();
 
-    public static final RegistrySupplier<Block> WOK = registerWithItem("wok", () -> new WokBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).strength(2.0F, 6.0F).sound(SoundType.LANTERN).noOcclusion()));
+    public static final RegistrySupplier<Block> WOK = registerWithItem("wok", () -> new WokBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).strength(2.0F, 6.0F).sound(SoundType.LANTERN).noOcclusion().lightLevel(state -> state.getValue(WokBlock.FLARE) ? WokBlock.FLARE_LIGHT : 0)));
     public static final RegistrySupplier<Block> CUTTING_BOARD = registerWithItem("cutting_board", () -> new CuttingBoardBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_PLANKS).strength(1.0F).sound(SoundType.WOOD).noOcclusion()));
     public static final RegistrySupplier<Block> RATTAN_BASKET = registerWithItem("rattan_basket", () -> new RattanBasketBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS).strength(1.5F).sound(SoundType.BAMBOO_WOOD).noOcclusion()));
 
     public static final RegistrySupplier<Block> INGREDIENT_CUBBY = registerWithItem("ingredient_cubby", () -> new IngredientCubbyBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS).noOcclusion()));
     public static final RegistrySupplier<Block> RICE_BAG = registerWithItem("rice_bag", () -> new FacingBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL)));
     public static final RegistrySupplier<Block> STICKY_RICE_BAG = registerWithItem("sticky_rice_bag", () -> new FacingBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL)));
-    public static final RegistrySupplier<Block> PAPER_LANTERN = registerWithItem("paper_lantern", () -> new PaperLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).lightLevel(state -> state.getValue(PaperLanternBlock.LIT) ? PaperLanternBlock.LIGHT_LEVEL : 0).sound(SoundType.WOOL).strength(0.5F)));
+    public static final RegistrySupplier<Block> PAPER_LANTERN = registerWithItem("paper_lantern", () -> new PaperLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).lightLevel(state -> state.getValue(PaperLanternBlock.LIT) ? PlatformHelper.getPaperLanternLightLevel() : 0).sound(SoundType.WOOL).strength(0.5F)));
 
     public static final RegistrySupplier<Block> RATTAN_TABLE = registerWithItem("rattan_table", () -> new RattanTableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS).sound(SoundType.BAMBOO_WOOD).noOcclusion()));
     public static final RegistrySupplier<Block> FLOOR_CUSHION = registerWithItem("floor_cushion", () -> new FloorCushionBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.RED_WOOL).noOcclusion()));
@@ -74,13 +77,15 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> WOK_AND_BOWL_BANNER = registerWithItem("wok_and_bowl_banner", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
     public static final RegistrySupplier<Block> WOK_AND_BOWL_WALL_BANNER = registerWithoutItem("wok_and_bowl_wall_banner", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
 
-    public static final RegistrySupplier<Block> WILD_RICE = registerWithItem("wild_rice", () -> new BonemealableFlowerBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION)));
+    public static final RegistrySupplier<Block> WILD_RICE = registerWithItem("wild_rice", () -> new WildRiceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION)));
 
     public static final RegistrySupplier<Block> RICE_PADDY = registerWithoutItem("rice_paddy", () -> new RicePaddyBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FARMLAND)));
     public static final RegistrySupplier<Block> RICE_CROP = registerWithoutItem("rice_crop", () -> new RiceCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
     public static final RegistrySupplier<Block> STICKY_RICE_CROP = registerWithoutItem("sticky_rice_crop", () -> new StickyRiceCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
 
-    public static final RegistrySupplier<Item> CLEAVER = registerItem("cleaver", () -> new CleaverItem(Tiers.IRON, getSettings().attributes(SwordItem.createAttributes(Tiers.IRON, 2, -2.8F))));
+    public static final RegistrySupplier<Item> IRON_CLEAVER = registerItem("iron_cleaver", () -> new CleaverItem(Tiers.IRON, PlatformHelper::getIronCleaverChops, getSettings().attributes(AxeItem.createAttributes(Tiers.IRON, CLEAVER_DAMAGE, CLEAVER_SPEED))));
+    public static final RegistrySupplier<Item> DIAMOND_CLEAVER = registerItem("diamond_cleaver", () -> new CleaverItem(Tiers.DIAMOND, PlatformHelper::getDiamondCleaverChops, getSettings().attributes(AxeItem.createAttributes(Tiers.DIAMOND, CLEAVER_DAMAGE, CLEAVER_SPEED))));
+    public static final RegistrySupplier<Item> NETHERITE_CLEAVER = registerItem("netherite_cleaver", () -> new CleaverItem(Tiers.NETHERITE, PlatformHelper::getNetheriteCleaverChops, getSettings().fireResistant().attributes(AxeItem.createAttributes(Tiers.NETHERITE, CLEAVER_DAMAGE, CLEAVER_SPEED))));
 
     public static final RegistrySupplier<Item> BAMBOO_STEAMER = registerItem("bamboo_steamer", () -> new BambooSteamerItem(getSettings().stacksTo(16)));
 
@@ -105,6 +110,7 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> FISH_STIR_FRY = registerItem("fish_stir_fry", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.FISH_STIR_FRY))));
     public static final RegistrySupplier<Item> STIR_FRIED_NOODLES = registerItem("stir_fried_noodles", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.STIR_FRIED_NOODLES))));
     public static final RegistrySupplier<Item> NOODLE_BOWL = registerItem("noodle_bowl", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.NOODLE_BOWL))));
+    public static final RegistrySupplier<Item> MIXED_STIR_FRY = registerItem("mixed_stir_fry", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.MIXED_STIR_FRY))));
     public static final RegistrySupplier<Item> BURNT_RICE = registerItem("burnt_rice", () -> new BurntRiceItem(getSettings().stacksTo(16).food(foodBuilder(WokFood.BURNT_RICE).effect(new MobEffectInstance(MobEffects.HUNGER, 600, 0), 0.8F).build())));
 
     public static final RegistrySupplier<Item> RAW_PORK_DUMPLINGS = registerItem("raw_pork_dumplings", () -> new Item(getSettings().stacksTo(16)));

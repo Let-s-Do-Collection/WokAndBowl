@@ -19,6 +19,21 @@ public class ParticleTypeRegistry {
     public static final RegistrySupplier<SimpleParticleType> RATTAN_LEAF = PARTICLE_TYPES.register("rattan_leaf", () -> new SimpleParticleType(false) {
     });
 
+    public static final RegistrySupplier<SimpleParticleType> FIREFLY = PARTICLE_TYPES.register("firefly", () -> new SimpleParticleType(false) {
+    });
+    public static final RegistrySupplier<ParticleType<ColorParticleOption>> FEATHER = PARTICLE_TYPES.register("feather", () -> new ParticleType<ColorParticleOption>(false) {
+        @Override
+        public @NotNull MapCodec<ColorParticleOption> codec() {
+            return ColorParticleOption.codec(this);
+        }
+
+        @Override
+        public @NotNull StreamCodec<? super RegistryFriendlyByteBuf, ColorParticleOption> streamCodec() {
+            return ColorParticleOption.streamCodec(this);
+        }
+    });
+    public static final RegistrySupplier<SimpleParticleType> WOK_STEAM = PARTICLE_TYPES.register("wok_steam", () -> new SimpleParticleType(false) {
+    });
     public static final RegistrySupplier<ParticleType<ColorParticleOption>> DYE_SPLASH = PARTICLE_TYPES.register("dye_splash", () -> new ParticleType<ColorParticleOption>(false) {
         @Override
         public @NotNull MapCodec<ColorParticleOption> codec() {

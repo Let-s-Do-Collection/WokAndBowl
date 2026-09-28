@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#wokandbowl:spawns_wild_rice_river",
+  "features": "wokandbowl:wild_rice_river",
+  "step": "vegetal_decoration"
+}

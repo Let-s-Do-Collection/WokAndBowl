@@ -13,7 +13,8 @@
               "function": "minecraft:copy_state",
               "block": "wokandbowl:paper_lantern",
               "properties": [
-                "color"
+                "color",
+                "dyed"
               ]
             }
           ]

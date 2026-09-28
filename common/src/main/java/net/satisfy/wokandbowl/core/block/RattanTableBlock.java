@@ -26,9 +26,9 @@ import java.util.Objects;
 public class RattanTableBlock extends LineConnectingBlock implements SimpleWaterloggedBlock {
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
 
-    private static final VoxelShape TOP = Block.box(0, 13, 0, 16, 16, 16);
-    private static final VoxelShape WEST_LEGS = Shapes.or(Block.box(1, 0, 1, 3, 13, 3), Block.box(1, 0, 13, 3, 13, 15));
-    private static final VoxelShape EAST_LEGS = Shapes.or(Block.box(13, 0, 1, 15, 13, 3), Block.box(13, 0, 13, 15, 13, 15));
+    private static final VoxelShape TOP = Block.box(0, 14, 0, 16, 16, 16);
+    private static final VoxelShape WEST_LEGS = Shapes.or(Block.box(0, 0, 0, 2, 14, 2), Block.box(0, 0, 14, 2, 14, 16));
+    private static final VoxelShape EAST_LEGS = Shapes.or(Block.box(14, 0, 0, 16, 14, 2), Block.box(14, 0, 14, 16, 14, 16));
 
     public RattanTableBlock(Properties properties) {
         super(properties);

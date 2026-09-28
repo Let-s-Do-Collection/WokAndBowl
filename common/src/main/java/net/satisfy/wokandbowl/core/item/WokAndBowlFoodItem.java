@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.Block;
 import net.satisfy.farm_and_charm.core.registry.MobEffectRegistry;
 import net.satisfy.wokandbowl.WokAndBowl;
 import net.satisfy.wokandbowl.core.registry.TriggerRegistry;
+import net.satisfy.wokandbowl.core.registry.DataComponentRegistry;
 import net.satisfy.wokandbowl.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +28,8 @@ public class WokAndBowlFoodItem extends Item {
     @Override
     public @NotNull ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         if (entity instanceof ServerPlayer player && isOnTatami(level, player.blockPosition())) {
-            int seconds = PlatformHelper.getTatamiRestedSeconds();
+            int flames = stack.getOrDefault(DataComponentRegistry.QUALITY.get(), 1);
+            int seconds = Math.round(PlatformHelper.getTatamiRestedSeconds() * (1.0F + Math.max(0, flames - 1) * PlatformHelper.getTatamiRestedFlameBonus() / 100.0F));
             if (seconds > 0) {
                 player.addEffect(new MobEffectInstance(MobEffectRegistry.getHolder(MobEffectRegistry.RESTED), seconds * TICKS_PER_SECOND));
             }

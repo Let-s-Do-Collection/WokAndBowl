@@ -1,5 +1,10 @@
 package net.satisfy.wokandbowl.client.gui;
 
+import java.util.Objects;
+import net.minecraft.util.FastColor;
+import net.minecraft.util.Mth;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.chat.Style;
 import dev.architectury.event.events.client.ClientGuiEvent;
 import dev.architectury.event.events.client.ClientTickEvent;
 import net.minecraft.ChatFormatting;
@@ -36,6 +41,7 @@ import net.satisfy.wokandbowl.core.recipe.CuttingBoardRecipe;
 import net.satisfy.wokandbowl.core.registry.ObjectRegistry;
 import net.satisfy.wokandbowl.core.registry.RecipeTypeRegistry;
 import net.satisfy.wokandbowl.platform.PlatformHelper;
+import net.satisfy.wokandbowl.core.util.Strippables;
 import org.joml.Vector3f;
 
 import java.util.ArrayList;
@@ -45,8 +51,10 @@ import java.util.Optional;
 public final class BlockInfoOverlay {
     private static final ResourceLocation TOSS_ICON = WokAndBowl.identifier("textures/gui/toss.png");
     private static final int ICON_SIZE = 16;
+    private static final int TOSS_SIZE = 20;
     private static final int ICON_STEP = 19;
     private static final int TITLE_HEIGHT = 13;
+    private static final int TEXT_HEIGHT = 8;
     private static final int SEPARATOR_HEIGHT = 9;
     private static final int MIN_WIDTH = 56;
     private static final int COLOR_TITLE = 0xFFE8C97A;
@@ -62,6 +70,9 @@ public final class BlockInfoOverlay {
     private static final int OWNED_WOK_RANGE = 8;
     private static final int SCAN_INTERVAL = 10;
     private static final int COLOR_SEPARATOR = 0x40FFFFFF;
+    private static final int TOSS_START_COLOR = 0xFFFFD700;
+    private static final int TOSS_END_COLOR = 0xFFE0301E;
+    private static final int TICKS_PER_SECOND = 20;
 
     private static final List<BlockPos> OWNED_WOKS = new ArrayList<>();
 
@@ -138,7 +149,7 @@ public final class BlockInfoOverlay {
             ItemStack result = wok.getCurrentResult();
             List<ItemStack> cooking = result.isEmpty() ? wok.getIngredients() : List.of(result);
             if (wok.isAwaitingToss()) {
-                sections.add(Section.toss(Component.translatable("hud.wokandbowl.toss").withStyle(ChatFormatting.GOLD, ChatFormatting.BOLD)));
+                sections.add(Section.toss(Component.translatable("hud.wokandbowl.toss").withStyle(Style.EMPTY.withBold(true).withColor(TextColor.fromRgb(tossColor(wok))))));
             } else if (wok.isSauced() && wok.getTimer() >= wok.getReadyTime()) {
                 sections.add(Section.icons(Component.translatable("hud.wokandbowl.serve").withStyle(ChatFormatting.GREEN), cooking, ROW_COLUMNS));
             } else {
@@ -156,7 +167,9 @@ public final class BlockInfoOverlay {
             return sections;
         }
         if (wok.hasDishes()) {
-            sections.add(Section.icons(Component.translatable("hud.wokandbowl.take").withStyle(ChatFormatting.GREEN), wok.getDishes().stream().filter(stack -> !stack.isEmpty()).toList(), ROW_COLUMNS));
+            List<ItemStack> dishes = wok.getDishes().stream().filter(stack -> !stack.isEmpty()).toList();
+            boolean burnt = dishes.stream().allMatch(stack -> stack.is(ObjectRegistry.BURNT_RICE.get()));
+            sections.add(Section.icons(burnt ? Component.translatable("hud.wokandbowl.burnt").withStyle(ChatFormatting.RED) : Component.translatable("hud.wokandbowl.take").withStyle(ChatFormatting.GREEN), dishes, ROW_COLUMNS));
             return sections;
         }
         List<ItemStack> start = PlatformHelper.isWokRecipeHintsEnabled() ? wok.getNextIngredients() : List.of();
@@ -166,16 +179,42 @@ public final class BlockInfoOverlay {
         return sections;
     }
 
+    private static int tossColor(WokBlockEntity wok) {
+        Level level = Objects.requireNonNull(wok.getLevel());
+        float window = PlatformHelper.getWokTossWindowSeconds() * TICKS_PER_SECOND / WokBlock.getHeat(level, wok.getBlockPos());
+        float progress = Mth.clamp((level.getGameTime() - wok.getTossCalled()) / Math.max(1.0F, window), 0.0F, 1.0F);
+        return FastColor.ARGB32.lerp(progress, TOSS_START_COLOR, TOSS_END_COLOR) & 0xFFFFFF;
+    }
+
     private static List<Section> describeCuttingBoard(CuttingBoardBlockEntity board, Level level) {
         List<Section> sections = new ArrayList<>();
+        if (board.hasKnife()) {
+            boolean axe = Strippables.isAxe(board.getKnife());
+            String prefix = axe ? "hud.wokandbowl.strip" : "hud.wokandbowl.chop";
+            sections.add(Section.icons(Component.translatable(board.isCutting() ? prefix + "ping" : "hud.wokandbowl.ready_to_" + (axe ? "strip" : "chop")), board.isCutting() ? List.of(board.getPending()) : List.of(board.getKnife()), ROW_COLUMNS));
+            if (board.isCutting()) {
+                if (axe) {
+                    sections.add(Section.title(Component.translatable("hud.wokandbowl.stripped", board.getPendingChops(), Strippables.CHOPS).withStyle(ChatFormatting.GRAY)));
+                } else {
+                    level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.CUTTING_BOARD_RECIPE_TYPE.get(), new SingleRecipeInput(board.getPending()), level)
+                            .ifPresent(recipe -> sections.add(Section.title(Component.translatable("hud.wokandbowl.chop", board.getPendingChops(), CuttingBoardBlockEntity.requiredChops(board.getKnife(), recipe.value())).withStyle(ChatFormatting.GRAY))));
+                }
+            }
+            return sections;
+        }
         List<ItemStack> items = board.getItems();
         if (items.isEmpty()) {
             return sections;
         }
+        Optional<RecipeHolder<CuttingBoardAssemblyRecipe>> assembled = level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.CUTTING_BOARD_ASSEMBLY_RECIPE_TYPE.get(), new CuttingBoardAssemblyRecipe.Input(List.copyOf(items)), level);
+        if (assembled.isPresent()) {
+            sections.add(Section.icons(Component.translatable("hud.wokandbowl.assembly_ready").withStyle(ChatFormatting.GREEN), List.of(assembled.get().value().getResult()), ROW_COLUMNS));
+            sections.add(Section.title(Component.translatable("hud.wokandbowl.assemble_hint").withStyle(ChatFormatting.GRAY)));
+        }
         sections.add(Section.icons(Component.translatable("hud.wokandbowl.on_board"), items, ROW_COLUMNS));
         if (items.size() == 1) {
             Optional<RecipeHolder<CuttingBoardRecipe>> chop = level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.CUTTING_BOARD_RECIPE_TYPE.get(), new SingleRecipeInput(items.getFirst()), level);
-            chop.ifPresent(recipe -> sections.add(Section.title(Component.translatable("hud.wokandbowl.chop", board.getChops(), recipe.value().getChops()).withStyle(ChatFormatting.GRAY))));
+            chop.ifPresent(recipe -> sections.add(Section.title(Component.translatable("hud.wokandbowl.chop", board.getChops(), CuttingBoardBlockEntity.requiredChops(Minecraft.getInstance().player.getMainHandItem(), recipe.value())).withStyle(ChatFormatting.GRAY))));
         }
         List<ItemStack> additions = new ArrayList<>();
         for (RecipeHolder<CuttingBoardAssemblyRecipe> holder : level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.CUTTING_BOARD_ASSEMBLY_RECIPE_TYPE.get())) {
@@ -242,6 +281,9 @@ public final class BlockInfoOverlay {
         graphics.pose().pushPose();
         graphics.pose().translate(x, y, 0.0F);
         graphics.pose().scale(scale, scale, 1.0F);
+        if (state.getBlock() instanceof WokBlock && WokBlock.isSoulFire(minecraft.level, pos)) {
+            QualityTooltip.markSoulBorder();
+        }
         TooltipRenderUtil.renderTooltipBackground(graphics, 0, 0, width, height, 0);
         int cursor = 0;
         for (int i = 0; i < sections.size(); i++) {
@@ -294,11 +336,14 @@ public final class BlockInfoOverlay {
 
         int width(Font font) {
             int iconWidth = Math.min(this.icons.size(), this.columns) * ICON_STEP - (this.icons.isEmpty() ? 0 : ICON_STEP - ICON_SIZE - 2);
-            return Math.max(Math.max(font.width(this.title), iconWidth), this.tossIcon ? ICON_SIZE : 0);
+            return Math.max(Math.max(font.width(this.title), iconWidth), this.tossIcon ? TOSS_SIZE : 0);
         }
 
         int height() {
-            return TITLE_HEIGHT + this.rows() * ICON_STEP + (this.tossIcon ? ICON_STEP : 0);
+            if (this.icons.isEmpty() && !this.tossIcon) {
+                return TEXT_HEIGHT;
+            }
+            return TITLE_HEIGHT + this.rows() * ICON_STEP + (this.tossIcon ? TOSS_SIZE + 2 : 0);
         }
 
         void draw(GuiGraphics graphics, Font font, int x, int y, int width) {
@@ -317,7 +362,7 @@ public final class BlockInfoOverlay {
             }
             cursor += this.rows() * ICON_STEP;
             if (this.tossIcon) {
-                graphics.blit(TOSS_ICON, x + (width - ICON_SIZE) / 2, cursor, 0, 0, ICON_SIZE, ICON_SIZE, ICON_SIZE, ICON_SIZE);
+                graphics.blit(TOSS_ICON, x + (width - TOSS_SIZE) / 2, cursor, 0, 0, TOSS_SIZE, TOSS_SIZE, TOSS_SIZE, TOSS_SIZE);
             }
         }
     }

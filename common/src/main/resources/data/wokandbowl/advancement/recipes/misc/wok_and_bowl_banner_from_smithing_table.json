@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "wokandbowl:wok_and_bowl_banner_from_smithing_table"
+      }
+    },
+    "has_wok_and_bowl_banner": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wokandbowl:wok_and_bowl_banner"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_wok_and_bowl_banner"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "wokandbowl:wok_and_bowl_banner_from_smithing_table"
+    ]
+  }
+}

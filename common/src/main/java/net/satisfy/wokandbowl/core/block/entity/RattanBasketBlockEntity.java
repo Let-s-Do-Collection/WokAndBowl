@@ -5,6 +5,9 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.TagKey;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.WorldlyContainer;
 import net.satisfy.wokandbowl.WokAndBowl;
 import net.satisfy.wokandbowl.core.particle.BasketItemParticleOptions;
@@ -35,6 +38,9 @@ public class RattanBasketBlockEntity extends RandomizableContainerBlockEntity {
     private static final int PULL_INTERVAL = 20;
     private static final int CATCH_INTERVAL = 4;
     private static final int FRESH_DROP_AGE = 40;
+    private static final double TOP_HEIGHT = 1.0;
+    private static final float OPEN_PITCH = 1.1F;
+    private static final float CLOSE_PITCH = 0.85F;
     public static final TagKey<Block> CATCHES_DROPS = TagKey.create(Registries.BLOCK, WokAndBowl.identifier("basket_catches_drops"));
     public static final TagKey<Block> IGNORED = TagKey.create(Registries.BLOCK, WokAndBowl.identifier("basket_ignores"));
 
@@ -64,6 +70,28 @@ public class RattanBasketBlockEntity extends RandomizableContainerBlockEntity {
         }
         if (level.getGameTime() % CATCH_INTERVAL == 0) {
             basket.catchStationDrops(level);
+            basket.catchItemsOnTop(level);
+        }
+    }
+
+    private void catchItemsOnTop(Level level) {
+        AABB top = new AABB(this.worldPosition.getX(), this.worldPosition.getY() + TOP_HEIGHT, this.worldPosition.getZ(), this.worldPosition.getX() + 1, this.worldPosition.getY() + TOP_HEIGHT + 0.5, this.worldPosition.getZ() + 1);
+        boolean caught = false;
+        for (ItemEntity drop : level.getEntitiesOfClass(ItemEntity.class, top, ItemEntity::isAlive)) {
+            ItemStack stack = drop.getItem();
+            int before = stack.getCount();
+            ItemStack remaining = HopperBlockEntity.addItem(null, this, stack.copy(), null);
+            if (remaining.getCount() != before) {
+                caught = true;
+                if (remaining.isEmpty()) {
+                    drop.discard();
+                } else {
+                    drop.setItem(remaining);
+                }
+            }
+        }
+        if (caught) {
+            level.playSound(null, this.worldPosition, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.3F, 1.2F);
         }
     }
 
@@ -134,13 +162,17 @@ public class RattanBasketBlockEntity extends RandomizableContainerBlockEntity {
 
     private void showFlight(ItemStack icon, BlockPos source) {
         if (this.level instanceof ServerLevel serverLevel) {
-            Vector3f target = new Vector3f(this.worldPosition.getX() + 0.5F, this.worldPosition.getY() + 0.7F, this.worldPosition.getZ() + 0.5F);
+            Vector3f target = new Vector3f(this.worldPosition.getX() + 0.5F, this.worldPosition.getY() + 0.9F, this.worldPosition.getZ() + 0.5F);
             serverLevel.sendParticles(new BasketItemParticleOptions(icon, target), source.getX() + 0.5, source.getY() + 0.6, source.getZ() + 0.5, 1, 0.0, 0.0, 0.0, 0.0);
         }
     }
 
     public static void collectOrDrop(Level level, BlockPos source, ItemStack stack) {
-        ItemStack remaining = collect(level, source, stack);
+        collectOrDrop(level, source, stack, false);
+    }
+
+    public static void collectOrDrop(Level level, BlockPos source, ItemStack stack, boolean cubbies) {
+        ItemStack remaining = collect(level, source, cubbies ? IngredientCubbyBlockEntity.collect(level, source, stack) : stack);
         if (!remaining.isEmpty()) {
             Block.popResource(level, source, remaining);
         }
@@ -181,6 +213,22 @@ public class RattanBasketBlockEntity extends RandomizableContainerBlockEntity {
     @Override
     protected @NotNull Component getDefaultName() {
         return Component.translatable(this.getBlockState().getBlock().getDescriptionId());
+    }
+
+    @Override
+    public void startOpen(Player player) {
+        this.playBrushSound(player, OPEN_PITCH);
+    }
+
+    @Override
+    public void stopOpen(Player player) {
+        this.playBrushSound(player, CLOSE_PITCH);
+    }
+
+    private void playBrushSound(Player player, float pitch) {
+        if (this.level != null && !player.isSpectator()) {
+            this.level.playSound(null, this.worldPosition, SoundEvents.BRUSH_GENERIC, SoundSource.BLOCKS, 0.8F, pitch + this.level.random.nextFloat() * 0.1F);
+        }
     }
 
     @Override

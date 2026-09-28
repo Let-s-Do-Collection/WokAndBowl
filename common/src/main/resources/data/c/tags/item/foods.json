@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "wokandbowl:cut_salmon",
+    "wokandbowl:chopped_pork",
+    "wokandbowl:cured_meat",
+    "wokandbowl:broth",
+    "wokandbowl:steamed_rice",
+    "wokandbowl:steamed_sticky_rice",
+    "wokandbowl:simple_fried_rice",
+    "wokandbowl:egg_fried_rice",
+    "wokandbowl:vegetable_fried_rice",
+    "wokandbowl:beef_stir_fry",
+    "wokandbowl:fish_stir_fry",
+    "wokandbowl:stir_fried_noodles",
+    "wokandbowl:noodle_bowl",
+    "wokandbowl:burnt_rice",
+    "wokandbowl:pork_dumplings",
+    "wokandbowl:vegetable_dumplings",
+    "wokandbowl:savory_bun",
+    "wokandbowl:sweet_bun",
+    "wokandbowl:rice_ball",
+    "wokandbowl:sweet_rice_cake",
+    "wokandbowl:seaweed_salmon_rolls",
+    "wokandbowl:mixed_stir_fry"
+  ]
+}

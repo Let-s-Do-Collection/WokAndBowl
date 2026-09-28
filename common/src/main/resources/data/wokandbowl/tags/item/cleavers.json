@@ -1,6 +1,8 @@
 {
   "replace": false,
   "values": [
-    "wokandbowl:cleaver"
+    "wokandbowl:iron_cleaver",
+    "wokandbowl:diamond_cleaver",
+    "wokandbowl:netherite_cleaver"
   ]
 }

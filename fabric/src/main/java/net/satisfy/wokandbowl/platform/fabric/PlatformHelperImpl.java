@@ -113,7 +113,83 @@ public class PlatformHelperImpl {
         return config().wokRecipeHints;
     }
 
+    public static int getIronCleaverChops() {
+        return config().ironCleaverChops;
+    }
+
+    public static int getDiamondCleaverChops() {
+        return config().diamondCleaverChops;
+    }
+
+    public static int getNetheriteCleaverChops() {
+        return config().netheriteCleaverChops;
+    }
+
     public static boolean isCleaverHeadDropsEnabled() {
         return config().cleaverHeadDrops;
+    }
+
+    public static float getSteamingSpeed() {
+        return config().steamingSpeed;
+    }
+
+    public static boolean isRicePaddyFertilizedFarmlandRequired() {
+        return config().ricePaddyRequiresFertilizedFarmland;
+    }
+
+    public static int getPaperLanternLightLevel() {
+        return config().paperLanternLightLevel;
+    }
+
+    public static boolean isWokSteamParticlesEnabled() {
+        return config().wokSteamParticles;
+    }
+
+    public static boolean isBasketFlightAnimationEnabled() {
+        return config().basketFlightAnimation;
+    }
+
+    public static boolean isFirefliesEnabled() {
+        return config().fireflies;
+    }
+
+    public static boolean isCushionFeathersEnabled() {
+        return config().cushionFeathers;
+    }
+
+    public static boolean isItemTooltipsEnabled() {
+        return config().itemTooltips;
+    }
+
+    public static boolean isWokTossTimingEnabled() {
+        return config().wokTossTiming;
+    }
+
+    public static int getWokPerfectTossTicks() {
+        return config().wokPerfectTossTicks;
+    }
+
+    public static float getWokCampfireHeat() {
+        return config().wokCampfireHeat;
+    }
+
+    public static float getWokStoveHeat() {
+        return config().wokStoveHeat;
+    }
+
+    public static float getWokSoulFireHeat() {
+        return config().wokSoulFireHeat;
+    }
+
+    public static int getTatamiRestedFlameBonus() {
+        return config().tatamiRestedFlameBonus;
+    }
+
+    public static int getWokSoulFlameBonus() {
+        return config().wokSoulFlameBonus;
+    }
+
+    public static int getWokDishCount() {
+        return config().wokDishCount;
     }
 }

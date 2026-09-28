@@ -27,6 +27,7 @@ import net.minecraft.world.level.block.Rotation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -36,11 +37,16 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.core.particles.ColorParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.satisfy.farm_and_charm.core.registry.ParticleTypeRegistry;
+import net.satisfy.farm_and_charm.core.registry.SoundEventRegistry;
 import net.satisfy.farm_and_charm.core.registry.TagRegistry;
 import net.satisfy.farm_and_charm.core.util.GeneralUtil;
 import net.satisfy.wokandbowl.core.block.entity.WokBlockEntity;
 import net.satisfy.wokandbowl.core.registry.EntityTypeRegistry;
 import net.satisfy.wokandbowl.core.registry.ObjectRegistry;
+import net.satisfy.wokandbowl.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,11 +54,22 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class WokBlock extends BaseEntityBlock {
+    private static final int DISH_STEAM_CHANCE = 2;
     public static final MapCodec<WokBlock> CODEC = simpleCodec(WokBlock::new);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty HEAT = BooleanProperty.create("heat");
     public static final BooleanProperty NEEDS_SUPPORT = BooleanProperty.create("needs_support");
     public static final BooleanProperty HAS_STEAMER = BooleanProperty.create("has_steamer");
+    public static final BooleanProperty FLARE = BooleanProperty.create("flare");
+    public static final int FLARE_LIGHT = 13;
+    public static final int FLARE_TICKS = 8;
+    private static final int SIZZLE_CHANCE = 2;
+    private static final int OIL_CHANCE = 3;
+    private static final int COOKING_STEAM_CHANCE = 3;
+    private static final int WARM_SMOKE_CHANCE = 5;
+    private static final int STEAMER_STEAM_CHANCE = 2;
+    private static final int OIL_COLOR = 0xFFE8B84A;
+    private static final int SIZZLE_BURST_TICKS = 40;
 
     private static final VoxelShape SHAPE = Shapes.or(
             Block.box(3, 0, 3, 13, 1, 13),
@@ -78,7 +95,8 @@ public class WokBlock extends BaseEntityBlock {
                 .setValue(FACING, Direction.NORTH)
                 .setValue(HEAT, false)
                 .setValue(NEEDS_SUPPORT, false)
-                .setValue(HAS_STEAMER, false));
+                .setValue(HAS_STEAMER, false)
+                .setValue(FLARE, false));
     }
 
     @Override
@@ -146,6 +164,49 @@ public class WokBlock extends BaseEntityBlock {
     }
 
     @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (!(level.getBlockEntity(pos) instanceof WokBlockEntity wok)) {
+            return;
+        }
+        double x = pos.getX() + 0.5;
+        double y = pos.getY();
+        double z = pos.getZ() + 0.5;
+        if (state.getValue(HAS_STEAMER)) {
+            if (wok.isSteamingForDisplay() && PlatformHelper.isWokSteamParticlesEnabled() && random.nextInt(STEAMER_STEAM_CHANCE) == 0) {
+                level.addParticle(ParticleTypeRegistry.SOUP_STEAM.get(), x + (random.nextDouble() - 0.5) * 0.4, y + 0.45, z + (random.nextDouble() - 0.5) * 0.4, 0.0, 0.07, 0.0);
+            }
+            return;
+        }
+        if (wok.isCooking()) {
+            long sinceAdded = level.getGameTime() - wok.getLastAdded();
+            if (sinceAdded >= 0 && sinceAdded < SIZZLE_BURST_TICKS) {
+                float intensity = 1.0F - (float) sinceAdded / SIZZLE_BURST_TICKS;
+                if (random.nextFloat() < intensity) {
+                    level.playLocalSound(x, y + 0.2, z, SoundEventRegistry.ROASTER_COOKING.get(), SoundSource.BLOCKS, 0.15F + 0.25F * intensity, 1.1F + random.nextFloat() * 0.3F, false);
+                    level.addParticle(ColorParticleOption.create(net.satisfy.wokandbowl.core.registry.ParticleTypeRegistry.DYE_SPLASH.get(), OIL_COLOR), x + (random.nextDouble() - 0.5) * 0.4, y + 0.2, z + (random.nextDouble() - 0.5) * 0.4, (random.nextDouble() - 0.5) * 0.12, 0.05, (random.nextDouble() - 0.5) * 0.12);
+                }
+            }
+            if (PlatformHelper.isWokSteamParticlesEnabled() && random.nextInt(COOKING_STEAM_CHANCE) == 0) {
+                level.addParticle(ParticleTypeRegistry.SOUP_STEAM.get(), x + (random.nextDouble() - 0.5) * 0.35, y + 0.05, z + (random.nextDouble() - 0.5) * 0.35, 0.0, 0.08, 0.0);
+            }
+            if (random.nextInt(SIZZLE_CHANCE) == 0) {
+                level.playLocalSound(x, y + 0.2, z, SoundEventRegistry.ROASTER_COOKING.get(), SoundSource.BLOCKS, 0.2F, 0.9F + random.nextFloat() * 0.2F, false);
+            }
+            if (random.nextInt(OIL_CHANCE) == 0) {
+                level.addParticle(ColorParticleOption.create(net.satisfy.wokandbowl.core.registry.ParticleTypeRegistry.DYE_SPLASH.get(), OIL_COLOR), x + (random.nextDouble() - 0.5) * 0.4, y + 0.2, z + (random.nextDouble() - 0.5) * 0.4, (random.nextDouble() - 0.5) * 0.08, 0.02, (random.nextDouble() - 0.5) * 0.08);
+            }
+            return;
+        }
+        if (!wok.hasDishes() && state.getValue(HEAT) && random.nextInt(WARM_SMOKE_CHANCE) == 0) {
+            level.addParticle(ParticleTypes.SMOKE, x + (random.nextDouble() - 0.5) * 0.2, y + 0.2, z + (random.nextDouble() - 0.5) * 0.2, 0.0, 0.03, 0.0);
+            return;
+        }
+        if (wok.hasDishes() && PlatformHelper.isWokSteamParticlesEnabled() && random.nextInt(DISH_STEAM_CHANCE) == 0) {
+            level.addParticle(ParticleTypeRegistry.SOUP_STEAM.get(), x + (random.nextDouble() - 0.5) * 0.25, y + 0.05, z + (random.nextDouble() - 0.5) * 0.25, 0.0, 0.07, 0.0);
+        }
+    }
+
+    @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.is(newState.getBlock())) {
             if (level.getBlockEntity(pos) instanceof WokBlockEntity wok) {
@@ -174,6 +235,10 @@ public class WokBlock extends BaseEntityBlock {
     protected void tick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (!state.canSurvive(level, pos)) {
             level.destroyBlock(pos, true);
+            return;
+        }
+        if (state.getValue(FLARE)) {
+            level.setBlock(pos, state.setValue(FLARE, false), Block.UPDATE_ALL);
         }
     }
 
@@ -190,6 +255,22 @@ public class WokBlock extends BaseEntityBlock {
 
     public static boolean isHeated(LevelReader level, BlockPos pos) {
         return level.getBlockState(pos.below()).is(TagRegistry.ALLOWS_COOKING);
+    }
+
+    public static boolean isSoulFire(LevelReader level, BlockPos pos) {
+        BlockState below = level.getBlockState(pos.below());
+        return below.is(Blocks.SOUL_CAMPFIRE) || below.is(Blocks.SOUL_FIRE);
+    }
+
+    public static float getHeat(LevelReader level, BlockPos pos) {
+        BlockState below = level.getBlockState(pos.below());
+        if (below.is(Blocks.SOUL_CAMPFIRE) || below.is(Blocks.SOUL_FIRE)) {
+            return PlatformHelper.getWokSoulFireHeat();
+        }
+        if (below.is(BlockTags.CAMPFIRES)) {
+            return PlatformHelper.getWokCampfireHeat();
+        }
+        return PlatformHelper.getWokStoveHeat();
     }
 
     public static boolean isOnCampfire(LevelReader level, BlockPos pos) {
@@ -213,6 +294,6 @@ public class WokBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING, HEAT, NEEDS_SUPPORT, HAS_STEAMER);
+        builder.add(FACING, HEAT, NEEDS_SUPPORT, HAS_STEAMER, FLARE);
     }
 }

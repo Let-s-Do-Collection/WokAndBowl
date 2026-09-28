@@ -8,92 +8,201 @@ import net.satisfy.wokandbowl.core.util.WokFood;
 
 @Config(name = WokAndBowl.MOD_ID)
 public class WokAndBowlFabricConfig implements ConfigData {
+    @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 600)
     public int wokBaseCookingSeconds = 20;
 
+    @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 0, max = 60)
     public int wokSecondsPerIngredient = 2;
 
+    @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 600)
     public int wokMaxCookingSeconds = 24;
 
+    @ConfigEntry.Category("wok")
     public boolean wokHeatRequired = true;
 
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.Gui.Tooltip
+    public boolean wokOwnerOnly = true;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.Gui.Tooltip
+    public boolean wokQualityEnabled = true;
+
+    @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 60)
     @ConfigEntry.Gui.Tooltip
     public int wokTossIntervalSeconds = 6;
 
+    @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
     @ConfigEntry.Gui.Tooltip
     public int wokTossWindowSeconds = 2;
 
+    @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 0, max = 30)
     @ConfigEntry.Gui.Tooltip
     public int wokServeWindowSeconds = 2;
 
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 16)
+    @ConfigEntry.Gui.Tooltip
+    public int wokDishCount = 4;
+
+    @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 120)
     @ConfigEntry.Gui.Tooltip
     public int wokBurnSeconds = 6;
 
+    @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
     @ConfigEntry.Gui.Tooltip
     public int wokThreeStarBonus = 10;
 
+    @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
     @ConfigEntry.Gui.Tooltip
     public int wokTwoStarBonus = 5;
 
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+    @ConfigEntry.Gui.Tooltip
+    public int wokSoulFlameBonus = 20;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.Gui.Tooltip
+    public boolean wokRecipeHints = true;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.Gui.Tooltip
+    public float steamingSpeed = 1.0F;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.Gui.Tooltip
+    public boolean wokTossTiming = true;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+    @ConfigEntry.Gui.Tooltip
+    public int wokPerfectTossTicks = 20;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.Gui.Tooltip
+    public float wokCampfireHeat = 1.0F;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.Gui.Tooltip
+    public float wokStoveHeat = 1.25F;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.Gui.Tooltip
+    public float wokSoulFireHeat = 1.5F;
+
+    @ConfigEntry.Category("farming")
     @ConfigEntry.Gui.Tooltip
     public float riceGrowthSpeed = 4.0F;
 
+    @ConfigEntry.Category("farming")
     @ConfigEntry.Gui.Tooltip
     public boolean stickyRiceFertilizerRequired = true;
 
-    @ConfigEntry.BoundedDiscrete(min = 0, max = 600)
+    @ConfigEntry.Category("farming")
     @ConfigEntry.Gui.Tooltip
-    public int tatamiRestedSeconds = 60;
+    public boolean ricePaddyRequiresFertilizedFarmland = true;
 
+    @ConfigEntry.Category("farming")
     @ConfigEntry.Gui.Tooltip
-    public boolean blockInfo = true;
+    public float rattanGrowthSpeed = 1.0F;
 
+    @ConfigEntry.Category("farming")
     @ConfigEntry.Gui.Tooltip
-    public boolean wokOwnerOnly = true;
+    public float rattanBranchDensity = 0.07F;
 
-    @ConfigEntry.Gui.Tooltip
-    public boolean wokQualityEnabled = true;
-
+    @ConfigEntry.Category("gameplay")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 4)
     @ConfigEntry.Gui.Tooltip
     public int rattanBasketRange = 1;
 
-    @ConfigEntry.Gui.Tooltip
-    public float rattanGrowthSpeed = 1.0F;
-
+    @ConfigEntry.Category("gameplay")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 99)
     @ConfigEntry.Gui.Tooltip
     public int ingredientCubbySlotSize = 64;
 
+    @ConfigEntry.Category("gameplay")
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 600)
     @ConfigEntry.Gui.Tooltip
-    public float rattanBranchDensity = 0.07F;
+    public int tatamiRestedSeconds = 60;
 
+    @ConfigEntry.Category("gameplay")
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 200)
     @ConfigEntry.Gui.Tooltip
-    public boolean rattanLeafParticles = true;
+    public int tatamiRestedFlameBonus = 50;
 
+    @ConfigEntry.Category("gameplay")
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
     @ConfigEntry.Gui.Tooltip
-    public boolean cushionBounce = true;
+    public int ironCleaverChops = 5;
 
+    @ConfigEntry.Category("gameplay")
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
+    @ConfigEntry.Gui.Tooltip
+    public int diamondCleaverChops = 3;
+
+    @ConfigEntry.Category("gameplay")
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
+    @ConfigEntry.Gui.Tooltip
+    public int netheriteCleaverChops = 1;
+
+    @ConfigEntry.Category("gameplay")
+    @ConfigEntry.Gui.Tooltip
+    public boolean cleaverHeadDrops = true;
+
+    @ConfigEntry.Category("gameplay")
     @ConfigEntry.BoundedDiscrete(min = 0, max = 32000)
     @ConfigEntry.Gui.Tooltip
     public int burntRiceBurnTime = 1600;
 
+    @ConfigEntry.Category("gameplay")
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 15)
     @ConfigEntry.Gui.Tooltip
-    public boolean wokRecipeHints = true;
+    public int paperLanternLightLevel = 12;
 
+    @ConfigEntry.Category("gameplay")
     @ConfigEntry.Gui.Tooltip
-    public boolean cleaverHeadDrops = true;
+    public boolean cushionBounce = true;
 
-    @ConfigEntry.Gui.CollapsibleObject
+    @ConfigEntry.Category("ambient")
     @ConfigEntry.Gui.Tooltip
+    public boolean blockInfo = true;
+
+    @ConfigEntry.Category("ambient")
+    @ConfigEntry.Gui.Tooltip
+    public boolean wokSteamParticles = true;
+
+    @ConfigEntry.Category("ambient")
+    @ConfigEntry.Gui.Tooltip
+    public boolean basketFlightAnimation = true;
+
+    @ConfigEntry.Category("ambient")
+    @ConfigEntry.Gui.Tooltip
+    public boolean rattanLeafParticles = true;
+
+    @ConfigEntry.Category("ambient")
+    @ConfigEntry.Gui.Tooltip
+    public boolean fireflies = true;
+
+    @ConfigEntry.Category("ambient")
+    @ConfigEntry.Gui.Tooltip
+    public boolean cushionFeathers = true;
+
+    @ConfigEntry.Category("ambient")
+    @ConfigEntry.Gui.Tooltip
+    public boolean itemTooltips = true;
+
+    @ConfigEntry.Category("food")
+    @ConfigEntry.Gui.TransitiveObject
     public FoodSettings food = new FoodSettings();
 
     @Override
@@ -103,6 +212,7 @@ public class WokAndBowlFabricConfig implements ConfigData {
         }
         riceGrowthSpeed = Math.clamp(riceGrowthSpeed, 0.1F, 25.0F);
         rattanGrowthSpeed = Math.clamp(rattanGrowthSpeed, 0.1F, 10.0F);
+        steamingSpeed = Math.clamp(steamingSpeed, 0.1F, 10.0F);
         rattanBranchDensity = Math.clamp(rattanBranchDensity, 0.0F, 1.0F);
         food.validate();
     }
@@ -135,6 +245,8 @@ public class WokAndBowlFabricConfig implements ConfigData {
         @ConfigEntry.Gui.CollapsibleObject
         public FoodValue noodleBowl = new FoodValue(WokFood.NOODLE_BOWL);
         @ConfigEntry.Gui.CollapsibleObject
+        public FoodValue mixedStirFry = new FoodValue(WokFood.MIXED_STIR_FRY);
+        @ConfigEntry.Gui.CollapsibleObject
         public FoodValue burntRice = new FoodValue(WokFood.BURNT_RICE);
         @ConfigEntry.Gui.CollapsibleObject
         public FoodValue porkDumplings = new FoodValue(WokFood.PORK_DUMPLINGS);
@@ -162,6 +274,7 @@ public class WokAndBowlFabricConfig implements ConfigData {
                 case FISH_STIR_FRY -> fishStirFry;
                 case STIR_FRIED_NOODLES -> stirFriedNoodles;
                 case NOODLE_BOWL -> noodleBowl;
+                case MIXED_STIR_FRY -> mixedStirFry;
                 case BURNT_RICE -> burntRice;
                 case PORK_DUMPLINGS -> porkDumplings;
                 case VEGETABLE_DUMPLINGS -> vegetableDumplings;

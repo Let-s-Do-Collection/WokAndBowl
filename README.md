@@ -37,6 +37,7 @@ Wok & Bowl builds on the ingredients of [Let's Do] Farm & Charm and adds its own
 - Wild Rice in swamps and flooded Rice Paddies for growing Rice and Sticky Rice  
 - Sticky Rice that needs fertilizer as it grows  
 - A Cutting Board and Cleaver for filleting fish and chopping meat  
+- Place an axe on the Cutting Board to strip logs  
 - Assemble dumplings, buns, seaweed salmon rolls, rice balls and sweet rice cakes by hand on the Cutting Board  
 
 <br>
@@ -51,8 +52,10 @@ Good food starts with good preparation.
 
 - Add ingredients one after another and discover new dishes along the way  
 - Fried Rice, Stir-Fries, Stir-Fried Noodles and Noodle Bowls  
-- Toss the wok when it calls for it and finish every dish with Fermented Sauce  
-- Serve at the right moment for up to three stars – or end up with Burnt Rice  
+- Toss the wok right when it calls for it and finish every dish with Fermented Sauce  
+- Cook hotter on a stove or soul campfire – faster, but less forgiving  
+- Improvise with any food and end up with a Mixed Stir-Fry  
+- Serve at the right moment for up to three flames – or end up with Burnt Rice  
 - Place a Bamboo Steamer on your wok to steam rice, dumplings and buns  
 
 <br>

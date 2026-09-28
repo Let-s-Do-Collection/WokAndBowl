@@ -19,11 +19,13 @@ public class WokSteamerGui extends AbstractContainerScreen<WokSteamerGuiHandler>
     private static final int ARROW_HEIGHT = 17;
     private static final int ARROW_TEXTURE_X = 176;
     private static final int ARROW_TEXTURE_Y = 14;
-    private static final int HEAT_X = 67;
-    private static final int HEAT_Y = 54;
+    private static final int HEAT_X = 125;
+    private static final int HEAT_Y = 58;
     private static final int HEAT_SIZE = 14;
-    private static final int HEAT_TEXTURE_X = 176;
-    private static final int HEAT_TEXTURE_Y = 0;
+    private static final ResourceLocation FURNACE = ResourceLocation.withDefaultNamespace("textures/gui/container/furnace.png");
+    private static final int UNLIT_TEXTURE_X = 56;
+    private static final int UNLIT_TEXTURE_Y = 36;
+    private static final ResourceLocation HEAT_SPRITE = ResourceLocation.withDefaultNamespace("container/furnace/lit_progress");
 
     public WokSteamerGui(WokSteamerGuiHandler handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
@@ -39,7 +41,9 @@ public class WokSteamerGui extends AbstractContainerScreen<WokSteamerGuiHandler>
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         guiGraphics.blit(BACKGROUND, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
         if (this.menu.isHeated()) {
-            guiGraphics.blit(BACKGROUND, this.leftPos + HEAT_X, this.topPos + HEAT_Y, HEAT_TEXTURE_X, HEAT_TEXTURE_Y, HEAT_SIZE, HEAT_SIZE);
+            guiGraphics.blitSprite(HEAT_SPRITE, this.leftPos + HEAT_X, this.topPos + HEAT_Y, HEAT_SIZE, HEAT_SIZE);
+        } else {
+            guiGraphics.blit(FURNACE, this.leftPos + HEAT_X, this.topPos + HEAT_Y, UNLIT_TEXTURE_X, UNLIT_TEXTURE_Y, HEAT_SIZE, HEAT_SIZE);
         }
         int progress = this.menu.getScaledProgress(ARROW_WIDTH);
         guiGraphics.blit(BACKGROUND, this.leftPos + ARROW_X, this.topPos + ARROW_Y, ARROW_TEXTURE_X, ARROW_TEXTURE_Y, progress, ARROW_HEIGHT);

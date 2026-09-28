@@ -1,0 +1,42 @@
+{
+  "parent": "wokandbowl:main/three_stars",
+  "display": {
+    "icon": {
+      "id": "wokandbowl:noodle_bowl"
+    },
+    "title": {
+      "translate": "advancement.wokandbowl.soul_flames"
+    },
+    "description": {
+      "translate": "advancement.wokandbowl.soul_flames.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "dish": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#wokandbowl:wok_dishes",
+            "components": {
+              "wokandbowl:quality": 3,
+              "wokandbowl:soul_fire": true
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "dish"
+    ]
+  ],
+  "rewards": {
+    "experience": 100
+  }
+}

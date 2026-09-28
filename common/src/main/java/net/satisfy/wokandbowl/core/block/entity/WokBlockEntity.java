@@ -3,6 +3,7 @@ package net.satisfy.wokandbowl.core.block.entity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -18,6 +19,7 @@ import net.satisfy.wokandbowl.core.item.WokDishItem;
 import net.satisfy.wokandbowl.core.recipe.WokRecipe;
 import net.satisfy.wokandbowl.core.registry.DataComponentRegistry;
 import net.satisfy.wokandbowl.core.registry.ObjectRegistry;
+import net.satisfy.wokandbowl.core.registry.ParticleTypeRegistry;
 import java.util.Objects;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -28,7 +30,9 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.Direction;
 import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.entity.player.Inventory;
@@ -56,12 +60,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class WokBlockEntity extends BlockEntity implements Container, MenuProvider {
+public class WokBlockEntity extends BlockEntity implements WorldlyContainer, MenuProvider {
     public static final int MAX_DISHES = 3;
     public static final int OUTPUT_SLOT = 0;
     public static final int FIRST_INPUT_SLOT = 1;
     public static final int INPUT_SLOTS = 4;
     public static final int STEAMER_SLOTS = FIRST_INPUT_SLOT + INPUT_SLOTS;
+    private static final int[] NO_SLOTS = new int[0];
+    private static final int[] OUTPUT_SLOTS = new int[]{OUTPUT_SLOT};
+    private static final int[] INPUT_SLOT_INDICES = new int[]{1, 2, 3, 4};
 
     private static final String OWNER_KEY = "Owner";
     private static final String INGREDIENTS_KEY = "Ingredients";
@@ -74,6 +81,19 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
     private static final String LAST_TOSS_KEY = "LastToss";
     private static final String READY_TICKS_KEY = "ReadyTicks";
     private static final String HEATED_KEY = "Heated";
+    private static final String LATE_TOSSES_KEY = "LateTosses";
+    private static final String LAST_ADDED_KEY = "LastAdded";
+    private static final String HEAT_PROGRESS_KEY = "HeatProgress";
+    private static final int LATE_TOSSES_PER_FLAME = 2;
+    public static final int MAX_INGREDIENTS = 6;
+    private static final String LAST_DUMP_KEY = "LastDump";
+    private static final String TOSS_CALLED_KEY = "TossCalled";
+    private static final TagKey<Item> REJECTS = TagKey.create(Registries.ITEM, WokAndBowl.identifier("wok_rejects"));
+    private static final int STEAMER_DONE_PUFF = 10;
+    private static final int STEAMER_RECHECK_INTERVAL = 20;
+    private static final TagKey<Item> LIQUIDS = TagKey.create(Registries.ITEM, WokAndBowl.identifier("wok_liquids"));
+    private static final int STEAM_BURST = 14;
+    private static final int FLARE_PARTICLES = 18;
     private static final TagKey<Item> FERMENTED_SAUCE = TagKey.create(Registries.ITEM, WokAndBowl.identifier("fermented_sauce"));
     private static final String STEAMER_KEY = "Steamer";
     private static final String STEAMING_PROGRESS_KEY = "SteamingProgress";
@@ -87,6 +107,12 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
     private boolean awaitingToss;
     private int tossDeadline;
     private int missedTosses;
+    private int lateTosses;
+    private long lastAdded = Long.MIN_VALUE;
+    private float heatProgress;
+    private long lastDump = Long.MIN_VALUE;
+    private long tossCalled = Long.MIN_VALUE;
+    private float steamerHeatProgress;
     private boolean sauced;
     private long lastToss = Long.MIN_VALUE;
     private int clientReadyTicks;
@@ -94,6 +120,8 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
     private int steamingProgress;
     private int steamingTotal;
     private int steamingSlot = -1;
+    private boolean steamerDirty = true;
+    private @Nullable SteamingCandidate cachedCandidate;
 
     private final ContainerData steamerData = new ContainerData() {
         @Override
@@ -138,9 +166,6 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
             }
         } else {
             wok.tickCooking(level);
-            if (transfer) {
-                wok.transferDishesToBasket(level);
-            }
         }
     }
 
@@ -158,25 +183,31 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
         if (stack.is(FERMENTED_SAUCE)) {
             return this.addSauce(stack, player);
         }
-        if (this.sauced) {
+        if (this.sauced || stack.is(REJECTS) || this.ingredients.size() >= MAX_INGREDIENTS) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         List<ItemStack> next = new ArrayList<>(this.ingredients);
         next.add(stack.copyWithCount(1));
         boolean fits = level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.WOK_RECIPE_TYPE.get()).stream()
                 .anyMatch(recipe -> recipe.value().startsWith(next));
-        if (!fits) {
+        boolean improvise = this.isCooking() && stack.has(DataComponents.FOOD);
+        if (!fits && !improvise) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         if (!this.isCooking()) {
             this.owner = player.getUUID();
             this.timer = 0;
             this.missedTosses = 0;
+            this.lateTosses = 0;
             this.awaitingToss = false;
         }
         this.ingredients.add(stack.copyWithCount(1));
+        if (stack.is(LIQUIDS)) {
+            this.releaseSteam();
+        }
         this.consumeIngredient(stack, player);
-        level.playSound(null, this.worldPosition, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 0.4F, 1.6F);
+        this.lastAdded = level.getGameTime();
+        level.playSound(null, this.worldPosition, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 0.25F, 1.8F);
         this.markUpdated();
         return ItemInteractionResult.CONSUME;
     }
@@ -189,14 +220,38 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
         if (this.sauced) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
-        if (this.findCurrentDish().isEmpty()) {
+        if (this.findCurrentDish().isEmpty() && !this.isImprovised()) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         this.sauced = true;
+        this.releaseSteam();
         this.consumeIngredient(stack, player);
         level.playSound(null, this.worldPosition, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 0.6F, 1.0F);
         this.markUpdated();
         return ItemInteractionResult.CONSUME;
+    }
+
+    private void flareUp(Level level) {
+        BlockState state = this.getBlockState();
+        if (!state.getValue(WokBlock.HEAT) || !(level instanceof ServerLevel serverLevel)) {
+            return;
+        }
+        level.setBlock(this.worldPosition, state.setValue(WokBlock.FLARE, true), Block.UPDATE_ALL);
+        level.scheduleTick(this.worldPosition, state.getBlock(), WokBlock.FLARE_TICKS);
+        serverLevel.sendParticles(ParticleTypes.FLAME, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.3, this.worldPosition.getZ() + 0.5, FLARE_PARTICLES, 0.2, 0.15, 0.2, 0.06);
+        serverLevel.sendParticles(ParticleTypes.LAVA, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.3, this.worldPosition.getZ() + 0.5, 2, 0.15, 0.05, 0.15, 0.0);
+        level.playSound(null, this.worldPosition, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.35F, 1.3F);
+    }
+
+    public boolean isSteamingForDisplay() {
+        return this.steamingSlot != -1;
+    }
+
+    private void releaseSteam() {
+        if (this.level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypeRegistry.WOK_STEAM.get(), this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.2, this.worldPosition.getZ() + 0.5, STEAM_BURST, 0.12, 0.02, 0.12, 0.06);
+            serverLevel.playSound(null, this.worldPosition, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 1.4F);
+        }
     }
 
     private void consumeIngredient(ItemStack stack, Player player) {
@@ -208,6 +263,10 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
     }
 
     public InteractionResult useEmptyHand(Player player) {
+        if (!this.isCooking() && player.isShiftKeyDown() && this.hasBurntRice()) {
+            this.dumpBurnt(Objects.requireNonNull(this.level), player);
+            return InteractionResult.CONSUME;
+        }
         if (this.isCooking()) {
             if (!this.canCook(player)) {
                 return InteractionResult.CONSUME;
@@ -237,6 +296,18 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
         if (!this.isCooking() || !this.isHeated()) {
             return;
         }
+        this.heatProgress += this.getHeat();
+        while (this.heatProgress >= 1.0F && this.isCooking()) {
+            this.heatProgress -= 1.0F;
+            this.stepCooking(level);
+        }
+    }
+
+    private float getHeat() {
+        return this.level == null ? 1.0F : WokBlock.getHeat(this.level, this.worldPosition);
+    }
+
+    private void stepCooking(Level level) {
         this.timer++;
         int cookingTicks = this.getCookingTicks();
         if (PlatformHelper.isWokQualityEnabled()) {
@@ -249,12 +320,13 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
             int tossInterval = PlatformHelper.getWokTossIntervalSeconds() * TICKS_PER_SECOND;
             if (!this.awaitingToss && this.timer % tossInterval == 0 && this.timer < cookingTicks) {
                 this.awaitingToss = true;
+                this.tossCalled = level.getGameTime();
                 this.tossDeadline = this.timer + PlatformHelper.getWokTossWindowSeconds() * TICKS_PER_SECOND;
                 level.playSound(null, this.worldPosition, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.BLOCKS, 0.8F, 1.4F);
                 this.markUpdated();
             }
         }
-        if (this.timer == this.getReadyTicks() && this.findCurrentDish().isPresent()) {
+        if (this.timer == this.getReadyTicks() && (this.findCurrentDish().isPresent() || this.isImprovised())) {
             this.markUpdated();
             level.playSound(null, this.worldPosition, SoundEvents.EXPERIENCE_ORB_PICKUP, SoundSource.BLOCKS, 0.6F, 1.2F);
         }
@@ -271,8 +343,17 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
 
     private void toss() {
         Level level = Objects.requireNonNull(this.level);
+        boolean late = this.awaitingToss && PlatformHelper.isWokQualityEnabled() && PlatformHelper.isWokTossTimingEnabled()
+                && this.timer - (this.tossDeadline - PlatformHelper.getWokTossWindowSeconds() * TICKS_PER_SECOND) > PlatformHelper.getWokPerfectTossTicks();
         this.awaitingToss = false;
         this.lastToss = level.getGameTime();
+        if (late) {
+            this.lateTosses++;
+            if (level instanceof ServerLevel serverLevel) {
+                serverLevel.sendParticles(ParticleTypes.LARGE_SMOKE, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.4, this.worldPosition.getZ() + 0.5, 5, 0.2, 0.1, 0.2, 0.01);
+            }
+        }
+        this.flareUp(level);
         level.playSound(null, this.worldPosition, SoundEvents.ARMOR_EQUIP_IRON.value(), SoundSource.BLOCKS, 0.8F, 1.2F);
         if (level instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(ParticleTypes.FLAME, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5, 6, 0.25, 0.1, 0.25, 0.02);
@@ -283,12 +364,38 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
     private void serve() {
         Level level = Objects.requireNonNull(this.level);
         this.toss();
-        WokRecipe recipe = this.findCurrentDish().orElseThrow();
+        Optional<WokRecipe> recipe = this.findCurrentDish();
         int serveWindow = PlatformHelper.getWokServeWindowSeconds() * TICKS_PER_SECOND;
         boolean perfect = Math.abs(this.timer - this.getCookingTicks()) <= serveWindow;
-        int quality = PlatformHelper.isWokQualityEnabled() ? Math.max(1, WokDishItem.MAX_QUALITY - this.missedTosses - (perfect ? 0 : 1)) : WokDishItem.MAX_QUALITY;
-        this.finishCooking(WokDishItem.withQuality(recipe.assemble(new WokRecipe.Input(this.ingredients), level.registryAccess()), quality));
+        int quality = PlatformHelper.isWokQualityEnabled() ? Math.max(1, WokDishItem.MAX_QUALITY - this.missedTosses - this.lateTosses / LATE_TOSSES_PER_FLAME - (perfect ? 0 : 1)) : WokDishItem.MAX_QUALITY;
+        ItemStack result = recipe.map(value -> value.assemble(new WokRecipe.Input(this.ingredients), level.registryAccess())).orElseGet(() -> new ItemStack(ObjectRegistry.MIXED_STIR_FRY.get()));
+        result.setCount(PlatformHelper.getWokDishCount());
+        this.finishCooking(WokDishItem.withQuality(result, quality, WokBlock.isSoulFire(level, this.worldPosition)));
         level.playSound(null, this.worldPosition, SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 0.4F, 1.0F + quality * 0.2F);
+    }
+
+    public boolean hasBurntRice() {
+        return this.dishes.stream().anyMatch(stack -> stack.is(ObjectRegistry.BURNT_RICE.get()));
+    }
+
+    private void dumpBurnt(Level level, Player player) {
+        for (int i = 0; i < MAX_DISHES; i++) {
+            ItemStack dish = this.dishes.get(i);
+            if (dish.is(ObjectRegistry.BURNT_RICE.get())) {
+                this.dishes.set(i, ItemStack.EMPTY);
+                if (!player.getInventory().add(dish)) {
+                    player.drop(dish, false);
+                }
+            }
+        }
+        this.lastDump = level.getGameTime();
+        level.playSound(null, this.worldPosition, SoundEvents.ARMOR_EQUIP_IRON.value(), SoundSource.BLOCKS, 0.8F, 0.8F);
+        level.playSound(null, this.worldPosition, SoundEvents.GENERIC_SPLASH, SoundSource.BLOCKS, 0.4F, 1.4F);
+        if (level instanceof ServerLevel serverLevel) {
+            Direction side = this.getBlockState().getValue(WokBlock.FACING).getClockWise();
+            serverLevel.sendParticles(ParticleTypes.SMOKE, this.worldPosition.getX() + 0.5 + side.getStepX() * 0.4, this.worldPosition.getY() + 0.4, this.worldPosition.getZ() + 0.5 + side.getStepZ() * 0.4, 10, 0.15, 0.1, 0.15, 0.03);
+        }
+        this.markUpdated();
     }
 
     private void burn(Level level) {
@@ -324,26 +431,12 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
         this.awaitingToss = false;
         this.tossDeadline = 0;
         this.missedTosses = 0;
+        this.lateTosses = 0;
+        this.heatProgress = 0.0F;
         this.sauced = false;
         this.markUpdated();
     }
 
-    private void transferDishesToBasket(Level level) {
-        boolean changed = false;
-        for (int i = 0; i < MAX_DISHES; i++) {
-            ItemStack dish = this.dishes.get(i);
-            if (!dish.isEmpty()) {
-                ItemStack remaining = RattanBasketBlockEntity.collect(level, this.worldPosition, dish);
-                if (remaining.getCount() != dish.getCount()) {
-                    this.dishes.set(i, remaining);
-                    changed = true;
-                }
-            }
-        }
-        if (changed) {
-            this.markUpdated();
-        }
-    }
 
     private Optional<WokRecipe> findCurrentDish() {
         Level level = Objects.requireNonNull(this.level);
@@ -380,11 +473,32 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
     }
 
     public ItemStack getCurrentResult() {
+        if (this.isImprovised()) {
+            return new ItemStack(ObjectRegistry.MIXED_STIR_FRY.get());
+        }
         return this.findCurrentDish().map(WokRecipe::getResult).orElse(ItemStack.EMPTY);
     }
 
+    public boolean isImprovised() {
+        Level level = Objects.requireNonNull(this.level);
+        return this.isCooking() && level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.WOK_RECIPE_TYPE.get()).stream()
+                .noneMatch(recipe -> recipe.value().startsWith(this.ingredients));
+    }
+
     public boolean canFinish() {
-        return this.isCooking() && !this.sauced && this.findCurrentDish().isPresent();
+        return this.isCooking() && !this.sauced && (this.findCurrentDish().isPresent() || this.isImprovised());
+    }
+
+    public long getLastDump() {
+        return this.lastDump;
+    }
+
+    public long getTossCalled() {
+        return this.tossCalled;
+    }
+
+    public long getLastAdded() {
+        return this.lastAdded;
     }
 
     public boolean isSauced() {
@@ -419,10 +533,22 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
     }
 
     private void tickSteamer(Level level) {
+        int previousSlot = this.steamingSlot;
+        this.runSteamer(level);
+        if (previousSlot != this.steamingSlot) {
+            this.markUpdated();
+        }
+    }
+
+    private void runSteamer(Level level) {
         if (!this.isHeated()) {
             return;
         }
-        Optional<SteamingCandidate> candidate = this.findSteamingCandidate(level);
+        if (this.steamerDirty || (this.cachedCandidate == null && level.getGameTime() % STEAMER_RECHECK_INTERVAL == 0)) {
+            this.cachedCandidate = this.findSteamingCandidate(level).orElse(null);
+            this.steamerDirty = false;
+        }
+        Optional<SteamingCandidate> candidate = Optional.ofNullable(this.cachedCandidate);
         if (candidate.isEmpty()) {
             if (this.steamingProgress != 0 || this.steamingSlot != -1) {
                 this.resetSteaming();
@@ -435,8 +561,12 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
             this.steamingSlot = current.slot();
             this.steamingProgress = 0;
         }
-        this.steamingTotal = current.recipe().getSteamingTime();
-        this.steamingProgress++;
+        this.steamingTotal = Math.max(1, Math.round(current.recipe().getSteamingTime() / PlatformHelper.getSteamingSpeed()));
+        this.steamerHeatProgress += this.getHeat();
+        while (this.steamerHeatProgress >= 1.0F) {
+            this.steamerHeatProgress -= 1.0F;
+            this.steamingProgress++;
+        }
         if (this.steamingProgress >= this.steamingTotal) {
             this.finishSteaming(current, level);
         }
@@ -454,6 +584,13 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
         }
         input.shrink(1);
         this.resetSteaming();
+        this.steamerDirty = true;
+        level.playSound(null, this.worldPosition, SoundEvents.BAMBOO_WOOD_TRAPDOOR_CLOSE, SoundSource.BLOCKS, 0.5F, 1.7F);
+        level.playSound(null, this.worldPosition, SoundEvents.BAMBOO_WOOD_TRAPDOOR_OPEN, SoundSource.BLOCKS, 0.4F, 1.9F);
+        level.playSound(null, this.worldPosition, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.3F, 1.6F);
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(ParticleTypeRegistry.WOK_STEAM.get(), this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.8, this.worldPosition.getZ() + 0.5, STEAMER_DONE_PUFF, 0.15, 0.02, 0.15, 0.05);
+        }
     }
 
     private void resetSteaming() {
@@ -544,6 +681,7 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
     public @NotNull ItemStack removeItem(int slot, int amount) {
         ItemStack removed = ContainerHelper.removeItem(this.steamer, slot, amount);
         if (!removed.isEmpty()) {
+            this.steamerDirty = true;
             this.setChanged();
         }
         return removed;
@@ -551,6 +689,7 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
 
     @Override
     public @NotNull ItemStack removeItemNoUpdate(int slot) {
+        this.steamerDirty = true;
         return ContainerHelper.takeItem(this.steamer, slot);
     }
 
@@ -558,7 +697,26 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
     public void setItem(int slot, ItemStack stack) {
         this.steamer.set(slot, stack);
         stack.limitSize(this.getMaxStackSize(stack));
+        this.steamerDirty = true;
         this.setChanged();
+    }
+
+    @Override
+    public int @NotNull [] getSlotsForFace(Direction side) {
+        if (!this.getBlockState().getValue(WokBlock.HAS_STEAMER)) {
+            return NO_SLOTS;
+        }
+        return side == Direction.DOWN ? OUTPUT_SLOTS : INPUT_SLOT_INDICES;
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int slot, ItemStack stack, @Nullable Direction side) {
+        return side != Direction.DOWN && slot != OUTPUT_SLOT && this.getBlockState().getValue(WokBlock.HAS_STEAMER);
+    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction side) {
+        return side == Direction.DOWN && slot == OUTPUT_SLOT;
     }
 
     @Override
@@ -575,6 +733,7 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
     public void clearContent() {
         this.steamer.clear();
         this.resetSteaming();
+        this.steamerDirty = true;
         this.setChanged();
     }
 
@@ -603,6 +762,11 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
         tag.putBoolean(AWAITING_TOSS_KEY, this.awaitingToss);
         tag.putInt(TOSS_DEADLINE_KEY, this.tossDeadline);
         tag.putInt(MISSED_TOSSES_KEY, this.missedTosses);
+        tag.putInt(LATE_TOSSES_KEY, this.lateTosses);
+        tag.putLong(LAST_ADDED_KEY, this.lastAdded);
+        tag.putLong(LAST_DUMP_KEY, this.lastDump);
+        tag.putLong(TOSS_CALLED_KEY, this.tossCalled);
+        tag.putFloat(HEAT_PROGRESS_KEY, this.heatProgress);
         tag.putBoolean(SAUCED_KEY, this.sauced);
         tag.putLong(LAST_TOSS_KEY, this.lastToss);
         tag.put(DISHES_KEY, ContainerHelper.saveAllItems(new CompoundTag(), this.dishes, provider));
@@ -626,6 +790,11 @@ public class WokBlockEntity extends BlockEntity implements Container, MenuProvid
         this.awaitingToss = tag.getBoolean(AWAITING_TOSS_KEY);
         this.tossDeadline = tag.getInt(TOSS_DEADLINE_KEY);
         this.missedTosses = tag.getInt(MISSED_TOSSES_KEY);
+        this.lateTosses = tag.getInt(LATE_TOSSES_KEY);
+        this.lastAdded = tag.contains(LAST_ADDED_KEY) ? tag.getLong(LAST_ADDED_KEY) : Long.MIN_VALUE;
+        this.lastDump = tag.contains(LAST_DUMP_KEY) ? tag.getLong(LAST_DUMP_KEY) : Long.MIN_VALUE;
+        this.tossCalled = tag.contains(TOSS_CALLED_KEY) ? tag.getLong(TOSS_CALLED_KEY) : Long.MIN_VALUE;
+        this.heatProgress = tag.getFloat(HEAT_PROGRESS_KEY);
         this.sauced = tag.getBoolean(SAUCED_KEY);
         this.lastToss = tag.contains(LAST_TOSS_KEY) ? tag.getLong(LAST_TOSS_KEY) : Long.MIN_VALUE;
         this.clientReadyTicks = tag.getInt(READY_TICKS_KEY);

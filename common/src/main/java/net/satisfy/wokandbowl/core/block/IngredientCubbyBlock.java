@@ -5,7 +5,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -23,9 +22,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.BlockHitResult;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
+import net.minecraft.world.phys.Vec3;
 import net.satisfy.wokandbowl.core.block.entity.IngredientCubbyBlockEntity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -35,23 +35,25 @@ import java.util.Optional;
 public class IngredientCubbyBlock extends BaseEntityBlock {
     public static final MapCodec<IngredientCubbyBlock> CODEC = simpleCodec(IngredientCubbyBlock::new);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty OPEN = BlockStateProperties.OPEN;
 
     public IngredientCubbyBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
+        this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH).setValue(OPEN, false));
     }
 
     public static Optional<Integer> getSlot(BlockState state, BlockHitResult hitResult) {
-        Direction facing = state.getValue(FACING);
-        if (hitResult.getDirection() != facing) {
+        if (hitResult.getDirection() != Direction.UP || !state.getValue(OPEN)) {
             return Optional.empty();
         }
-        Optional<Tuple<Float, Float>> hit = GeneralUtil.getRelativeHitCoordinatesForBlockFace(hitResult, facing, new Direction[]{Direction.UP, Direction.DOWN});
-        return hit.map(coordinates -> {
-            int column = coordinates.getA() < 0.5F ? 0 : 1;
-            int row = coordinates.getB() >= 0.5F ? 0 : 1;
-            return row * 2 + column;
-        });
+        Direction front = state.getValue(FACING);
+        Direction right = front.getCounterClockWise();
+        Vec3 hit = hitResult.getLocation().subtract(Vec3.atLowerCornerOf(hitResult.getBlockPos())).subtract(0.5, 0.0, 0.5);
+        double across = hit.x * right.getStepX() + hit.z * right.getStepZ();
+        double depth = hit.x * front.getStepX() + hit.z * front.getStepZ();
+        int column = across < 0.0 ? 0 : 1;
+        int row = depth < 0.0 ? 0 : 1;
+        return Optional.of(row * 2 + column);
     }
 
     @Override
@@ -88,6 +90,15 @@ public class IngredientCubbyBlock extends BaseEntityBlock {
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
+        if (hitResult.getDirection().getAxis().isHorizontal()) {
+            boolean open = !state.getValue(OPEN);
+            if (!level.isClientSide) {
+                level.setBlock(pos, state.setValue(OPEN, open), Block.UPDATE_ALL);
+                level.playSound(null, pos, open ? SoundEvents.BAMBOO_WOOD_TRAPDOOR_OPEN : SoundEvents.BAMBOO_WOOD_TRAPDOOR_CLOSE, SoundSource.BLOCKS, 0.7F, 1.2F);
+                level.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_CHIME, SoundSource.BLOCKS, 0.35F, open ? 1.6F : 1.3F);
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
         Optional<Integer> slot = getSlot(state, hitResult);
         if (slot.isEmpty() || !(level.getBlockEntity(pos) instanceof IngredientCubbyBlockEntity cubby) || cubby.getItem(slot.get()).isEmpty()) {
             return InteractionResult.PASS;
@@ -130,6 +141,6 @@ public class IngredientCubbyBlock extends BaseEntityBlock {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, OPEN);
     }
 }

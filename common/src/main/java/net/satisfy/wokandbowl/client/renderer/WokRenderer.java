@@ -24,6 +24,9 @@ import java.util.List;
 public class WokRenderer implements BlockEntityRenderer<WokBlockEntity> {
     private static final ResourceLocation TEXTURE = WokAndBowl.identifier("textures/entity/wok.png");
     private static final float TOSS_TICKS = 12.0F;
+    private static final float DUMP_TICKS = 16.0F;
+    private static final float DUMP_TILT = 70.0F;
+    private static final double DUMP_LIFT = 0.25;
     private static final double TOSS_HEIGHT = 0.3;
     private static final float TOSS_TILT = 22.0F;
     private static final double TOSS_PIVOT = 0.1;
@@ -85,7 +88,13 @@ public class WokRenderer implements BlockEntityRenderer<WokBlockEntity> {
 
     private void applyMotion(WokBlockEntity wok, float time, PoseStack poseStack) {
         float sinceToss = time - wok.getLastToss();
-        if (sinceToss >= 0.0F && sinceToss < TOSS_TICKS) {
+        float sinceDump = time - wok.getLastDump();
+        if (sinceDump >= 0.0F && sinceDump < DUMP_TICKS) {
+            float progress = sinceDump / DUMP_TICKS;
+            float tilt = (float) Math.sin(Math.PI * progress);
+            poseStack.translate(0.0, tilt * DUMP_LIFT, 0.0);
+            poseStack.mulPose(Axis.ZP.rotationDegrees(tilt * DUMP_TILT));
+        } else if (sinceToss >= 0.0F && sinceToss < TOSS_TICKS) {
             float progress = sinceToss / TOSS_TICKS;
             poseStack.translate(0.0, Math.sin(Math.PI * progress) * TOSS_HEIGHT, 0.0);
             poseStack.translate(0.0, TOSS_PIVOT, 0.0);

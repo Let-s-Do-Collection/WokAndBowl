@@ -13,11 +13,14 @@ public class WokDishItem extends WokAndBowlFoodItem {
         super(properties);
     }
 
-    public static ItemStack withQuality(ItemStack stack, int quality) {
+    public static ItemStack withQuality(ItemStack stack, int quality, boolean soulFire) {
         stack.set(DataComponentRegistry.QUALITY.get(), quality);
+        if (soulFire) {
+            stack.set(DataComponentRegistry.SOUL_FIRE.get(), true);
+        }
         FoodProperties food = stack.get(DataComponents.FOOD);
         if (food != null) {
-            float factor = 1.0F + getBonusPercent(quality) / 100.0F;
+            float factor = 1.0F + (soulFire && quality == MAX_QUALITY ? PlatformHelper.getWokSoulFlameBonus() : getBonusPercent(quality)) / 100.0F;
             stack.set(DataComponents.FOOD, new FoodProperties(Math.round(food.nutrition() * factor), food.saturation() * factor, food.canAlwaysEat(), food.eatSeconds(), food.usingConvertsTo(), food.effects()));
         }
         return stack;

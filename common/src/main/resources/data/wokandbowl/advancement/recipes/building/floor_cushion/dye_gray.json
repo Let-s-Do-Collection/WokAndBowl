@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "wokandbowl:floor_cushion/dye_gray"
+      }
+    },
+    "has_floor_cushion": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wokandbowl:floor_cushion"
+          }
+        ]
+      }
+    },
+    "has_gray_dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:gray_dye"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_floor_cushion",
+      "has_gray_dye"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "wokandbowl:floor_cushion/dye_gray"
+    ]
+  }
+}

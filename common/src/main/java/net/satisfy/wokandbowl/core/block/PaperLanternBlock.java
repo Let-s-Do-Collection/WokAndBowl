@@ -1,5 +1,9 @@
 package net.satisfy.wokandbowl.core.block;
 
+import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.level.BlockGetter;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
@@ -28,13 +32,15 @@ public class PaperLanternBlock extends LanternBlock {
     public static final MapCodec<PaperLanternBlock> CODEC = simpleCodec(PaperLanternBlock::new);
     public static final EnumProperty<DyeColor> COLOR = FloorCushionBlock.COLOR;
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public static final int LIGHT_LEVEL = 15;
+    private static final VoxelShape STANDING_SHAPE = Block.box(3, 0, 3, 13, 14, 13);
+    private static final VoxelShape HANGING_SHAPE = Shapes.or(Block.box(3, 2, 3, 13, 15, 13), Block.box(6, 15, 6, 10, 16, 10));
+    public static final BooleanProperty DYED = BooleanProperty.create("dyed");
     private static final int FLAME_PARTICLES = 6;
     private static final int SMOKE_PARTICLES = 5;
 
     public PaperLanternBlock(Properties properties) {
         super(properties);
-        this.registerDefaultState(this.defaultBlockState().setValue(COLOR, DyeColor.RED).setValue(LIT, true));
+        this.registerDefaultState(this.defaultBlockState().setValue(COLOR, DyeColor.RED).setValue(LIT, true).setValue(DYED, false));
     }
 
     @Override
@@ -45,7 +51,9 @@ public class PaperLanternBlock extends LanternBlock {
     @Override
     protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (stack.getItem() instanceof DyeItem dye) {
-            ItemInteractionResult result = DyeHelper.dye(stack, dye.getDyeColor(), state, COLOR, level, pos, player);
+            ItemInteractionResult result = state.getValue(DYED) && state.getValue(COLOR) == dye.getDyeColor()
+                    ? ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION
+                    : DyeHelper.apply(stack, dye.getDyeColor(), state.setValue(COLOR, dye.getDyeColor()).setValue(DYED, true), level, pos, player);
             return result == ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION ? ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION : result;
         }
         return stack.isEmpty() ? ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION : ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
@@ -57,7 +65,7 @@ public class PaperLanternBlock extends LanternBlock {
         if (level instanceof ServerLevel serverLevel) {
             level.setBlock(pos, state.setValue(LIT, lit), Block.UPDATE_ALL);
             double x = pos.getX() + 0.5;
-            double y = pos.getY() + (state.getValue(HANGING) ? 0.35 : 0.3);
+            double y = pos.getY() + (state.getValue(HANGING) ? 0.55 : 0.45);
             double z = pos.getZ() + 0.5;
             if (lit) {
                 level.playSound(null, pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.BLOCKS, 0.7F, 1.2F);
@@ -71,8 +79,13 @@ public class PaperLanternBlock extends LanternBlock {
     }
 
     @Override
+    protected @NotNull VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return state.getValue(HANGING) ? HANGING_SHAPE : STANDING_SHAPE;
+    }
+
+    @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         super.createBlockStateDefinition(builder);
-        builder.add(COLOR, LIT);
+        builder.add(COLOR, LIT, DYED);
     }
 }

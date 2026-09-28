@@ -7,7 +7,10 @@ import net.satisfy.wokandbowl.core.registry.ObjectRegistry;
 import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.satisfy.wokandbowl.client.particle.BasketItemParticle;
 import net.satisfy.wokandbowl.client.particle.DyeSplashParticle;
+import net.satisfy.wokandbowl.client.particle.FeatherParticle;
+import net.satisfy.wokandbowl.client.particle.FireflyParticle;
 import net.satisfy.wokandbowl.client.particle.RattanLeafParticle;
+import net.satisfy.wokandbowl.client.particle.WokSteamParticle;
 import net.satisfy.wokandbowl.core.registry.ParticleTypeRegistry;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.satisfy.wokandbowl.client.model.WokModel;
@@ -38,6 +41,9 @@ public class WokAndBowlClientNeoForge {
     public static void registerParticles(RegisterParticleProvidersEvent event) {
         event.registerSpriteSet(ParticleTypeRegistry.RATTAN_LEAF.get(), RattanLeafParticle.Provider::new);
         event.registerSpriteSet(ParticleTypeRegistry.DYE_SPLASH.get(), DyeSplashParticle.Provider::new);
+        event.registerSpriteSet(ParticleTypeRegistry.WOK_STEAM.get(), WokSteamParticle.Provider::new);
+        event.registerSpriteSet(ParticleTypeRegistry.FIREFLY.get(), FireflyParticle.Provider::new);
+        event.registerSpriteSet(ParticleTypeRegistry.FEATHER.get(), FeatherParticle.Provider::new);
         event.registerSpecial(ParticleTypeRegistry.BASKET_ITEM.get(), new BasketItemParticle.Provider());
     }
 

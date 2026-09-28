@@ -14,6 +14,7 @@ public enum WokFood {
     FISH_STIR_FRY("fish_stir_fry", 8, 0.7F),
     STIR_FRIED_NOODLES("stir_fried_noodles", 6, 0.5F),
     NOODLE_BOWL("noodle_bowl", 10, 0.9F),
+    MIXED_STIR_FRY("mixed_stir_fry", 3, 0.2F),
     BURNT_RICE("burnt_rice", 2, 0.1F),
     PORK_DUMPLINGS("pork_dumplings", 6, 0.5F),
     VEGETABLE_DUMPLINGS("vegetable_dumplings", 5, 0.4F),

@@ -40,6 +40,7 @@ import java.util.EnumMap;
 import java.util.Map;
 
 public class RattanBranchBlock extends HorizontalDirectionalBlock implements BonemealableBlock {
+    private static final int LEAF_FALL_CHANCE = 80;
     public static final MapCodec<RattanBranchBlock> CODEC = simpleCodec(RattanBranchBlock::new);
     public static final BooleanProperty MATURE = BooleanProperty.create("mature");
     public static final TagKey<Block> GROWS_ON = TagKey.create(Registries.BLOCK, WokAndBowl.identifier("rattan_grows_on"));
@@ -158,4 +159,12 @@ public class RattanBranchBlock extends HorizontalDirectionalBlock implements Bon
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING, MATURE);
     }
+
+    @Override
+    public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
+        if (random.nextInt(LEAF_FALL_CHANCE) == 0 && level.getBlockState(pos.below()).isAir()) {
+            level.addParticle(ParticleTypeRegistry.RATTAN_LEAF.get(), pos.getX() + random.nextDouble(), pos.getY() + 0.2, pos.getZ() + random.nextDouble(), 0.0, 0.0, 0.0);
+        }
+    }
+
 }

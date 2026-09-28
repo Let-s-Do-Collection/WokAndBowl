@@ -1,7 +1,6 @@
 {
   "parent": "minecraft:block/block",
   "textures": {
-    "particle": "wokandbowl:block/wok"
-  },
-  "elements": []
+    "particle": "farm_and_charm:block/cooking_pot_bottom"
+  }
 }

@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "wokandbowl:bamboo_steamer"
+      }
+    },
+    "has_bamboo": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:bamboo"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_bamboo"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "wokandbowl:bamboo_steamer"
+    ]
+  }
+}

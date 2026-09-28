@@ -23,6 +23,12 @@
     ],
     "modmenu": [
       "net.satisfy.wokandbowl.fabric.core.config.ModMenu"
+    ],
+    "rei_client": [
+      "net.satisfy.wokandbowl.compat.rei.WokAndBowlREIClientPlugin"
+    ],
+    "jei_mod_plugin": [
+      "net.satisfy.wokandbowl.compat.jei.WokAndBowlJEIPlugin"
     ]
   },
   "mixins": [

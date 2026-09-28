@@ -14,18 +14,25 @@ import net.minecraft.world.item.ShovelItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 import net.satisfy.wokandbowl.core.registry.ObjectRegistry;
+import net.satisfy.wokandbowl.platform.PlatformHelper;
 
 public class RicePaddyEvents {
     public static void init() {
         InteractionEvent.RIGHT_CLICK_BLOCK.register(RicePaddyEvents::lowerFarmland);
     }
 
+    private static boolean canBecomePaddy(BlockState state) {
+        return state.is(net.satisfy.farm_and_charm.core.registry.ObjectRegistry.FERTILIZED_FARM_BLOCK.get()) || (!PlatformHelper.isRicePaddyFertilizedFarmlandRequired() && state.is(Blocks.FARMLAND));
+    }
+
     private static EventResult lowerFarmland(Player player, InteractionHand hand, BlockPos pos, Direction face) {
         ItemStack stack = player.getItemInHand(hand);
         Level level = player.level();
         if (!(stack.getItem() instanceof ShovelItem) || face == Direction.DOWN) return EventResult.pass();
-        if (!level.getBlockState(pos).is(net.satisfy.farm_and_charm.core.registry.ObjectRegistry.FERTILIZED_FARM_BLOCK.get())) return EventResult.pass();
+        if (!canBecomePaddy(level.getBlockState(pos))) return EventResult.pass();
         if (!level.getBlockState(pos.above()).isAir()) return EventResult.pass();
 
         level.playSound(player, pos, SoundEvents.SHOVEL_FLATTEN, SoundSource.BLOCKS, 1.0F, 0.8F);

@@ -26,8 +26,12 @@ public final class DyeHelper {
         if (state.getValue(property) == color) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
+        return apply(stack, color, state.setValue(property, color), level, pos, player);
+    }
+
+    public static ItemInteractionResult apply(ItemStack stack, DyeColor color, BlockState dyed, Level level, BlockPos pos, Player player) {
         if (level instanceof ServerLevel serverLevel) {
-            level.setBlock(pos, state.setValue(property, color), Block.UPDATE_ALL);
+            level.setBlock(pos, dyed, Block.UPDATE_ALL);
             stack.consume(1, player);
             level.playSound(null, pos, SoundEvents.DYE_USE, SoundSource.BLOCKS, 1.0F, 1.0F);
             ColorParticleOption splash = ColorParticleOption.create(ParticleTypeRegistry.DYE_SPLASH.get(), FastColor.ARGB32.opaque(color.getTextureDiffuseColor()));

@@ -4,7 +4,11 @@ import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.Containers;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.TagKey;
@@ -36,10 +40,12 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.farm_and_charm.core.util.GeneralUtil;
 import net.satisfy.wokandbowl.core.block.entity.CuttingBoardBlockEntity;
 import net.satisfy.wokandbowl.core.block.entity.RattanBasketBlockEntity;
+import net.satisfy.wokandbowl.core.util.Strippables;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,9 +59,11 @@ public class CuttingBoardBlock extends BaseEntityBlock {
     public static final MapCodec<CuttingBoardBlock> CODEC = simpleCodec(CuttingBoardBlock::new);
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
 
+    private static final int CRUMBS = 8;
     public static final TagKey<Item> CLEAVERS = TagKey.create(Registries.ITEM, WokAndBowl.identifier("cleavers"));
+    public static final TagKey<Item> KNIVES = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "tools/knife"));
 
-    private static final VoxelShape SHAPE = Block.box(1, 0, 3, 15, 1.5, 13);
+    private static final VoxelShape SHAPE = Shapes.or(Block.box(1, 0, 3, 11, 1, 13), Block.box(11, 0, 6, 15, 1, 10));
 
     private static final Map<Direction, VoxelShape> SHAPES = new EnumMap<>(Direction.class);
 
@@ -87,14 +95,23 @@ public class CuttingBoardBlock extends BaseEntityBlock {
 
     @Override
     protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (!(level.getBlockEntity(pos) instanceof CuttingBoardBlockEntity board)) {
+        if (stack.isEmpty() || !(level.getBlockEntity(pos) instanceof CuttingBoardBlockEntity board)) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
-        if (stack.is(CLEAVERS)) {
+        if (board.hasKnife()) {
+            return autoCut(stack, level, pos, player, board);
+        }
+        if (Strippables.isAxe(stack) && board.isEmpty()) {
+            return placeKnife(stack, level, pos, player, board);
+        }
+        if (stack.is(KNIVES)) {
+            if (board.isEmpty()) {
+                return placeKnife(stack, level, pos, player, board);
+            }
             return chop(stack, level, pos, player, hand, board);
         }
         if (board.isFull() || !canPlace(level, board, stack)) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
         if (level.isClientSide) {
             return ItemInteractionResult.SUCCESS;
@@ -102,52 +119,105 @@ public class CuttingBoardBlock extends BaseEntityBlock {
         board.addItem(stack.copyWithCount(1));
         stack.consume(1, player);
         level.playSound(null, pos, SoundEvents.WOOD_PLACE, SoundSource.BLOCKS, 0.7F, 1.2F);
-        findAssembly(level, board.getItems()).ifPresent(recipe -> {
-            board.setContents(recipe.value().assemble(new CuttingBoardAssemblyRecipe.Input(board.getItems()), level.registryAccess()));
-            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
-        });
         return ItemInteractionResult.CONSUME;
     }
 
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hitResult) {
-        if (!(level.getBlockEntity(pos) instanceof CuttingBoardBlockEntity board) || board.isEmpty()) {
+        if (!(level.getBlockEntity(pos) instanceof CuttingBoardBlockEntity board)) {
+            return InteractionResult.PASS;
+        }
+        if (board.hasKnife()) {
+            if (board.isCutting()) {
+                if (!level.isClientSide) {
+                    board.chopPending(level);
+                }
+                return InteractionResult.sidedSuccess(level.isClientSide);
+            }
+            if (!level.isClientSide) {
+                giveToPlayer(player, board.takeKnife());
+                level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.5F, 1.0F);
+            }
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+        if (board.isEmpty()) {
             return InteractionResult.PASS;
         }
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
-        ItemStack removed = board.removeLastItem();
-        if (!player.getInventory().add(removed)) {
-            player.drop(removed, false);
+        Optional<RecipeHolder<CuttingBoardAssemblyRecipe>> assembly = player.isShiftKeyDown() ? Optional.empty() : findAssembly(level, board.getItems());
+        if (assembly.isPresent()) {
+            board.setContents(assembly.get().value().assemble(new CuttingBoardAssemblyRecipe.Input(board.getItems()), level.registryAccess()));
+            level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
+            return InteractionResult.CONSUME;
         }
+        giveToPlayer(player, board.removeLastItem());
         level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 0.5F, 1.0F);
         return InteractionResult.CONSUME;
     }
 
-    private static ItemInteractionResult chop(ItemStack cleaver, Level level, BlockPos pos, Player player, InteractionHand hand, CuttingBoardBlockEntity board) {
+    private static void giveToPlayer(Player player, ItemStack stack) {
+        if (!player.getInventory().add(stack)) {
+            player.drop(stack, false);
+        }
+    }
+
+    private static ItemInteractionResult placeKnife(ItemStack stack, Level level, BlockPos pos, Player player, CuttingBoardBlockEntity board) {
+        if (level.isClientSide) {
+            return ItemInteractionResult.SUCCESS;
+        }
+        board.setKnife(stack.copyWithCount(1));
+        stack.consume(1, player);
+        level.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 0.8F, 1.2F);
+        return ItemInteractionResult.CONSUME;
+    }
+
+    private static ItemInteractionResult autoCut(ItemStack stack, Level level, BlockPos pos, Player player, CuttingBoardBlockEntity board) {
+        if (board.isCutting()) {
+            if (!level.isClientSide) {
+                board.chopPending(level);
+            }
+            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+        }
+        boolean valid = Strippables.isAxe(board.getKnife()) ? Strippables.strip(stack).isPresent() : level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.CUTTING_BOARD_RECIPE_TYPE.get(), new SingleRecipeInput(stack), level).isPresent();
+        if (!valid) {
+            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+        }
+        if (!level.isClientSide) {
+            board.startCut(stack.copyWithCount(1));
+            stack.consume(1, player);
+            board.chopPending(level);
+        }
+        return ItemInteractionResult.sidedSuccess(level.isClientSide);
+    }
+
+    private static ItemInteractionResult chop(ItemStack knife, Level level, BlockPos pos, Player player, InteractionHand hand, CuttingBoardBlockEntity board) {
         if (board.getItems().size() != 1) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
         SingleRecipeInput input = new SingleRecipeInput(board.getItems().getFirst());
         Optional<RecipeHolder<CuttingBoardRecipe>> recipe = level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.CUTTING_BOARD_RECIPE_TYPE.get(), input, level);
         if (recipe.isEmpty()) {
-            return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
         if (level.isClientSide) {
             return ItemInteractionResult.SUCCESS;
         }
-        level.playSound(null, pos, SoundEvents.AXE_STRIP, SoundSource.BLOCKS, 0.8F, 1.4F);
-        if (board.chop() >= recipe.get().value().getChops()) {
+        CuttingBoardBlockEntity.playChopSound(level, pos, board.getItems().getFirst());
+        if (level instanceof ServerLevel serverLevel) {
+            serverLevel.sendParticles(new ItemParticleOption(ParticleTypes.ITEM, board.getItems().getFirst().copyWithCount(1)), pos.getX() + 0.5, pos.getY() + 0.15, pos.getZ() + 0.5, CRUMBS, 0.15, 0.05, 0.15, 0.08);
+        }
+        if (board.chop() >= CuttingBoardBlockEntity.requiredChops(knife, recipe.get().value())) {
             ItemStack ingredient = board.getItems().getFirst();
             ItemStack result = recipe.get().value().assemble(input, level.registryAccess());
             ingredient.shrink(1);
             board.setContents(ingredient.isEmpty() ? ItemStack.EMPTY : ingredient);
-            RattanBasketBlockEntity.collectOrDrop(level, pos, result);
+            RattanBasketBlockEntity.collectOrDrop(level, pos, result, true);
             for (ItemStack byproduct : recipe.get().value().getByproducts()) {
-                RattanBasketBlockEntity.collectOrDrop(level, pos, byproduct.copy());
+                RattanBasketBlockEntity.collectOrDrop(level, pos, byproduct.copy(), true);
             }
-            cleaver.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+            knife.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
         }
         return ItemInteractionResult.CONSUME;
     }

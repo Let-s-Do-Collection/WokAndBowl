@@ -2,13 +2,16 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "pattern": [
-    "BBB",
+    "BGB",
     "B B",
     "BBB"
   ],
   "key": {
     "B": {
       "item": "minecraft:brick"
+    },
+    "G": {
+      "item": "minecraft:glass_pane"
     }
   },
   "result": {

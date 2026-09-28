@@ -108,7 +108,83 @@ public class PlatformHelperImpl {
         return WokAndBowlNeoForgeConfig.wokRecipeHints;
     }
 
+    public static int getIronCleaverChops() {
+        return WokAndBowlNeoForgeConfig.ironCleaverChops;
+    }
+
+    public static int getDiamondCleaverChops() {
+        return WokAndBowlNeoForgeConfig.diamondCleaverChops;
+    }
+
+    public static int getNetheriteCleaverChops() {
+        return WokAndBowlNeoForgeConfig.netheriteCleaverChops;
+    }
+
     public static boolean isCleaverHeadDropsEnabled() {
         return WokAndBowlNeoForgeConfig.cleaverHeadDrops;
+    }
+
+    public static float getSteamingSpeed() {
+        return WokAndBowlNeoForgeConfig.steamingSpeed;
+    }
+
+    public static boolean isRicePaddyFertilizedFarmlandRequired() {
+        return WokAndBowlNeoForgeConfig.ricePaddyRequiresFertilizedFarmland;
+    }
+
+    public static int getPaperLanternLightLevel() {
+        return WokAndBowlNeoForgeConfig.paperLanternLightLevel;
+    }
+
+    public static boolean isWokSteamParticlesEnabled() {
+        return WokAndBowlNeoForgeConfig.wokSteamParticles;
+    }
+
+    public static boolean isBasketFlightAnimationEnabled() {
+        return WokAndBowlNeoForgeConfig.basketFlightAnimation;
+    }
+
+    public static boolean isFirefliesEnabled() {
+        return WokAndBowlNeoForgeConfig.fireflies;
+    }
+
+    public static boolean isCushionFeathersEnabled() {
+        return WokAndBowlNeoForgeConfig.cushionFeathers;
+    }
+
+    public static boolean isItemTooltipsEnabled() {
+        return WokAndBowlNeoForgeConfig.itemTooltips;
+    }
+
+    public static boolean isWokTossTimingEnabled() {
+        return WokAndBowlNeoForgeConfig.wokTossTiming;
+    }
+
+    public static int getWokPerfectTossTicks() {
+        return WokAndBowlNeoForgeConfig.wokPerfectTossTicks;
+    }
+
+    public static float getWokCampfireHeat() {
+        return WokAndBowlNeoForgeConfig.wokCampfireHeat;
+    }
+
+    public static float getWokStoveHeat() {
+        return WokAndBowlNeoForgeConfig.wokStoveHeat;
+    }
+
+    public static float getWokSoulFireHeat() {
+        return WokAndBowlNeoForgeConfig.wokSoulFireHeat;
+    }
+
+    public static int getTatamiRestedFlameBonus() {
+        return WokAndBowlNeoForgeConfig.tatamiRestedFlameBonus;
+    }
+
+    public static int getWokSoulFlameBonus() {
+        return WokAndBowlNeoForgeConfig.wokSoulFlameBonus;
+    }
+
+    public static int getWokDishCount() {
+        return WokAndBowlNeoForgeConfig.wokDishCount;
     }
 }
