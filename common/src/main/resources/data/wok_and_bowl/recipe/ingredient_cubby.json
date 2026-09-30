@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "BGB",
+    "B B",
+    "BBB"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:brick"
+    },
+    "G": {
+      "item": "minecraft:glass_pane"
+    }
+  },
+  "result": {
+    "id": "wok_and_bowl:ingredient_cubby",
+    "count": 1
+  }
+}

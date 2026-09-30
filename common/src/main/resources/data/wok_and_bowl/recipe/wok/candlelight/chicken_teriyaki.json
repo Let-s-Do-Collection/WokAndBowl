@@ -1,0 +1,29 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "candlelight"
+    }
+  ],
+  "fabric:load_conditions": [
+    {
+      "condition": "fabric:all_mods_loaded",
+      "values": [
+        "candlelight"
+      ]
+    }
+  ],
+  "type": "wok_and_bowl:wok",
+  "ingredients": [
+    {
+      "item": "farm_and_charm:chicken_parts"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "id": "candlelight:chicken_teriyaki",
+    "count": 1
+  }
+}

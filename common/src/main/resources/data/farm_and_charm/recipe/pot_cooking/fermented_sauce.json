@@ -5,7 +5,7 @@
       "item": "minecraft:dried_kelp"
     },
     {
-      "tag": "wokandbowl:mushrooms"
+      "tag": "wok_and_bowl:mushrooms"
     },
     {
       "item": "farm_and_charm:yeast"
@@ -20,7 +20,7 @@
     "count": 1
   },
   "result": {
-    "id": "wokandbowl:fermented_sauce",
+    "id": "wok_and_bowl:fermented_sauce",
     "count": 1
   },
   "requiresLearning": false

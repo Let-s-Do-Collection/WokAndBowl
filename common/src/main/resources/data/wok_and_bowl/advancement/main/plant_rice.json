@@ -1,0 +1,36 @@
+{
+  "parent": "wok_and_bowl:main/root",
+  "display": {
+    "icon": {
+      "id": "wok_and_bowl:rice"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.plant_rice"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.plant_rice.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "rice_crop": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:block_state_property",
+            "block": "wok_and_bowl:rice_crop"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "rice_crop"
+    ]
+  ]
+}

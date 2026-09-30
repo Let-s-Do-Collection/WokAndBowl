@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "C C",
+    "CBC",
+    "CCC"
+  ],
+  "key": {
+    "C": {
+      "item": "wok_and_bowl:rattan_cane"
+    },
+    "B": {
+      "item": "minecraft:chest"
+    }
+  },
+  "result": {
+    "id": "wok_and_bowl:rattan_basket",
+    "count": 1
+  }
+}

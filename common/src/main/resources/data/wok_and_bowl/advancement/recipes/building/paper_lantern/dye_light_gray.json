@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "wok_and_bowl:paper_lantern/dye_light_gray"
+      }
+    },
+    "has_paper_lantern": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:paper_lantern"
+          }
+        ]
+      }
+    },
+    "has_light_gray_dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:light_gray_dye"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_paper_lantern",
+      "has_light_gray_dye"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "wok_and_bowl:paper_lantern/dye_light_gray"
+    ]
+  }
+}

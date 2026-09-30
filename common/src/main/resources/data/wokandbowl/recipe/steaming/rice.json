@@ -1,6 +1,0 @@
-{
-  "type": "wokandbowl:steaming",
-  "ingredient": { "item": "wokandbowl:rice" },
-  "result": { "id": "wokandbowl:steamed_rice", "count": 1 },
-  "steaming_time": 200
-}

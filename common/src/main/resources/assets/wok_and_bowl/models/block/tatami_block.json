@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "wok_and_bowl:block/tatami_mat"
+  }
+}

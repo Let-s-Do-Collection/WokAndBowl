@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "wok_and_bowl:block/tatami_mat"
+    },
+    "facing=east": {
+      "model": "wok_and_bowl:block/tatami_mat",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "wok_and_bowl:block/tatami_mat",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "wok_and_bowl:block/tatami_mat",
+      "y": 270
+    }
+  }
+}

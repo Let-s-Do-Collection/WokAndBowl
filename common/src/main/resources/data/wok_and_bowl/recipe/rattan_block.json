@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "CC",
+    "CC"
+  ],
+  "key": {
+    "C": {
+      "item": "wok_and_bowl:rattan_cane"
+    }
+  },
+  "result": {
+    "id": "wok_and_bowl:rattan_block",
+    "count": 1
+  }
+}

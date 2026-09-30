@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cross",
+  "textures": {
+    "cross": "wok_and_bowl:block/wild_rice"
+  }
+}

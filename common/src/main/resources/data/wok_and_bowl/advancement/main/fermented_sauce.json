@@ -1,0 +1,35 @@
+{
+  "parent": "wok_and_bowl:main/place_wok",
+  "display": {
+    "icon": {
+      "id": "wok_and_bowl:fermented_sauce"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.fermented_sauce"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.fermented_sauce.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "sauce": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:fermented_sauce"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "sauce"
+    ]
+  ]
+}

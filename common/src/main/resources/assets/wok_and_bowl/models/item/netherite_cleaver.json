@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/handheld",
+  "textures": {
+    "layer0": "wok_and_bowl:item/netherite_cleaver"
+  }
+}

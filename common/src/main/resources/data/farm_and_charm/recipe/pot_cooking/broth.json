@@ -2,7 +2,7 @@
   "type": "farm_and_charm:pot_cooking",
   "ingredients": [
     {
-      "item": "wokandbowl:fish_bones"
+      "item": "wok_and_bowl:fish_bones"
     },
     {
       "item": "farm_and_charm:onion"
@@ -17,7 +17,7 @@
     "count": 1
   },
   "result": {
-    "id": "wokandbowl:broth",
+    "id": "wok_and_bowl:broth",
     "count": 1
   },
   "requiresLearning": false

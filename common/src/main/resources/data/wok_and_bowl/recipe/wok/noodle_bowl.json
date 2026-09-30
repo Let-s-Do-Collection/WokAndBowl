@@ -1,0 +1,24 @@
+{
+  "type": "wok_and_bowl:wok",
+  "ingredients": [
+    {
+      "item": "farm_and_charm:raw_pasta"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "tag": "wok_and_bowl:mushrooms"
+    },
+    {
+      "tag": "wok_and_bowl:cured_meat"
+    },
+    {
+      "item": "wok_and_bowl:broth"
+    }
+  ],
+  "result": {
+    "id": "wok_and_bowl:noodle_bowl",
+    "count": 1
+  }
+}

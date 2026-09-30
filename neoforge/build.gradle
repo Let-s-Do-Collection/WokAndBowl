@@ -7,7 +7,7 @@ architectury {
     neoForge()
 }
 
-def jarFileName = 'letsdo-wokandbowl-neoforge'
+def jarFileName = 'letsdo-wok_and_bowl-neoforge'
 
 base {
     archivesName = jarFileName

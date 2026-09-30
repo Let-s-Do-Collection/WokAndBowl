@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "paper_lantern_dye",
+  "ingredients": [
+    {
+      "item": "wok_and_bowl:paper_lantern"
+    },
+    {
+      "item": "minecraft:lime_dye"
+    }
+  ],
+  "result": {
+    "id": "wok_and_bowl:paper_lantern",
+    "count": 1,
+    "components": {
+      "minecraft:block_state": {
+        "color": "lime",
+        "dyed": "true"
+      }
+    }
+  }
+}

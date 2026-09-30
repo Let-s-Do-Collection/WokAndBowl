@@ -1,0 +1,124 @@
+{
+  "variants": {
+    "facing=north,has_steamer=false,heat=false,needs_support=false": {
+      "model": "wok_and_bowl:block/wok"
+    },
+    "facing=east,has_steamer=false,heat=false,needs_support=false": {
+      "model": "wok_and_bowl:block/wok",
+      "y": 90
+    },
+    "facing=south,has_steamer=false,heat=false,needs_support=false": {
+      "model": "wok_and_bowl:block/wok",
+      "y": 180
+    },
+    "facing=west,has_steamer=false,heat=false,needs_support=false": {
+      "model": "wok_and_bowl:block/wok",
+      "y": 270
+    },
+    "facing=north,has_steamer=false,heat=false,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_with_support"
+    },
+    "facing=east,has_steamer=false,heat=false,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_with_support",
+      "y": 90
+    },
+    "facing=south,has_steamer=false,heat=false,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_with_support",
+      "y": 180
+    },
+    "facing=west,has_steamer=false,heat=false,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_with_support",
+      "y": 270
+    },
+    "facing=north,has_steamer=true,heat=false,needs_support=false": {
+      "model": "wok_and_bowl:block/wok_steamer"
+    },
+    "facing=east,has_steamer=true,heat=false,needs_support=false": {
+      "model": "wok_and_bowl:block/wok_steamer",
+      "y": 90
+    },
+    "facing=south,has_steamer=true,heat=false,needs_support=false": {
+      "model": "wok_and_bowl:block/wok_steamer",
+      "y": 180
+    },
+    "facing=west,has_steamer=true,heat=false,needs_support=false": {
+      "model": "wok_and_bowl:block/wok_steamer",
+      "y": 270
+    },
+    "facing=north,has_steamer=true,heat=false,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_steamer_with_support"
+    },
+    "facing=east,has_steamer=true,heat=false,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_steamer_with_support",
+      "y": 90
+    },
+    "facing=south,has_steamer=true,heat=false,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_steamer_with_support",
+      "y": 180
+    },
+    "facing=west,has_steamer=true,heat=false,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_steamer_with_support",
+      "y": 270
+    },
+    "facing=north,has_steamer=false,heat=true,needs_support=false": {
+      "model": "wok_and_bowl:block/wok"
+    },
+    "facing=east,has_steamer=false,heat=true,needs_support=false": {
+      "model": "wok_and_bowl:block/wok",
+      "y": 90
+    },
+    "facing=south,has_steamer=false,heat=true,needs_support=false": {
+      "model": "wok_and_bowl:block/wok",
+      "y": 180
+    },
+    "facing=west,has_steamer=false,heat=true,needs_support=false": {
+      "model": "wok_and_bowl:block/wok",
+      "y": 270
+    },
+    "facing=north,has_steamer=false,heat=true,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_with_support"
+    },
+    "facing=east,has_steamer=false,heat=true,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_with_support",
+      "y": 90
+    },
+    "facing=south,has_steamer=false,heat=true,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_with_support",
+      "y": 180
+    },
+    "facing=west,has_steamer=false,heat=true,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_with_support",
+      "y": 270
+    },
+    "facing=north,has_steamer=true,heat=true,needs_support=false": {
+      "model": "wok_and_bowl:block/wok_steamer"
+    },
+    "facing=east,has_steamer=true,heat=true,needs_support=false": {
+      "model": "wok_and_bowl:block/wok_steamer",
+      "y": 90
+    },
+    "facing=south,has_steamer=true,heat=true,needs_support=false": {
+      "model": "wok_and_bowl:block/wok_steamer",
+      "y": 180
+    },
+    "facing=west,has_steamer=true,heat=true,needs_support=false": {
+      "model": "wok_and_bowl:block/wok_steamer",
+      "y": 270
+    },
+    "facing=north,has_steamer=true,heat=true,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_steamer_with_support"
+    },
+    "facing=east,has_steamer=true,heat=true,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_steamer_with_support",
+      "y": 90
+    },
+    "facing=south,has_steamer=true,heat=true,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_steamer_with_support",
+      "y": 180
+    },
+    "facing=west,has_steamer=true,heat=true,needs_support=true": {
+      "model": "wok_and_bowl:block/wok_steamer_with_support",
+      "y": 270
+    }
+  }
+}

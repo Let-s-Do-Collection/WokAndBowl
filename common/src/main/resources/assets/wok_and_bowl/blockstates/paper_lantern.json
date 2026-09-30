@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "hanging=false,lit=false": {
+      "model": "wok_and_bowl:block/paper_lantern"
+    },
+    "hanging=false,lit=true": {
+      "model": "wok_and_bowl:block/paper_lantern_lit"
+    },
+    "hanging=true,lit=false": {
+      "model": "wok_and_bowl:block/paper_lantern_hanging"
+    },
+    "hanging=true,lit=true": {
+      "model": "wok_and_bowl:block/paper_lantern_hanging_lit"
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "wok_and_bowl:rice"
+    }
+  },
+  "result": {
+    "id": "wok_and_bowl:rice_bag",
+    "count": 1
+  }
+}

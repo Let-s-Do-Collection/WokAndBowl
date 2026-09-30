@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "group": "floor_cushion_dye",
+  "ingredients": [
+    {
+      "item": "wok_and_bowl:floor_cushion"
+    },
+    {
+      "item": "minecraft:green_dye"
+    }
+  ],
+  "result": {
+    "id": "wok_and_bowl:floor_cushion",
+    "count": 1,
+    "components": {
+      "minecraft:block_state": {
+        "color": "green"
+      }
+    }
+  }
+}

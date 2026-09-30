@@ -1,0 +1,24 @@
+{
+  "type": "wok_and_bowl:wok",
+  "ingredients": [
+    {
+      "item": "farm_and_charm:raw_pasta"
+    },
+    {
+      "item": "farm_and_charm:lamb_ham"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "farm_and_charm:tomato"
+    },
+    {
+      "item": "minecraft:sweet_berries"
+    }
+  ],
+  "result": {
+    "id": "wok_and_bowl:sweet_sour_lamb",
+    "count": 1
+  }
+}

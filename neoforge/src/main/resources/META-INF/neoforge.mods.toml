@@ -4,10 +4,10 @@ license = "Custom"
 issueTrackerURL = "https://github.com/satisfyu/Let-s-Do-Hub"
 
 [[mixins]]
-config = "wokandbowl-common.mixins.json"
+config = "wok_and_bowl-common.mixins.json"
 
 [[mods]]
-modId = "wokandbowl"
+modId = "wok_and_bowl"
 version = "${version}"
 displayName = "[Let's Do] Wok & Bowl"
 authors = "satisfy"
@@ -16,28 +16,28 @@ Fire up the wok – combine fresh ingredients, discover new dishes, and find the
 '''
 logoFile = "pack.png"
 
-[[dependencies.wokandbowl]]
+[[dependencies.wok_and_bowl]]
 modId = "neoforge"
 type = "required"
 versionRange = "[21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.wokandbowl]]
+[[dependencies.wok_and_bowl]]
 modId = "minecraft"
 type = "required"
 versionRange = "[1.21.1,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.wokandbowl]]
+[[dependencies.wok_and_bowl]]
 modId = "architectury"
 type = "required"
 versionRange = "[13.0.8,)"
 ordering = "AFTER"
 side = "BOTH"
 
-[[dependencies.wokandbowl]]
+[[dependencies.wok_and_bowl]]
 modId = "farm_and_charm"
 type = "required"
 versionRange = "[1.1.25,)"

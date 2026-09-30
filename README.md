@@ -1,4 +1,4 @@
-![Wok & Bowl](https://lets-do.ch/assets/mod-logos/wokandbowl.webp)
+![Wok & Bowl](https://lets-do.ch/assets/mod-logos/wok_and_bowl.webp)
 
 <br>
 
@@ -55,7 +55,8 @@ Good food starts with good preparation.
 - Toss the wok right when it calls for it and finish every dish with Fermented Sauce  
 - Cook hotter on a stove or soul campfire – faster, but less forgiving  
 - Improvise with any food and end up with a Mixed Stir-Fry  
-- Serve at the right moment for up to three flames – or end up with Burnt Rice  
+- Flambé with flint and steel for an extra flame – but never while the wok calls for a toss  
+- Serve at the right moment for up to three flames – or end up with a Burnt Wok Dish  
 - Place a Bamboo Steamer on your wok to steam rice, dumplings and buns  
 
 <br>

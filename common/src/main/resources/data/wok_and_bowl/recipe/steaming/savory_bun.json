@@ -1,0 +1,11 @@
+{
+  "type": "wok_and_bowl:steaming",
+  "ingredient": {
+    "item": "wok_and_bowl:raw_savory_bun"
+  },
+  "result": {
+    "id": "wok_and_bowl:savory_bun",
+    "count": 1
+  },
+  "steaming_time": 300
+}

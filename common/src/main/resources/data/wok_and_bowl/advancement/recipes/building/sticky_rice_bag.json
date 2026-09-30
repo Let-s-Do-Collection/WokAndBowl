@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "wok_and_bowl:sticky_rice_bag"
+      }
+    },
+    "has_sticky_rice": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:sticky_rice"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sticky_rice"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "wok_and_bowl:sticky_rice_bag"
+    ]
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "parent": "wok_and_bowl:main/rattan_cane",
+  "display": {
+    "icon": {
+      "id": "wok_and_bowl:tatami_mat"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.well_rested"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.well_rested.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "ate_on_tatami": {
+      "trigger": "wok_and_bowl:ate_on_tatami"
+    }
+  },
+  "requirements": [
+    [
+      "ate_on_tatami"
+    ]
+  ],
+  "rewards": {
+    "experience": 25
+  }
+}

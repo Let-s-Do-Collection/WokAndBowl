@@ -1,0 +1,34 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "paper_lantern",
+  "pattern": [
+    " S ",
+    "PDP",
+    "PTP"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:string"
+    },
+    "P": {
+      "item": "minecraft:paper"
+    },
+    "D": {
+      "item": "minecraft:black_dye"
+    },
+    "T": {
+      "item": "minecraft:torch"
+    }
+  },
+  "result": {
+    "id": "wok_and_bowl:paper_lantern",
+    "count": 1,
+    "components": {
+      "minecraft:block_state": {
+        "color": "black",
+        "dyed": "true"
+      }
+    }
+  }
+}

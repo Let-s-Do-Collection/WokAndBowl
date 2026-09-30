@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "wokandbowl:rice_bag",
-    "wokandbowl:sticky_rice_bag"
+    "wok_and_bowl:rice_bag",
+    "wok_and_bowl:sticky_rice_bag"
   ]
 }

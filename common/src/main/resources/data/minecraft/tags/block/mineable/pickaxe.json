@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "wokandbowl:wok",
-    "wokandbowl:ingredient_cubby"
+    "wok_and_bowl:wok",
+    "wok_and_bowl:ingredient_cubby"
   ]
 }

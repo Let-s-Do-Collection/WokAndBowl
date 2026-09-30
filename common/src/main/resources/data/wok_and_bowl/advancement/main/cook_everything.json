@@ -1,0 +1,277 @@
+{
+  "parent": "wok_and_bowl:main/first_wok_dish",
+  "display": {
+    "icon": {
+      "id": "wok_and_bowl:noodle_bowl"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.cook_everything"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.cook_everything.desc"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "wok_and_bowl:simple_fried_rice": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:simple_fried_rice"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:egg_fried_rice": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:egg_fried_rice"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:vegetable_fried_rice": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:vegetable_fried_rice"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:beef_stir_fry": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:beef_stir_fry"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:fish_stir_fry": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:fish_stir_fry"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:stir_fried_noodles": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:stir_fried_noodles"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:noodle_bowl": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:noodle_bowl"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:pork_dumplings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:pork_dumplings"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:vegetable_dumplings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:vegetable_dumplings"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:savory_bun": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:savory_bun"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:sweet_bun": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:sweet_bun"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:seaweed_salmon_rolls": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:seaweed_salmon_rolls"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:rice_ball": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:rice_ball"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:sweet_rice_cake": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:sweet_rice_cake"
+            ]
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:sweet_sour_lamb": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:sweet_sour_lamb"
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:pork_noodles": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:pork_noodles"
+          }
+        ]
+      }
+    },
+    "wok_and_bowl:big_plate_chicken": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:big_plate_chicken"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wok_and_bowl:simple_fried_rice"
+    ],
+    [
+      "wok_and_bowl:egg_fried_rice"
+    ],
+    [
+      "wok_and_bowl:vegetable_fried_rice"
+    ],
+    [
+      "wok_and_bowl:beef_stir_fry"
+    ],
+    [
+      "wok_and_bowl:fish_stir_fry"
+    ],
+    [
+      "wok_and_bowl:stir_fried_noodles"
+    ],
+    [
+      "wok_and_bowl:noodle_bowl"
+    ],
+    [
+      "wok_and_bowl:pork_dumplings"
+    ],
+    [
+      "wok_and_bowl:vegetable_dumplings"
+    ],
+    [
+      "wok_and_bowl:savory_bun"
+    ],
+    [
+      "wok_and_bowl:sweet_bun"
+    ],
+    [
+      "wok_and_bowl:seaweed_salmon_rolls"
+    ],
+    [
+      "wok_and_bowl:rice_ball"
+    ],
+    [
+      "wok_and_bowl:sweet_rice_cake"
+    ],
+    [
+      "wok_and_bowl:sweet_sour_lamb"
+    ],
+    [
+      "wok_and_bowl:pork_noodles"
+    ],
+    [
+      "wok_and_bowl:big_plate_chicken"
+    ]
+  ],
+  "rewards": {
+    "experience": 800,
+    "loot": [
+      "wok_and_bowl:advancements/completionist"
+    ]
+  }
+}

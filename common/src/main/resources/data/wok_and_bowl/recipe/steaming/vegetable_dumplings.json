@@ -1,0 +1,11 @@
+{
+  "type": "wok_and_bowl:steaming",
+  "ingredient": {
+    "item": "wok_and_bowl:raw_vegetable_dumplings"
+  },
+  "result": {
+    "id": "wok_and_bowl:vegetable_dumplings",
+    "count": 1
+  },
+  "steaming_time": 300
+}

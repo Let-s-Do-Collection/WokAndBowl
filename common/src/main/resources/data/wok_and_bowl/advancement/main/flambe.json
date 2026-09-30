@@ -1,0 +1,31 @@
+{
+  "parent": "wok_and_bowl:main/first_wok_dish",
+  "display": {
+    "icon": {
+      "id": "minecraft:flint_and_steel"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.flambe"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.flambe.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "flambe": {
+      "trigger": "wok_and_bowl:flambe"
+    }
+  },
+  "requirements": [
+    [
+      "flambe"
+    ]
+  ],
+  "rewards": {
+    "experience": 15
+  }
+}

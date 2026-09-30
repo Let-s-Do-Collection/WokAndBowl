@@ -1,12 +1,13 @@
 {
   "replace": false,
   "values": [
-    "wokandbowl:cutting_board",
-    "wokandbowl:rattan_basket",
-    "wokandbowl:rattan_table",
-    "wokandbowl:rattan_branch",
-    "wokandbowl:rattan_block",
-    "wokandbowl:rattan_mat",
-    "wokandbowl:paper_lantern"
+    "wok_and_bowl:cutting_board",
+    "wok_and_bowl:rattan_basket",
+    "wok_and_bowl:rattan_table",
+    "wok_and_bowl:rattan_branch",
+    "wok_and_bowl:rattan_block",
+    "wok_and_bowl:rattan_mat",
+    "wok_and_bowl:paper_lantern",
+    "wok_and_bowl:rattan_chair"
   ]
 }

@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "wokandbowl:broth",
-    "wokandbowl:noodle_bowl"
+    "wok_and_bowl:broth",
+    "wok_and_bowl:noodle_bowl"
   ]
 }

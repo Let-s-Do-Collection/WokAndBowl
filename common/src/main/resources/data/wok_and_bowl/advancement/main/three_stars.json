@@ -1,0 +1,41 @@
+{
+  "parent": "wok_and_bowl:main/first_wok_dish",
+  "display": {
+    "icon": {
+      "id": "wok_and_bowl:noodle_bowl"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.three_stars"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.three_stars.desc"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "dish": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "#wok_and_bowl:wok_dishes",
+            "components": {
+              "wok_and_bowl:quality": 3
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "dish"
+    ]
+  ],
+  "rewards": {
+    "experience": 50
+  }
+}

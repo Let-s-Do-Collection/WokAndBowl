@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "wokandbowl:tatami_block",
-    "wokandbowl:tatami_mat"
+    "wok_and_bowl:tatami_block",
+    "wok_and_bowl:tatami_mat"
   ]
 }

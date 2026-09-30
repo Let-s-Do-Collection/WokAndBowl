@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "wok_and_bowl:item/simple_fried_rice"
+  }
+}

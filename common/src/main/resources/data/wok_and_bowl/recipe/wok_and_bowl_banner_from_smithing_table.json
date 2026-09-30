@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:smithing_transform",
+  "template": {
+    "item": "minecraft:netherite_upgrade_smithing_template"
+  },
+  "base": {
+    "item": "wok_and_bowl:wok_and_bowl_banner"
+  },
+  "addition": {
+    "item": "minecraft:netherite_ingot"
+  },
+  "result": {
+    "id": "wok_and_bowl:wok_and_bowl_banner",
+    "count": 2
+  }
+}

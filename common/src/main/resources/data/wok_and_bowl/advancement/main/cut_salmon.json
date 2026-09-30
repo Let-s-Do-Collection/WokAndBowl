@@ -1,0 +1,35 @@
+{
+  "parent": "wok_and_bowl:main/get_cleaver",
+  "display": {
+    "icon": {
+      "id": "wok_and_bowl:cut_salmon"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.cut_salmon"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.cut_salmon.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "cut_salmon": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:cut_salmon"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "cut_salmon"
+    ]
+  ]
+}

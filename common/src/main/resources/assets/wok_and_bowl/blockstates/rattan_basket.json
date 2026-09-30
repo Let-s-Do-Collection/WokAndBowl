@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "wok_and_bowl:block/rattan_basket"
+    },
+    "facing=east": {
+      "model": "wok_and_bowl:block/rattan_basket",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "wok_and_bowl:block/rattan_basket",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "wok_and_bowl:block/rattan_basket",
+      "y": 270
+    }
+  }
+}

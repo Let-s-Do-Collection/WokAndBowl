@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "floor_cushion",
+  "pattern": [
+    "SWS"
+  ],
+  "key": {
+    "S": {
+      "item": "minecraft:string"
+    },
+    "W": {
+      "item": "minecraft:pink_wool"
+    }
+  },
+  "result": {
+    "id": "wok_and_bowl:floor_cushion",
+    "count": 2,
+    "components": {
+      "minecraft:block_state": {
+        "color": "pink"
+      }
+    }
+  }
+}

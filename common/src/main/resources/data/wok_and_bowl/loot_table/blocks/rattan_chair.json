@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "wok_and_bowl:rattan_chair",
+          "conditions": [
+            {
+              "condition": "minecraft:block_state_property",
+              "block": "wok_and_bowl:rattan_chair",
+              "properties": {
+                "half": "lower"
+              }
+            }
+          ]
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ]
+    }
+  ],
+  "random_sequence": "wok_and_bowl:blocks/rattan_chair"
+}

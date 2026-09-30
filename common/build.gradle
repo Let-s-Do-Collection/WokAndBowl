@@ -3,7 +3,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/wokandbowl.accesswidener")
+    accessWidenerPath = file("src/main/resources/wok_and_bowl.accesswidener")
 }
 
 dependencies {

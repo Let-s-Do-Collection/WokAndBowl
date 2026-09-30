@@ -7,7 +7,7 @@ architectury {
     fabric()
 }
 
-def jarFileName = 'letsdo-wokandbowl-fabric'
+def jarFileName = 'letsdo-wok_and_bowl-fabric'
 
 base {
     archivesName = jarFileName

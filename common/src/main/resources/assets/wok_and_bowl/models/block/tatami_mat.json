@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/carpet",
+  "textures": {
+    "wool": "wok_and_bowl:block/tatami_mat"
+  }
+}

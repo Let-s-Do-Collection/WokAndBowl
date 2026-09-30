@@ -1,0 +1,18 @@
+{
+  "type": "wok_and_bowl:wok",
+  "ingredients": [
+    {
+      "item": "farm_and_charm:raw_pasta"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "farm_and_charm:lettuce"
+    }
+  ],
+  "result": {
+    "id": "wok_and_bowl:stir_fried_noodles",
+    "count": 1
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "wok_and_bowl:paper_lantern/dye_orange"
+      }
+    },
+    "has_paper_lantern": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:paper_lantern"
+          }
+        ]
+      }
+    },
+    "has_orange_dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:orange_dye"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_paper_lantern",
+      "has_orange_dye"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "wok_and_bowl:paper_lantern/dye_orange"
+    ]
+  }
+}

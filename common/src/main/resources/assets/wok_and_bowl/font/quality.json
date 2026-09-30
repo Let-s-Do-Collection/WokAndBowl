@@ -1,0 +1,31 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "wok_and_bowl:font/quality_full.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        ""
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "wok_and_bowl:font/quality_empty.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        ""
+      ]
+    },
+    {
+      "type": "bitmap",
+      "file": "wok_and_bowl:font/quality_soul.png",
+      "ascent": 7,
+      "height": 8,
+      "chars": [
+        ""
+      ]
+    }
+  ]
+}

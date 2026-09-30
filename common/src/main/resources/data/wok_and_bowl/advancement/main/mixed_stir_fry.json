@@ -1,0 +1,38 @@
+{
+  "parent": "wok_and_bowl:main/first_wok_dish",
+  "display": {
+    "icon": {
+      "id": "wok_and_bowl:mixed_stir_fry"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.mixed_stir_fry"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.mixed_stir_fry.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": true
+  },
+  "criteria": {
+    "dish": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:mixed_stir_fry"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "dish"
+    ]
+  ],
+  "rewards": {
+    "experience": 10
+  }
+}

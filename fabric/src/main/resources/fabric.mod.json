@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "wokandbowl",
+  "id": "wok_and_bowl",
   "version": "${version}",
   "name": "[Let's Do] Wok & Bowl",
   "description": "Fire up the wok – combine fresh ingredients, discover new dishes, and find the perfect moment to serve!",
@@ -16,23 +16,23 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.satisfy.wokandbowl.fabric.WokAndBowlFabric"
+      "net.satisfy.wok_and_bowl.fabric.WokAndBowlFabric"
     ],
     "client": [
-      "net.satisfy.wokandbowl.fabric.client.WokAndBowlClientFabric"
+      "net.satisfy.wok_and_bowl.fabric.client.WokAndBowlClientFabric"
     ],
     "modmenu": [
-      "net.satisfy.wokandbowl.fabric.core.config.ModMenu"
+      "net.satisfy.wok_and_bowl.fabric.core.config.ModMenu"
     ],
     "rei_client": [
-      "net.satisfy.wokandbowl.compat.rei.WokAndBowlREIClientPlugin"
+      "net.satisfy.wok_and_bowl.compat.rei.WokAndBowlREIClientPlugin"
     ],
     "jei_mod_plugin": [
-      "net.satisfy.wokandbowl.compat.jei.WokAndBowlJEIPlugin"
+      "net.satisfy.wok_and_bowl.compat.jei.WokAndBowlJEIPlugin"
     ]
   },
   "mixins": [
-    "wokandbowl-common.mixins.json"
+    "wok_and_bowl-common.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.16.14",

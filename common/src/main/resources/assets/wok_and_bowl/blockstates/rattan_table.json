@@ -1,0 +1,124 @@
+{
+  "variants": {
+    "facing=north,type=none,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_single"
+    },
+    "facing=north,type=none,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_single"
+    },
+    "facing=north,type=left,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_side"
+    },
+    "facing=north,type=left,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_side"
+    },
+    "facing=north,type=right,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 180
+    },
+    "facing=north,type=right,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 180
+    },
+    "facing=north,type=middle,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_middle"
+    },
+    "facing=north,type=middle,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_middle"
+    },
+    "facing=east,type=none,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_single",
+      "y": 90
+    },
+    "facing=east,type=none,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_single",
+      "y": 90
+    },
+    "facing=east,type=left,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 90
+    },
+    "facing=east,type=left,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 90
+    },
+    "facing=east,type=right,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 270
+    },
+    "facing=east,type=right,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 270
+    },
+    "facing=east,type=middle,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_middle",
+      "y": 90
+    },
+    "facing=east,type=middle,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_middle",
+      "y": 90
+    },
+    "facing=south,type=none,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_single",
+      "y": 180
+    },
+    "facing=south,type=none,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_single",
+      "y": 180
+    },
+    "facing=south,type=left,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 180
+    },
+    "facing=south,type=left,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 180
+    },
+    "facing=south,type=right,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_side"
+    },
+    "facing=south,type=right,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_side"
+    },
+    "facing=south,type=middle,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_middle",
+      "y": 180
+    },
+    "facing=south,type=middle,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_middle",
+      "y": 180
+    },
+    "facing=west,type=none,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_single",
+      "y": 270
+    },
+    "facing=west,type=none,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_single",
+      "y": 270
+    },
+    "facing=west,type=left,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 270
+    },
+    "facing=west,type=left,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 270
+    },
+    "facing=west,type=right,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 90
+    },
+    "facing=west,type=right,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_side",
+      "y": 90
+    },
+    "facing=west,type=middle,waterlogged=false": {
+      "model": "wok_and_bowl:block/rattan_table_middle",
+      "y": 270
+    },
+    "facing=west,type=middle,waterlogged=true": {
+      "model": "wok_and_bowl:block/rattan_table_middle",
+      "y": 270
+    }
+  }
+}

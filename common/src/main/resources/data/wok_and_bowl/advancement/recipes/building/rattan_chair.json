@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "wok_and_bowl:rattan_chair"
+      }
+    },
+    "has_rattan_block": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:rattan_block"
+          }
+        ]
+      }
+    },
+    "has_rattan_cane": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:rattan_cane"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rattan_block",
+      "has_rattan_cane"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "wok_and_bowl:rattan_chair"
+    ]
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "type": "wok_and_bowl:cutting_board_assembly",
+  "ingredients": [
+    {
+      "item": "wok_and_bowl:steamed_sticky_rice"
+    },
+    {
+      "item": "minecraft:sugar"
+    }
+  ],
+  "result": {
+    "id": "wok_and_bowl:sweet_rice_cake",
+    "count": 2
+  }
+}

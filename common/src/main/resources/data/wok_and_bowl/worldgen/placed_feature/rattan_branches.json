@@ -1,0 +1,15 @@
+{
+  "feature": "wok_and_bowl:rattan_branches",
+  "placement": [
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:heightmap",
+      "heightmap": "MOTION_BLOCKING_NO_LEAVES"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

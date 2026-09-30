@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "wok_and_bowl:rice_bag"
+    }
+  ],
+  "result": {
+    "id": "wok_and_bowl:rice",
+    "count": 9
+  }
+}

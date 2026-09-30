@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "waterlogged=false": {
+      "model": "wok_and_bowl:block/rice_paddy"
+    },
+    "waterlogged=true": {
+      "model": "wok_and_bowl:block/rice_paddy"
+    }
+  }
+}

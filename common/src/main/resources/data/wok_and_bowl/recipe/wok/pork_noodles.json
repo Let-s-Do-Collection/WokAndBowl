@@ -1,0 +1,24 @@
+{
+  "type": "wok_and_bowl:wok",
+  "ingredients": [
+    {
+      "item": "farm_and_charm:raw_pasta"
+    },
+    {
+      "item": "farm_and_charm:onion"
+    },
+    {
+      "item": "wok_and_bowl:chopped_pork"
+    },
+    {
+      "tag": "c:crops/cabbage"
+    },
+    {
+      "tag": "wok_and_bowl:mushrooms"
+    }
+  ],
+  "result": {
+    "id": "wok_and_bowl:pork_noodles",
+    "count": 1
+  }
+}

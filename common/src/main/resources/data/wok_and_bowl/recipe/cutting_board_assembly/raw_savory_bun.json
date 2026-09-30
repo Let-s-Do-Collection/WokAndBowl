@@ -1,0 +1,15 @@
+{
+  "type": "wok_and_bowl:cutting_board_assembly",
+  "ingredients": [
+    {
+      "item": "farm_and_charm:dough"
+    },
+    {
+      "tag": "wok_and_bowl:savory_fillings"
+    }
+  ],
+  "result": {
+    "id": "wok_and_bowl:raw_savory_bun",
+    "count": 1
+  }
+}

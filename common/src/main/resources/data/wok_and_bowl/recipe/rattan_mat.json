@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "RR"
+  ],
+  "key": {
+    "R": {
+      "item": "wok_and_bowl:rattan_block"
+    }
+  },
+  "result": {
+    "id": "wok_and_bowl:rattan_mat",
+    "count": 6
+  }
+}

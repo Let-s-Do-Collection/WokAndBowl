@@ -1,0 +1,37 @@
+{
+  "display": {
+    "icon": {
+      "id": "wok_and_bowl:wok"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.root"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.root.desc"
+    },
+    "background": "minecraft:textures/block/bamboo_block.png",
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "rice": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "wok_and_bowl:rice"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "rice"
+    ]
+  ]
+}

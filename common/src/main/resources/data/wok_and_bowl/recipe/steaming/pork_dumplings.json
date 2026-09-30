@@ -1,0 +1,11 @@
+{
+  "type": "wok_and_bowl:steaming",
+  "ingredient": {
+    "item": "wok_and_bowl:raw_pork_dumplings"
+  },
+  "result": {
+    "id": "wok_and_bowl:pork_dumplings",
+    "count": 1
+  },
+  "steaming_time": 300
+}

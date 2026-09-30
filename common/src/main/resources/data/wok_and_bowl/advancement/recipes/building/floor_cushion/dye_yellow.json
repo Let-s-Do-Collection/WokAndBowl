@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "wok_and_bowl:floor_cushion/dye_yellow"
+      }
+    },
+    "has_floor_cushion": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:floor_cushion"
+          }
+        ]
+      }
+    },
+    "has_yellow_dye": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:yellow_dye"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_floor_cushion",
+      "has_yellow_dye"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "wok_and_bowl:floor_cushion/dye_yellow"
+    ]
+  }
+}

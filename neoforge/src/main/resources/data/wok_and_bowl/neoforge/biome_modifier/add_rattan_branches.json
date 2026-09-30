@@ -1,0 +1,6 @@
+{
+  "type": "neoforge:add_features",
+  "biomes": "#wok_and_bowl:spawns_rattan",
+  "features": "wok_and_bowl:rattan_branches",
+  "step": "vegetal_decoration"
+}

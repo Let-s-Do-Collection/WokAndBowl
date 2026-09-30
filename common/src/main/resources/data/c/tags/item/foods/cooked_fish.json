@@ -1,7 +1,7 @@
 {
   "replace": false,
   "values": [
-    "wokandbowl:fish_stir_fry",
-    "wokandbowl:seaweed_salmon_rolls"
+    "wok_and_bowl:fish_stir_fry",
+    "wok_and_bowl:seaweed_salmon_rolls"
   ]
 }

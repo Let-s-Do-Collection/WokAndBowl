@@ -1,0 +1,71 @@
+{
+	"format_version": "26.3",
+	"credit": "Made by Satisfy",
+	"ambientocclusion": false,
+	"textures": {
+		"0": "wok_and_bowl:block/rattan_table_top_middle",
+		"1": "wok_and_bowl:block/rattan_table_side",
+		"particle": "wok_and_bowl:block/rattan_table_top_middle"
+	},
+	"elements": [
+		{
+			"from": [
+				0,
+				14,
+				0
+			],
+			"to": [
+				16,
+				16,
+				16
+			],
+			"rotation": {
+				"angle": 0,
+				"axis": "y",
+				"origin": [
+					0,
+					1,
+					0
+				]
+			},
+			"faces": {
+				"north": {
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					],
+					"texture": "#1"
+				},
+				"south": {
+					"uv": [
+						0,
+						0,
+						16,
+						2
+					],
+					"texture": "#1"
+				},
+				"up": {
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"texture": "#0"
+				},
+				"down": {
+					"uv": [
+						0,
+						0,
+						16,
+						16
+					],
+					"texture": "#0"
+				}
+			}
+		}
+	]
+}

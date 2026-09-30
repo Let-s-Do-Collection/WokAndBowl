@@ -1,0 +1,68 @@
+{
+  "parent": "wok_and_bowl:main/place_wok",
+  "display": {
+    "icon": {
+      "id": "wok_and_bowl:pork_dumplings"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.steamed_to_perfection"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.steamed_to_perfection.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "pork_dumplings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:pork_dumplings"
+          }
+        ]
+      }
+    },
+    "vegetable_dumplings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:vegetable_dumplings"
+          }
+        ]
+      }
+    },
+    "savory_bun": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:savory_bun"
+          }
+        ]
+      }
+    },
+    "sweet_bun": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": "wok_and_bowl:sweet_bun"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "pork_dumplings",
+      "vegetable_dumplings",
+      "savory_bun",
+      "sweet_bun"
+    ]
+  ]
+}
