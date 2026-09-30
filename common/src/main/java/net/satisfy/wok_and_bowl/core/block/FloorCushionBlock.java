@@ -29,7 +29,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.satisfy.farm_and_charm.core.util.GeneralUtil;
-import net.satisfy.wok_and_bowl.core.registry.ParticleTypeRegistry;
+import net.satisfy.farm_and_charm.core.registry.ParticleTypeRegistry;
 import net.satisfy.wok_and_bowl.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -60,7 +60,7 @@ public class FloorCushionBlock extends Block {
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
-        if (fallDistance > FEATHER_FALL_DISTANCE && level instanceof ServerLevel serverLevel) {
+        if (fallDistance > FEATHER_FALL_DISTANCE && PlatformHelper.isCushionFeathersEnabled() && level instanceof ServerLevel serverLevel) {
             ColorParticleOption feather = ColorParticleOption.create(ParticleTypeRegistry.FEATHER.get(), FastColor.ARGB32.opaque(state.getValue(COLOR).getTextureDiffuseColor()));
             serverLevel.sendParticles(feather, pos.getX() + 0.5, pos.getY() + 0.3, pos.getZ() + 0.5, FEATHERS, 0.3, 0.05, 0.3, 0.04);
         }

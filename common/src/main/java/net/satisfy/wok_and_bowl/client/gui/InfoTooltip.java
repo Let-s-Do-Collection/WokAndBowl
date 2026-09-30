@@ -19,7 +19,7 @@ public final class InfoTooltip {
     private static final int TEXT_COLOR = 0xFFD966;
     private static final int KEY_COLOR = 0xFFD700;
     private static final Set<String> PLACEABLE = Set.of("wok", "rattan_branch");
-    private static final Map<String, Integer> DETAILED = Map.of("cutting_board", 4, "ingredient_cubby", 3, "rattan_basket", 2);
+    private static final Map<String, Integer> DETAILED = Map.of("ingredient_cubby", 3, "rattan_basket", 2);
     private static final String BAMBOO_STEAMER = "bamboo_steamer";
 
     private InfoTooltip() {

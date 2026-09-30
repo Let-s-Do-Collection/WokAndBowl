@@ -40,6 +40,6 @@
     "minecraft": ">=1.21.1",
     "architectury": ">=13.0.8",
     "cloth-config": "*",
-    "farm_and_charm": ">=1.1.25"
+    "farm_and_charm": ">=1.1.27"
   }
 }

@@ -135,26 +135,6 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static int getIronCleaverChops() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static int getDiamondCleaverChops() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static int getNetheriteCleaverChops() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static boolean isCleaverHeadDropsEnabled() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
     public static float getSteamingSpeed() {
         throw new AssertionError();
     }
@@ -230,7 +210,7 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static int getWokDishCount() {
+    public static int getWokDishCount(int quality, boolean soulFire) {
         throw new AssertionError();
     }
 }

@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
-      "model": "wok_and_bowl:block/wild_rice"
+    "half=lower": {
+      "model": "wok_and_bowl:block/wild_rice_bottom"
+    },
+    "half=upper": {
+      "model": "wok_and_bowl:block/wild_rice_top"
     }
   }
 }

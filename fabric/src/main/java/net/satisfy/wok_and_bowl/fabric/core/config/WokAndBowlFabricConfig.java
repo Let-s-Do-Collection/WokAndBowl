@@ -10,7 +10,7 @@ import net.satisfy.wok_and_bowl.core.util.WokFood;
 public class WokAndBowlFabricConfig implements ConfigData {
     @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 600)
-    public int wokBaseCookingSeconds = 20;
+    public int wokBaseCookingSeconds = 16;
 
     @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 0, max = 60)
@@ -18,7 +18,7 @@ public class WokAndBowlFabricConfig implements ConfigData {
 
     @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 600)
-    public int wokMaxCookingSeconds = 24;
+    public int wokMaxCookingSeconds = 20;
 
     @ConfigEntry.Category("wok")
     public boolean wokHeatRequired = true;
@@ -34,7 +34,7 @@ public class WokAndBowlFabricConfig implements ConfigData {
     @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 60)
     @ConfigEntry.Gui.Tooltip
-    public int wokTossIntervalSeconds = 6;
+    public int wokTossIntervalSeconds = 5;
 
     @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
@@ -47,9 +47,34 @@ public class WokAndBowlFabricConfig implements ConfigData {
     public int wokServeWindowSeconds = 2;
 
     @ConfigEntry.Category("wok")
-    @ConfigEntry.BoundedDiscrete(min = 1, max = 16)
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
     @ConfigEntry.Gui.Tooltip
-    public int wokDishCount = 4;
+    public int wokDishesOneFlame = 1;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
+    @ConfigEntry.Gui.Tooltip
+    public int wokDishesTwoFlames = 2;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
+    @ConfigEntry.Gui.Tooltip
+    public int wokDishesThreeFlames = 4;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
+    @ConfigEntry.Gui.Tooltip
+    public int wokSoulFireDishesOneFlame = 2;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
+    @ConfigEntry.Gui.Tooltip
+    public int wokSoulFireDishesTwoFlames = 3;
+
+    @ConfigEntry.Category("wok")
+    @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
+    @ConfigEntry.Gui.Tooltip
+    public int wokSoulFireDishesThreeFlames = 6;
 
     @ConfigEntry.Category("wok")
     @ConfigEntry.BoundedDiscrete(min = 1, max = 120)
@@ -139,25 +164,6 @@ public class WokAndBowlFabricConfig implements ConfigData {
     @ConfigEntry.BoundedDiscrete(min = 0, max = 200)
     @ConfigEntry.Gui.Tooltip
     public int tatamiRestedFlameBonus = 50;
-
-    @ConfigEntry.Category("gameplay")
-    @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
-    @ConfigEntry.Gui.Tooltip
-    public int ironCleaverChops = 5;
-
-    @ConfigEntry.Category("gameplay")
-    @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
-    @ConfigEntry.Gui.Tooltip
-    public int diamondCleaverChops = 3;
-
-    @ConfigEntry.Category("gameplay")
-    @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
-    @ConfigEntry.Gui.Tooltip
-    public int netheriteCleaverChops = 1;
-
-    @ConfigEntry.Category("gameplay")
-    @ConfigEntry.Gui.Tooltip
-    public boolean cleaverHeadDrops = true;
 
     @ConfigEntry.Category("gameplay")
     @ConfigEntry.BoundedDiscrete(min = 0, max = 32000)

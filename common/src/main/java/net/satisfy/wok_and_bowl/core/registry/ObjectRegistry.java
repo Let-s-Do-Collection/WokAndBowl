@@ -25,7 +25,6 @@ import net.satisfy.wok_and_bowl.WokAndBowl;
 import net.satisfy.wok_and_bowl.core.block.RattanBasketBlock;
 import net.satisfy.wok_and_bowl.core.block.CompletionistBannerBlock;
 import net.satisfy.wok_and_bowl.core.block.CompletionistWallBannerBlock;
-import net.satisfy.wok_and_bowl.core.block.CuttingBoardBlock;
 import net.satisfy.wok_and_bowl.core.block.FloorCushionBlock;
 import net.satisfy.wok_and_bowl.core.block.IngredientCubbyBlock;
 import net.satisfy.wok_and_bowl.core.block.PaperLanternBlock;
@@ -40,7 +39,6 @@ import net.satisfy.wok_and_bowl.core.block.crops.RiceCropBlock;
 import net.satisfy.wok_and_bowl.core.block.crops.StickyRiceCropBlock;
 import net.satisfy.wok_and_bowl.core.item.BambooSteamerItem;
 import net.satisfy.wok_and_bowl.core.item.BurntRiceItem;
-import net.satisfy.wok_and_bowl.core.item.CleaverItem;
 import net.satisfy.wok_and_bowl.core.item.WokAndBowlFoodItem;
 import net.satisfy.wok_and_bowl.core.item.WokDishItem;
 import net.satisfy.wok_and_bowl.core.util.WokFood;
@@ -51,15 +49,12 @@ import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
 public class ObjectRegistry {
-    private static final float CLEAVER_DAMAGE = 4.0F;
-    private static final float CLEAVER_SPEED = -2.8F;
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(WokAndBowl.MOD_ID, Registries.ITEM);
     public static final Registrar<Item> ITEM_REGISTRAR = ITEMS.getRegistrar();
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(WokAndBowl.MOD_ID, Registries.BLOCK);
     public static final Registrar<Block> BLOCK_REGISTRAR = BLOCKS.getRegistrar();
 
     public static final RegistrySupplier<Block> WOK = registerWithItem("wok", () -> new WokBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.IRON_BLOCK).strength(2.0F, 6.0F).sound(SoundType.LANTERN).noOcclusion().lightLevel(state -> state.getValue(WokBlock.FLARE) ? WokBlock.FLARE_LIGHT : 0)));
-    public static final RegistrySupplier<Block> CUTTING_BOARD = registerWithItem("cutting_board", () -> new CuttingBoardBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_PLANKS).strength(1.0F).sound(SoundType.WOOD).noOcclusion()));
     public static final RegistrySupplier<Block> RATTAN_BASKET = registerWithItem("rattan_basket", () -> new RattanBasketBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS).strength(1.5F).sound(SoundType.BAMBOO_WOOD).noOcclusion()));
 
     public static final RegistrySupplier<Block> INGREDIENT_CUBBY = registerWithItem("ingredient_cubby", () -> new IngredientCubbyBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS).noOcclusion()));
@@ -85,9 +80,6 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> RICE_CROP = registerWithoutItem("rice_crop", () -> new RiceCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
     public static final RegistrySupplier<Block> STICKY_RICE_CROP = registerWithoutItem("sticky_rice_crop", () -> new StickyRiceCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
 
-    public static final RegistrySupplier<Item> IRON_CLEAVER = registerItem("iron_cleaver", () -> new CleaverItem(Tiers.IRON, PlatformHelper::getIronCleaverChops, getSettings().attributes(AxeItem.createAttributes(Tiers.IRON, CLEAVER_DAMAGE, CLEAVER_SPEED))));
-    public static final RegistrySupplier<Item> DIAMOND_CLEAVER = registerItem("diamond_cleaver", () -> new CleaverItem(Tiers.DIAMOND, PlatformHelper::getDiamondCleaverChops, getSettings().attributes(AxeItem.createAttributes(Tiers.DIAMOND, CLEAVER_DAMAGE, CLEAVER_SPEED))));
-    public static final RegistrySupplier<Item> NETHERITE_CLEAVER = registerItem("netherite_cleaver", () -> new CleaverItem(Tiers.NETHERITE, PlatformHelper::getNetheriteCleaverChops, getSettings().fireResistant().attributes(AxeItem.createAttributes(Tiers.NETHERITE, CLEAVER_DAMAGE, CLEAVER_SPEED))));
 
     public static final RegistrySupplier<Item> BAMBOO_STEAMER = registerItem("bamboo_steamer", () -> new BambooSteamerItem(getSettings().stacksTo(16)));
 

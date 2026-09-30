@@ -113,22 +113,6 @@ public class PlatformHelperImpl {
         return config().wokRecipeHints;
     }
 
-    public static int getIronCleaverChops() {
-        return config().ironCleaverChops;
-    }
-
-    public static int getDiamondCleaverChops() {
-        return config().diamondCleaverChops;
-    }
-
-    public static int getNetheriteCleaverChops() {
-        return config().netheriteCleaverChops;
-    }
-
-    public static boolean isCleaverHeadDropsEnabled() {
-        return config().cleaverHeadDrops;
-    }
-
     public static float getSteamingSpeed() {
         return config().steamingSpeed;
     }
@@ -189,7 +173,12 @@ public class PlatformHelperImpl {
         return config().wokSoulFlameBonus;
     }
 
-    public static int getWokDishCount() {
-        return config().wokDishCount;
+    public static int getWokDishCount(int quality, boolean soulFire) {
+        WokAndBowlFabricConfig config = config();
+        return switch (quality) {
+            case 1 -> soulFire ? config.wokSoulFireDishesOneFlame : config.wokDishesOneFlame;
+            case 2 -> soulFire ? config.wokSoulFireDishesTwoFlames : config.wokDishesTwoFlames;
+            default -> soulFire ? config.wokSoulFireDishesThreeFlames : config.wokDishesThreeFlames;
+        };
     }
 }

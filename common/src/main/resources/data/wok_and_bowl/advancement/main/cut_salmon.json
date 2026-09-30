@@ -1,5 +1,5 @@
 {
-  "parent": "wok_and_bowl:main/get_cleaver",
+  "parent": "wok_and_bowl:main/root",
   "display": {
     "icon": {
       "id": "wok_and_bowl:cut_salmon"

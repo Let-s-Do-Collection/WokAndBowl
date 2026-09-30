@@ -3,7 +3,9 @@ package net.satisfy.wok_and_bowl;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.fuel.FuelRegistry;
 import net.minecraft.resources.ResourceLocation;
-import net.satisfy.wok_and_bowl.core.event.CleaverEvents;
+import net.satisfy.farm_and_charm.core.block.entity.CuttingBoardBlockEntity;
+import net.satisfy.wok_and_bowl.core.block.entity.IngredientCubbyBlockEntity;
+import net.satisfy.wok_and_bowl.core.block.entity.RattanBasketBlockEntity;
 import net.satisfy.wok_and_bowl.core.event.LootEvents;
 import net.satisfy.wok_and_bowl.core.event.RicePaddyEvents;
 import net.satisfy.wok_and_bowl.core.registry.DataComponentRegistry;
@@ -35,8 +37,8 @@ public class WokAndBowl {
         MenuTypeRegistry.init();
         TabRegistry.init();
         RicePaddyEvents.init();
-        CleaverEvents.init();
         LootEvents.init();
+        CuttingBoardBlockEntity.registerOutputHandler((level, pos, stack) -> RattanBasketBlockEntity.collect(level, pos, IngredientCubbyBlockEntity.collect(level, pos, stack)));
         LifecycleEvent.SETUP.register(() -> {
             if (PlatformHelper.getBurntRiceBurnTime() > 0) {
                 FuelRegistry.register(PlatformHelper.getBurntRiceBurnTime(), ObjectRegistry.BURNT_RICE.get());

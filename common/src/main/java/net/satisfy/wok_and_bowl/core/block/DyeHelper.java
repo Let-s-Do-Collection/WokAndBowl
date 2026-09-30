@@ -14,7 +14,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
-import net.satisfy.wok_and_bowl.core.registry.ParticleTypeRegistry;
+import net.satisfy.farm_and_charm.core.registry.ParticleTypeRegistry;
 
 public final class DyeHelper {
     private static final int SPLASH_PARTICLES = 16;

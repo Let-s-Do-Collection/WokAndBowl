@@ -108,22 +108,6 @@ public class PlatformHelperImpl {
         return WokAndBowlNeoForgeConfig.wokRecipeHints;
     }
 
-    public static int getIronCleaverChops() {
-        return WokAndBowlNeoForgeConfig.ironCleaverChops;
-    }
-
-    public static int getDiamondCleaverChops() {
-        return WokAndBowlNeoForgeConfig.diamondCleaverChops;
-    }
-
-    public static int getNetheriteCleaverChops() {
-        return WokAndBowlNeoForgeConfig.netheriteCleaverChops;
-    }
-
-    public static boolean isCleaverHeadDropsEnabled() {
-        return WokAndBowlNeoForgeConfig.cleaverHeadDrops;
-    }
-
     public static float getSteamingSpeed() {
         return WokAndBowlNeoForgeConfig.steamingSpeed;
     }
@@ -184,7 +168,11 @@ public class PlatformHelperImpl {
         return WokAndBowlNeoForgeConfig.wokSoulFlameBonus;
     }
 
-    public static int getWokDishCount() {
-        return WokAndBowlNeoForgeConfig.wokDishCount;
+    public static int getWokDishCount(int quality, boolean soulFire) {
+        return switch (quality) {
+            case 1 -> soulFire ? WokAndBowlNeoForgeConfig.wokSoulFireDishesOneFlame : WokAndBowlNeoForgeConfig.wokDishesOneFlame;
+            case 2 -> soulFire ? WokAndBowlNeoForgeConfig.wokSoulFireDishesTwoFlames : WokAndBowlNeoForgeConfig.wokDishesTwoFlames;
+            default -> soulFire ? WokAndBowlNeoForgeConfig.wokSoulFireDishesThreeFlames : WokAndBowlNeoForgeConfig.wokDishesThreeFlames;
+        };
     }
 }

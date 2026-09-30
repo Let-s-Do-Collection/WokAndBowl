@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "wok_and_bowl:block/wild_rice"
+    "layer0": "wok_and_bowl:item/wild_rice_inventory"
   }
 }

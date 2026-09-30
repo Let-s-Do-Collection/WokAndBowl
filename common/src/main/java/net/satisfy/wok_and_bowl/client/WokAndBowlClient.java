@@ -10,20 +10,17 @@ import dev.architectury.registry.menu.MenuRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
-import net.satisfy.wok_and_bowl.client.gui.BlockInfoOverlay;
+import net.satisfy.wok_and_bowl.client.gui.WokAndBowlBlockInfo;
 import net.satisfy.wok_and_bowl.client.gui.InfoTooltip;
 import net.satisfy.wok_and_bowl.client.gui.QualityTooltip;
 import net.satisfy.wok_and_bowl.client.gui.WokSteamerGui;
 import net.satisfy.wok_and_bowl.client.model.WokModel;
 import net.satisfy.wok_and_bowl.client.particle.BasketItemParticle;
-import net.satisfy.wok_and_bowl.client.particle.DyeSplashParticle;
-import net.satisfy.wok_and_bowl.client.particle.FeatherParticle;
 import net.satisfy.wok_and_bowl.client.particle.FireflyParticle;
 import net.satisfy.wok_and_bowl.client.particle.RattanLeafParticle;
 import net.satisfy.wok_and_bowl.client.particle.WokSteamParticle;
 import net.satisfy.wok_and_bowl.core.registry.ParticleTypeRegistry;
 import net.satisfy.wok_and_bowl.client.renderer.CompletionistBannerRenderer;
-import net.satisfy.wok_and_bowl.client.renderer.CuttingBoardRenderer;
 import net.satisfy.wok_and_bowl.client.renderer.IngredientCubbyRenderer;
 import net.satisfy.wok_and_bowl.client.renderer.WokRenderer;
 import net.satisfy.wok_and_bowl.core.registry.EntityTypeRegistry;
@@ -36,10 +33,8 @@ public class WokAndBowlClient {
 
     public static void registerParticles() {
         ParticleProviderRegistry.register(ParticleTypeRegistry.RATTAN_LEAF.get(), RattanLeafParticle.Provider::new);
-        ParticleProviderRegistry.register(ParticleTypeRegistry.DYE_SPLASH.get(), DyeSplashParticle.Provider::new);
         ParticleProviderRegistry.register(ParticleTypeRegistry.WOK_STEAM.get(), WokSteamParticle.Provider::new);
         ParticleProviderRegistry.register(ParticleTypeRegistry.FIREFLY.get(), FireflyParticle.Provider::new);
-        ParticleProviderRegistry.register(ParticleTypeRegistry.FEATHER.get(), FeatherParticle.Provider::new);
         ParticleProviderRegistry.register(ParticleTypeRegistry.BASKET_ITEM.get(), new BasketItemParticle.Provider());
     }
 
@@ -54,12 +49,11 @@ public class WokAndBowlClient {
     }
 
     public static void initClient() {
-        RenderTypeRegistry.register(RenderType.cutout(), WOK.get(), CUTTING_BOARD.get(), RICE_CROP.get(), STICKY_RICE_CROP.get(), WILD_RICE.get(), PAPER_LANTERN.get(), RATTAN_TABLE.get(), RATTAN_CHAIR.get(), RATTAN_BRANCH.get(), FLOOR_CUSHION.get(), INGREDIENT_CUBBY.get());
+        RenderTypeRegistry.register(RenderType.cutout(), WOK.get(), RICE_CROP.get(), STICKY_RICE_CROP.get(), WILD_RICE.get(), PAPER_LANTERN.get(), RATTAN_TABLE.get(), RATTAN_CHAIR.get(), RATTAN_BRANCH.get(), FLOOR_CUSHION.get(), INGREDIENT_CUBBY.get());
         BlockEntityRendererRegistry.register(EntityTypeRegistry.WOK_BLOCK_ENTITY.get(), WokRenderer::new);
         BlockEntityRendererRegistry.register(EntityTypeRegistry.WOK_AND_BOWL_BANNER.get(), CompletionistBannerRenderer::new);
-        BlockEntityRendererRegistry.register(EntityTypeRegistry.CUTTING_BOARD_BLOCK_ENTITY.get(), CuttingBoardRenderer::new);
         BlockEntityRendererRegistry.register(EntityTypeRegistry.INGREDIENT_CUBBY_BLOCK_ENTITY.get(), IngredientCubbyRenderer::new);
-        BlockInfoOverlay.init();
+        WokAndBowlBlockInfo.init();
         FireflyAmbience.init();
         QualityTooltip.init();
         InfoTooltip.init();

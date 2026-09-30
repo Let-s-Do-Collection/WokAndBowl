@@ -15,7 +15,7 @@
                 {
                   "condition": "minecraft:match_tool",
                   "predicate": {
-                    "items": "#wok_and_bowl:cleavers"
+                    "items": "#farm_and_charm:cleavers"
                   }
                 }
               ]
@@ -94,7 +94,7 @@
           "term": {
             "condition": "minecraft:match_tool",
             "predicate": {
-              "items": "#wok_and_bowl:cleavers"
+              "items": "#farm_and_charm:cleavers"
             }
           }
         }

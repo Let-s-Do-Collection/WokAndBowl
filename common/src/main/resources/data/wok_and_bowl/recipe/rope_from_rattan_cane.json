@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "wok_and_bowl:rattan_cane"
+    },
+    {
+      "item": "wok_and_bowl:rattan_cane"
+    },
+    {
+      "item": "wok_and_bowl:rattan_cane"
+    }
+  ],
+  "result": {
+    "id": "farm_and_charm:rope",
+    "count": 2
+  }
+}

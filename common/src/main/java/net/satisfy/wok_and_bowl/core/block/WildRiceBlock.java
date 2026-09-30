@@ -4,9 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.satisfy.farm_and_charm.core.block.BonemealableFlowerBlock;
+import net.satisfy.farm_and_charm.core.block.BonemealableTallFlowerBlock;
 
-public class WildRiceBlock extends BonemealableFlowerBlock {
+public class WildRiceBlock extends BonemealableTallFlowerBlock {
     private static final int FIREFLY_CHANCE = 12;
 
     public WildRiceBlock(Properties properties) {

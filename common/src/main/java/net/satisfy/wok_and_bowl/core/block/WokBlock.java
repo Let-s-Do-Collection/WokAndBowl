@@ -183,7 +183,7 @@ public class WokBlock extends BaseEntityBlock {
                 float intensity = 1.0F - (float) sinceAdded / SIZZLE_BURST_TICKS;
                 if (random.nextFloat() < intensity) {
                     level.playLocalSound(x, y + 0.2, z, SoundEventRegistry.ROASTER_COOKING.get(), SoundSource.BLOCKS, 0.15F + 0.25F * intensity, 1.1F + random.nextFloat() * 0.3F, false);
-                    level.addParticle(ColorParticleOption.create(net.satisfy.wok_and_bowl.core.registry.ParticleTypeRegistry.DYE_SPLASH.get(), OIL_COLOR), x + (random.nextDouble() - 0.5) * 0.4, y + 0.2, z + (random.nextDouble() - 0.5) * 0.4, (random.nextDouble() - 0.5) * 0.12, 0.05, (random.nextDouble() - 0.5) * 0.12);
+                    level.addParticle(ColorParticleOption.create(ParticleTypeRegistry.DYE_SPLASH.get(), OIL_COLOR), x + (random.nextDouble() - 0.5) * 0.4, y + 0.2, z + (random.nextDouble() - 0.5) * 0.4, (random.nextDouble() - 0.5) * 0.12, 0.05, (random.nextDouble() - 0.5) * 0.12);
                 }
             }
             if (PlatformHelper.isWokSteamParticlesEnabled() && random.nextInt(COOKING_STEAM_CHANCE) == 0) {
@@ -193,7 +193,7 @@ public class WokBlock extends BaseEntityBlock {
                 level.playLocalSound(x, y + 0.2, z, SoundEventRegistry.ROASTER_COOKING.get(), SoundSource.BLOCKS, 0.2F, 0.9F + random.nextFloat() * 0.2F, false);
             }
             if (random.nextInt(OIL_CHANCE) == 0) {
-                level.addParticle(ColorParticleOption.create(net.satisfy.wok_and_bowl.core.registry.ParticleTypeRegistry.DYE_SPLASH.get(), OIL_COLOR), x + (random.nextDouble() - 0.5) * 0.4, y + 0.2, z + (random.nextDouble() - 0.5) * 0.4, (random.nextDouble() - 0.5) * 0.08, 0.02, (random.nextDouble() - 0.5) * 0.08);
+                level.addParticle(ColorParticleOption.create(ParticleTypeRegistry.DYE_SPLASH.get(), OIL_COLOR), x + (random.nextDouble() - 0.5) * 0.4, y + 0.2, z + (random.nextDouble() - 0.5) * 0.4, (random.nextDouble() - 0.5) * 0.08, 0.02, (random.nextDouble() - 0.5) * 0.08);
             }
             return;
         }

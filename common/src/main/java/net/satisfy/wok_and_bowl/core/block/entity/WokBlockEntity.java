@@ -13,6 +13,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.satisfy.wok_and_bowl.WokAndBowl;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -234,7 +235,7 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer, Men
         this.flareUp(level);
         level.playSound(null, this.worldPosition, SoundEvents.BLAZE_SHOOT, SoundSource.BLOCKS, 0.7F, 1.2F);
         if (level instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.FLAME, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.6, this.worldPosition.getZ() + 0.5, FLAMBE_PARTICLES, 0.2, 0.4, 0.2, 0.04);
+            serverLevel.sendParticles(this.flameParticle(), this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.6, this.worldPosition.getZ() + 0.5, FLAMBE_PARTICLES, 0.2, 0.4, 0.2, 0.04);
         }
         if (this.awaitingToss && PlatformHelper.isWokQualityEnabled()) {
             this.burn(level);
@@ -274,9 +275,17 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer, Men
         }
         level.setBlock(this.worldPosition, state.setValue(WokBlock.FLARE, true), Block.UPDATE_ALL);
         level.scheduleTick(this.worldPosition, state.getBlock(), WokBlock.FLARE_TICKS);
-        serverLevel.sendParticles(ParticleTypes.FLAME, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.3, this.worldPosition.getZ() + 0.5, FLARE_PARTICLES, 0.2, 0.15, 0.2, 0.06);
-        serverLevel.sendParticles(ParticleTypes.LAVA, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.3, this.worldPosition.getZ() + 0.5, 2, 0.15, 0.05, 0.15, 0.0);
+        serverLevel.sendParticles(this.flameParticle(), this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.3, this.worldPosition.getZ() + 0.5, FLARE_PARTICLES, 0.2, 0.15, 0.2, 0.06);
+        serverLevel.sendParticles(this.emberParticle(), this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.3, this.worldPosition.getZ() + 0.5, 2, 0.15, 0.05, 0.15, 0.0);
         level.playSound(null, this.worldPosition, SoundEvents.FIRECHARGE_USE, SoundSource.BLOCKS, 0.35F, 1.3F);
+    }
+
+    private SimpleParticleType flameParticle() {
+        return WokBlock.isSoulFire(Objects.requireNonNull(this.level), this.worldPosition) ? ParticleTypes.SOUL_FIRE_FLAME : ParticleTypes.FLAME;
+    }
+
+    private SimpleParticleType emberParticle() {
+        return WokBlock.isSoulFire(Objects.requireNonNull(this.level), this.worldPosition) ? ParticleTypes.SOUL : ParticleTypes.LAVA;
     }
 
     public boolean isSteamingForDisplay() {
@@ -395,7 +404,7 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer, Men
         this.flareUp(level);
         level.playSound(null, this.worldPosition, SoundEvents.ARMOR_EQUIP_IRON.value(), SoundSource.BLOCKS, 0.8F, 1.2F);
         if (level instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.FLAME, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5, 6, 0.25, 0.1, 0.25, 0.02);
+            serverLevel.sendParticles(this.flameParticle(), this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.5, this.worldPosition.getZ() + 0.5, 6, 0.25, 0.1, 0.25, 0.02);
         }
         this.markUpdated();
     }
@@ -409,8 +418,9 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer, Men
         int quality = PlatformHelper.isWokQualityEnabled() ? Math.max(1, WokDishItem.MAX_QUALITY - this.missedTosses - this.lateTosses / LATE_TOSSES_PER_FLAME - (perfect ? 0 : 1) + (this.flambeed ? 1 : 0)) : WokDishItem.MAX_QUALITY;
         quality = Math.min(WokDishItem.MAX_QUALITY, quality);
         ItemStack result = recipe.map(value -> value.assemble(new WokRecipe.Input(this.ingredients), level.registryAccess())).orElseGet(() -> new ItemStack(ObjectRegistry.MIXED_STIR_FRY.get()));
-        result.setCount(PlatformHelper.getWokDishCount());
-        this.finishCooking(WokDishItem.withQuality(result, quality, WokBlock.isSoulFire(level, this.worldPosition)));
+        boolean soulFire = WokBlock.isSoulFire(level, this.worldPosition);
+        result.setCount(PlatformHelper.getWokDishCount(quality, soulFire));
+        this.finishCooking(WokDishItem.withQuality(result, quality, soulFire));
         level.playSound(null, this.worldPosition, SoundEvents.PLAYER_LEVELUP, SoundSource.BLOCKS, 0.4F, 1.0F + quality * 0.2F);
     }
 

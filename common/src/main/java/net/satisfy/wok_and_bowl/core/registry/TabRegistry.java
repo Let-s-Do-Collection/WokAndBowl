@@ -32,10 +32,6 @@ public class TabRegistry {
                 output.accept(ObjectRegistry.RATTAN_CANE.get());
                 output.accept(ObjectRegistry.WOK.get());
                 output.accept(ObjectRegistry.BAMBOO_STEAMER.get());
-                output.accept(ObjectRegistry.CUTTING_BOARD.get());
-                output.accept(ObjectRegistry.IRON_CLEAVER.get());
-                output.accept(ObjectRegistry.DIAMOND_CLEAVER.get());
-                output.accept(ObjectRegistry.NETHERITE_CLEAVER.get());
                 output.accept(ObjectRegistry.RICE.get());
                 output.accept(ObjectRegistry.STICKY_RICE.get());
                 output.accept(ObjectRegistry.FISH_BONES.get());
