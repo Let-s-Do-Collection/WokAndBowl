@@ -1,5 +1,5 @@
 {
-  "parent": "wok_and_bowl:main/place_wok",
+  "parent": "wok_and_bowl:main/place_bamboo_steamer",
   "display": {
     "icon": {
       "id": "wok_and_bowl:pork_dumplings"

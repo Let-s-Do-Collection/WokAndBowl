@@ -1,5 +1,6 @@
 package net.satisfy.wok_and_bowl.core.block;
 
+import net.satisfy.foundation.util.ShapeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -16,8 +17,7 @@ import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.satisfy.farm_and_charm.core.block.LineConnectingBlock;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
+import net.satisfy.foundation.block.LineConnectingBlock;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -43,7 +43,7 @@ public class RattanTableBlock extends LineConnectingBlock implements SimpleWater
             case RIGHT -> Shapes.or(TOP, EAST_LEGS);
             case NONE -> Shapes.or(TOP, WEST_LEGS, EAST_LEGS);
         };
-        return GeneralUtil.rotateShape(Direction.NORTH, state.getValue(FACING), shape);
+        return ShapeUtil.rotateShape(Direction.NORTH, state.getValue(FACING), shape);
     }
 
     @Override

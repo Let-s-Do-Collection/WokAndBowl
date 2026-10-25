@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "pattern": [
+    "AAA",
+    "BBB",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "wok_and_bowl:wild_rice"
+    },
+    "B": {
+      "item": "wok_and_bowl:rattan_cane"
+    }
+  },
+  "result": {
+    "id": "wok_and_bowl:rice_bundle",
+    "count": 1
+  }
+}

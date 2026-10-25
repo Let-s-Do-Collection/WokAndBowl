@@ -183,36 +183,6 @@
           }
         ]
       }
-    },
-    "wok_and_bowl:sweet_sour_lamb": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": "wok_and_bowl:sweet_sour_lamb"
-          }
-        ]
-      }
-    },
-    "wok_and_bowl:pork_noodles": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": "wok_and_bowl:pork_noodles"
-          }
-        ]
-      }
-    },
-    "wok_and_bowl:big_plate_chicken": {
-      "trigger": "minecraft:inventory_changed",
-      "conditions": {
-        "items": [
-          {
-            "items": "wok_and_bowl:big_plate_chicken"
-          }
-        ]
-      }
     }
   },
   "requirements": [
@@ -257,15 +227,6 @@
     ],
     [
       "wok_and_bowl:sweet_rice_cake"
-    ],
-    [
-      "wok_and_bowl:sweet_sour_lamb"
-    ],
-    [
-      "wok_and_bowl:pork_noodles"
-    ],
-    [
-      "wok_and_bowl:big_plate_chicken"
     ]
   ],
   "rewards": {

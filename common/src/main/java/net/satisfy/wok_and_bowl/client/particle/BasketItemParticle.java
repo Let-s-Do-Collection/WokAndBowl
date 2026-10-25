@@ -101,7 +101,7 @@ public class BasketItemParticle extends TextureSheetParticle {
     public static class Provider implements ParticleProvider<BasketItemParticleOptions> {
         @Override
         public Particle createParticle(BasketItemParticleOptions options, ClientLevel level, double x, double y, double z, double xSpeed, double ySpeed, double zSpeed) {
-            if (!PlatformHelper.isBasketFlightAnimationEnabled()) {
+            if (!PlatformHelper.isAnimationsEnabled()) {
                 return null;
             }
             return new BasketItemParticle(level, x, y, z, options);

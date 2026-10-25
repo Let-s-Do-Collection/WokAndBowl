@@ -1,0 +1,8 @@
+{
+  "parent": "minecraft:block/cube_bottom_top",
+  "textures": {
+    "bottom": "wok_and_bowl:block/rice_bundle_bottom",
+    "side": "wok_and_bowl:block/rice_bundle_side_brown",
+    "top": "wok_and_bowl:block/rice_bundle_top"
+  }
+}

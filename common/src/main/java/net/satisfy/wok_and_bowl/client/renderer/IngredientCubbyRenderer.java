@@ -1,5 +1,6 @@
 package net.satisfy.wok_and_bowl.client.renderer;
 
+import net.satisfy.foundation.render.DisplayItemRenderer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;

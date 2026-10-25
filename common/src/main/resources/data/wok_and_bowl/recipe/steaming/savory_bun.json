@@ -4,8 +4,7 @@
     "item": "wok_and_bowl:raw_savory_bun"
   },
   "result": {
-    "id": "wok_and_bowl:savory_bun",
-    "count": 1
+    "id": "wok_and_bowl:savory_bun"
   },
   "steaming_time": 300
 }

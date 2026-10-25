@@ -4,7 +4,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import net.satisfy.farm_and_charm.core.block.BonemealableTallFlowerBlock;
+import net.satisfy.foundation.block.BonemealableTallFlowerBlock;
+import net.satisfy.foundation.ambient.Fireflies;
+import net.satisfy.farm_and_charm.platform.PlatformHelper;
 
 public class WildRiceBlock extends BonemealableTallFlowerBlock {
     private static final int FIREFLY_CHANCE = 12;
@@ -15,7 +17,7 @@ public class WildRiceBlock extends BonemealableTallFlowerBlock {
 
     @Override
     public void animateTick(BlockState state, Level level, BlockPos pos, RandomSource random) {
-        if (random.nextInt(FIREFLY_CHANCE) == 0 && Fireflies.isActive(level, pos)) {
+        if (random.nextInt(FIREFLY_CHANCE) == 0 && PlatformHelper.isFirefliesEnabled() && Fireflies.isActive(level, pos)) {
             Fireflies.spawn(level, pos, random, 0.5, 0.6);
         }
     }

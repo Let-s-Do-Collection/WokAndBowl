@@ -1,5 +1,6 @@
 package net.satisfy.wok_and_bowl.core.block;
 
+import net.satisfy.foundation.util.DyeHelper;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.CollisionContext;

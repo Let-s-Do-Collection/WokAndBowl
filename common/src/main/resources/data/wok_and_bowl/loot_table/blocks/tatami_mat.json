@@ -7,7 +7,61 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "wok_and_bowl:tatami_mat"
+          "name": "wok_and_bowl:tatami_mat",
+          "functions": [
+            {
+              "function": "minecraft:set_count",
+              "count": 2,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "wok_and_bowl:tatami_mat",
+                  "properties": {
+                    "layers": "2"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 3,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "wok_and_bowl:tatami_mat",
+                  "properties": {
+                    "layers": "3"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 4,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "wok_and_bowl:tatami_mat",
+                  "properties": {
+                    "layers": "4"
+                  }
+                }
+              ]
+            },
+            {
+              "function": "minecraft:set_count",
+              "count": 5,
+              "conditions": [
+                {
+                  "condition": "minecraft:block_state_property",
+                  "block": "wok_and_bowl:tatami_mat",
+                  "properties": {
+                    "layers": "5"
+                  }
+                }
+              ]
+            }
+          ]
         }
       ],
       "conditions": [

@@ -17,6 +17,10 @@ public class WokAndBowlNeoForge {
         EventBusesHooks.whenAvailable(WokAndBowl.MOD_ID, IEventBus::start);
 
         modContainer.registerConfig(ModConfig.Type.COMMON, WokAndBowlNeoForgeConfig.SPEC);
+
+        modContainer.registerConfig(ModConfig.Type.STARTUP, WokAndBowlNeoForgeConfig.STARTUP_CONFIG);
+
+        WokAndBowlNeoForgeConfig.syncFood();
         modEventBus.addListener(WokAndBowlNeoForgeConfig::onLoad);
         modEventBus.addListener(WokAndBowlNeoForgeConfig::onReload);
 

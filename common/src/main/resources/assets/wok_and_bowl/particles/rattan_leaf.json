@@ -1,16 +1,16 @@
 {
   "textures": [
-    "wok_and_bowl:rattan_leaf_0",
-    "wok_and_bowl:rattan_leaf_1",
-    "wok_and_bowl:rattan_leaf_2",
-    "wok_and_bowl:rattan_leaf_3",
-    "wok_and_bowl:rattan_leaf_4",
-    "wok_and_bowl:rattan_leaf_5",
-    "wok_and_bowl:rattan_leaf_6",
-    "wok_and_bowl:rattan_leaf_7",
-    "wok_and_bowl:rattan_leaf_8",
-    "wok_and_bowl:rattan_leaf_9",
-    "wok_and_bowl:rattan_leaf_10",
-    "wok_and_bowl:rattan_leaf_11"
+    "foundation:leaf_0",
+    "foundation:leaf_1",
+    "foundation:leaf_2",
+    "foundation:leaf_3",
+    "foundation:leaf_4",
+    "foundation:leaf_5",
+    "foundation:leaf_6",
+    "foundation:leaf_7",
+    "foundation:leaf_8",
+    "foundation:leaf_9",
+    "foundation:leaf_10",
+    "foundation:leaf_11"
   ]
 }

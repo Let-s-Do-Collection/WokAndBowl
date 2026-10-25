@@ -5,7 +5,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.registries.Registries;
 import net.satisfy.wok_and_bowl.WokAndBowl;
-import net.satisfy.wok_and_bowl.core.advancement.SimplePlayerTrigger;
+import net.satisfy.foundation.advancement.SimplePlayerTrigger;
 
 public class TriggerRegistry {
     private static final DeferredRegister<CriterionTrigger<?>> TRIGGERS = DeferredRegister.create(WokAndBowl.MOD_ID, Registries.TRIGGER_TYPE);

@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "wok_and_bowl:item/big_plate_chicken"
-  }
-}

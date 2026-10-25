@@ -4,8 +4,7 @@
     "item": "wok_and_bowl:sticky_rice"
   },
   "result": {
-    "id": "wok_and_bowl:steamed_sticky_rice",
-    "count": 1
+    "id": "wok_and_bowl:steamed_sticky_rice"
   },
   "steaming_time": 200
 }

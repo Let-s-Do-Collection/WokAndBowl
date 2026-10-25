@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "wok_and_bowl:block/dish_plate"
+    },
+    "facing=east": {
+      "model": "wok_and_bowl:block/dish_plate",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "wok_and_bowl:block/dish_plate",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "wok_and_bowl:block/dish_plate",
+      "y": 270
+    }
+  }
+}

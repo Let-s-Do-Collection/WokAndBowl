@@ -75,7 +75,27 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static boolean isBlockInfoEnabled() {
+    public static boolean showWokInfo() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean showBambooSteamerInfo() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean showIngredientCubbyInfo() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean showStickyRiceInfo() {
+        throw new AssertionError();
+    }
+
+    @ExpectPlatform
+    public static boolean showPlateInfo() {
         throw new AssertionError();
     }
 
@@ -155,22 +175,12 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static boolean isBasketFlightAnimationEnabled() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static boolean isFirefliesEnabled() {
+    public static boolean isAnimationsEnabled() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
     public static boolean isCushionFeathersEnabled() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static boolean isItemTooltipsEnabled() {
         throw new AssertionError();
     }
 

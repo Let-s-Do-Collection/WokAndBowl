@@ -2,6 +2,7 @@
   "replace": false,
   "values": [
     "wok_and_bowl:cut_salmon",
+    "wok_and_bowl:cut_cod",
     "wok_and_bowl:chopped_pork",
     "wok_and_bowl:cured_meat",
     "wok_and_bowl:broth",
@@ -22,9 +23,6 @@
     "wok_and_bowl:rice_ball",
     "wok_and_bowl:sweet_rice_cake",
     "wok_and_bowl:seaweed_salmon_rolls",
-    "wok_and_bowl:mixed_stir_fry",
-    "wok_and_bowl:sweet_sour_lamb",
-    "wok_and_bowl:pork_noodles",
-    "wok_and_bowl:big_plate_chicken"
+    "wok_and_bowl:mixed_stir_fry"
   ]
 }

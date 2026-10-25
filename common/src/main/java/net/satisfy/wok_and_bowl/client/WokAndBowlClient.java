@@ -1,30 +1,35 @@
 package net.satisfy.wok_and_bowl.client;
 
-import dev.architectury.platform.Platform;
+import net.satisfy.foundation.particle.DriftingParticle;
+import net.satisfy.wok_and_bowl.platform.PlatformHelper;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.rendering.ColorHandlerRegistry;
 import dev.architectury.registry.client.particle.ParticleProviderRegistry;
 import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.client.rendering.RenderTypeRegistry;
-import dev.architectury.registry.menu.MenuRegistry;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
-import net.satisfy.wok_and_bowl.client.gui.WokAndBowlBlockInfo;
-import net.satisfy.wok_and_bowl.client.gui.InfoTooltip;
+import net.satisfy.foundation.client.creative.CreativeTabTooltips;
+import net.satisfy.foundation.overlay.BlockInfoOverlay;
+import net.satisfy.foundation.rarity.FoundationRarity;
+import net.satisfy.wok_and_bowl.core.registry.TabRegistry;
+import net.satisfy.wok_and_bowl.client.gui.overlay.BambooSteamerInfoProvider;
+import net.satisfy.wok_and_bowl.client.gui.overlay.DishPlateInfoProvider;
+import net.satisfy.wok_and_bowl.client.gui.overlay.IngredientCubbyInfoProvider;
+import net.satisfy.wok_and_bowl.client.gui.overlay.StickyRiceInfoProvider;
+import net.satisfy.wok_and_bowl.client.gui.overlay.WokAndBowlTooltips;
+import net.satisfy.wok_and_bowl.client.gui.overlay.WokInfoProvider;
 import net.satisfy.wok_and_bowl.client.gui.QualityTooltip;
-import net.satisfy.wok_and_bowl.client.gui.WokSteamerGui;
 import net.satisfy.wok_and_bowl.client.model.WokModel;
 import net.satisfy.wok_and_bowl.client.particle.BasketItemParticle;
-import net.satisfy.wok_and_bowl.client.particle.FireflyParticle;
-import net.satisfy.wok_and_bowl.client.particle.RattanLeafParticle;
 import net.satisfy.wok_and_bowl.client.particle.WokSteamParticle;
 import net.satisfy.wok_and_bowl.core.registry.ParticleTypeRegistry;
-import net.satisfy.wok_and_bowl.client.renderer.CompletionistBannerRenderer;
+import net.satisfy.foundation.banner.CompletionistBannerRenderer;
+import net.satisfy.wok_and_bowl.client.renderer.DishPlateRenderer;
 import net.satisfy.wok_and_bowl.client.renderer.IngredientCubbyRenderer;
 import net.satisfy.wok_and_bowl.client.renderer.WokRenderer;
 import net.satisfy.wok_and_bowl.core.registry.EntityTypeRegistry;
-import net.satisfy.wok_and_bowl.core.registry.MenuTypeRegistry;
 
 import static net.satisfy.wok_and_bowl.core.registry.ObjectRegistry.*;
 
@@ -32,9 +37,8 @@ import static net.satisfy.wok_and_bowl.core.registry.ObjectRegistry.*;
 public class WokAndBowlClient {
 
     public static void registerParticles() {
-        ParticleProviderRegistry.register(ParticleTypeRegistry.RATTAN_LEAF.get(), RattanLeafParticle.Provider::new);
+        ParticleProviderRegistry.register(ParticleTypeRegistry.RATTAN_LEAF.get(), sprites -> new DriftingParticle.Provider(sprites, DriftingParticle.Style.LEAF, DriftingParticle.MotionProfile.LEAF, PlatformHelper::isRattanLeafParticlesEnabled));
         ParticleProviderRegistry.register(ParticleTypeRegistry.WOK_STEAM.get(), WokSteamParticle.Provider::new);
-        ParticleProviderRegistry.register(ParticleTypeRegistry.FIREFLY.get(), FireflyParticle.Provider::new);
         ParticleProviderRegistry.register(ParticleTypeRegistry.BASKET_ITEM.get(), new BasketItemParticle.Provider());
     }
 
@@ -45,7 +49,6 @@ public class WokAndBowlClient {
 
     public static void registerModelLayers() {
         EntityModelLayerRegistry.register(WokModel.LAYER_LOCATION, WokModel::getTexturedModelData);
-        EntityModelLayerRegistry.register(CompletionistBannerRenderer.LAYER_LOCATION, CompletionistBannerRenderer::createBodyLayer);
     }
 
     public static void initClient() {
@@ -53,12 +56,15 @@ public class WokAndBowlClient {
         BlockEntityRendererRegistry.register(EntityTypeRegistry.WOK_BLOCK_ENTITY.get(), WokRenderer::new);
         BlockEntityRendererRegistry.register(EntityTypeRegistry.WOK_AND_BOWL_BANNER.get(), CompletionistBannerRenderer::new);
         BlockEntityRendererRegistry.register(EntityTypeRegistry.INGREDIENT_CUBBY_BLOCK_ENTITY.get(), IngredientCubbyRenderer::new);
-        WokAndBowlBlockInfo.init();
-        FireflyAmbience.init();
+        BlockEntityRendererRegistry.register(EntityTypeRegistry.DISH_PLATE_BLOCK_ENTITY.get(), DishPlateRenderer::new);
+        BlockInfoOverlay.init();
+        WokInfoProvider.init();
+        BlockInfoOverlay.registerProvider(new BambooSteamerInfoProvider());
+        BlockInfoOverlay.registerProvider(new IngredientCubbyInfoProvider());
+        BlockInfoOverlay.registerProvider(new StickyRiceInfoProvider());
+        BlockInfoOverlay.registerProvider(new DishPlateInfoProvider());
+        CreativeTabTooltips.register(TabRegistry.WOKANDBOWL_TAB.getKey(), FoundationRarity.solid("wok_and_bowl:wok", 0xE8743B));
         QualityTooltip.init();
-        InfoTooltip.init();
-        if (Platform.isFabric()) {
-            MenuRegistry.registerScreenFactory(MenuTypeRegistry.WOK_STEAMER_SCREEN_HANDLER.get(), WokSteamerGui::new);
-        }
+        WokAndBowlTooltips.init();
     }
 }

@@ -1,5 +1,6 @@
 package net.satisfy.wok_and_bowl.core.block;
 
+import net.satisfy.foundation.util.ShapeUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -28,7 +29,6 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
 import net.satisfy.wok_and_bowl.WokAndBowl;
 import net.satisfy.wok_and_bowl.core.registry.ObjectRegistry;
 import net.satisfy.wok_and_bowl.core.registry.ParticleTypeRegistry;
@@ -56,7 +56,7 @@ public class RattanBranchBlock extends HorizontalDirectionalBlock implements Bon
 
     static {
         for (Direction direction : Direction.Plane.HORIZONTAL) {
-            SHAPES.put(direction, GeneralUtil.rotateShape(Direction.NORTH, direction, SHAPE));
+            SHAPES.put(direction, ShapeUtil.rotateShape(Direction.NORTH, direction, SHAPE));
         }
     }
 

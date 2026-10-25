@@ -1,5 +1,7 @@
 package net.satisfy.wok_and_bowl.core.block;
 
+import net.satisfy.foundation.seat.SeatUtil;
+import net.satisfy.foundation.util.ShapeUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.InteractionHand;
@@ -26,7 +28,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,8 +53,8 @@ public class RattanChairBlock extends Block {
 
     static {
         for (Direction direction : Direction.Plane.HORIZONTAL) {
-            LOWER_SHAPES.put(direction, GeneralUtil.rotateShape(Direction.NORTH, direction, LOWER_SHAPE));
-            UPPER_SHAPES.put(direction, GeneralUtil.rotateShape(Direction.NORTH, direction, UPPER_SHAPE));
+            LOWER_SHAPES.put(direction, ShapeUtil.rotateShape(Direction.NORTH, direction, LOWER_SHAPE));
+            UPPER_SHAPES.put(direction, ShapeUtil.rotateShape(Direction.NORTH, direction, UPPER_SHAPE));
         }
     }
 
@@ -92,7 +93,7 @@ public class RattanChairBlock extends Block {
         if (state.getValue(HALF) != DoubleBlockHalf.LOWER) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
-        return GeneralUtil.onUse(level, player, hand, hitResult, SEAT_OFFSET);
+        return SeatUtil.onUse(level, player, hand, hitResult, SEAT_OFFSET);
     }
 
     @Override

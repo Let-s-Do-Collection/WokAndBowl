@@ -14,7 +14,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.satisfy.wok_and_bowl.WokAndBowl;
-import net.satisfy.wok_and_bowl.compat.RecipeViewerLayout;
+import net.satisfy.foundation.compat.RecipeViewerLayout;
 import net.satisfy.wok_and_bowl.core.recipe.SteamingRecipe;
 import net.satisfy.wok_and_bowl.core.registry.ObjectRegistry;
 import org.jetbrains.annotations.NotNull;

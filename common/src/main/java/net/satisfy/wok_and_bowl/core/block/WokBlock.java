@@ -1,5 +1,6 @@
 package net.satisfy.wok_and_bowl.core.block;
 
+import net.satisfy.foundation.util.ShapeUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,10 +40,9 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleTypes;
-import net.satisfy.farm_and_charm.core.registry.ParticleTypeRegistry;
+import net.satisfy.foundation.registry.FoundationParticles;
 import net.satisfy.farm_and_charm.core.registry.SoundEventRegistry;
 import net.satisfy.farm_and_charm.core.registry.TagRegistry;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
 import net.satisfy.wok_and_bowl.core.block.entity.WokBlockEntity;
 import net.satisfy.wok_and_bowl.core.registry.EntityTypeRegistry;
 import net.satisfy.wok_and_bowl.core.registry.ObjectRegistry;
@@ -84,8 +84,8 @@ public class WokBlock extends BaseEntityBlock {
 
     static {
         for (Direction direction : Direction.Plane.HORIZONTAL) {
-            SHAPES.put(direction, GeneralUtil.rotateShape(Direction.NORTH, direction, SHAPE));
-            STEAMER_SHAPES.put(direction, GeneralUtil.rotateShape(Direction.NORTH, direction, STEAMER_SHAPE));
+            SHAPES.put(direction, ShapeUtil.rotateShape(Direction.NORTH, direction, SHAPE));
+            STEAMER_SHAPES.put(direction, ShapeUtil.rotateShape(Direction.NORTH, direction, STEAMER_SHAPE));
         }
     }
 
@@ -121,8 +121,14 @@ public class WokBlock extends BaseEntityBlock {
 
     @Override
     protected @NotNull ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if (stack.isEmpty() || state.getValue(HAS_STEAMER) || !(level.getBlockEntity(pos) instanceof WokBlockEntity wok)) {
+        if (stack.isEmpty() || !(level.getBlockEntity(pos) instanceof WokBlockEntity wok)) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        }
+        if (state.getValue(HAS_STEAMER)) {
+            if (level.isClientSide) {
+                return wok.canSteam(stack) ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            }
+            return wok.addToSteamer(stack, player);
         }
         if (level.isClientSide) {
             return wok.isCooking() ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
@@ -142,14 +148,13 @@ public class WokBlock extends BaseEntityBlock {
             return wok.useEmptyHand(player);
         }
         if (level.isClientSide) {
-            return InteractionResult.SUCCESS;
+            return player.isShiftKeyDown() || !wok.isEmpty() ? InteractionResult.SUCCESS : InteractionResult.PASS;
         }
         if (player.isShiftKeyDown()) {
             removeSteamer(state, level, pos, player, wok);
-        } else {
-            player.openMenu(wok);
+            return InteractionResult.CONSUME;
         }
-        return InteractionResult.CONSUME;
+        return wok.takeFromSteamer(player);
     }
 
     private static void removeSteamer(BlockState state, Level level, BlockPos pos, Player player, WokBlockEntity wok) {
@@ -173,7 +178,7 @@ public class WokBlock extends BaseEntityBlock {
         double z = pos.getZ() + 0.5;
         if (state.getValue(HAS_STEAMER)) {
             if (wok.isSteamingForDisplay() && PlatformHelper.isWokSteamParticlesEnabled() && random.nextInt(STEAMER_STEAM_CHANCE) == 0) {
-                level.addParticle(ParticleTypeRegistry.SOUP_STEAM.get(), x + (random.nextDouble() - 0.5) * 0.4, y + 0.45, z + (random.nextDouble() - 0.5) * 0.4, 0.0, 0.07, 0.0);
+                level.addParticle(FoundationParticles.SOUP_STEAM.get(), x + (random.nextDouble() - 0.5) * 0.4, y + 0.45, z + (random.nextDouble() - 0.5) * 0.4, 0.0, 0.07, 0.0);
             }
             return;
         }
@@ -183,17 +188,17 @@ public class WokBlock extends BaseEntityBlock {
                 float intensity = 1.0F - (float) sinceAdded / SIZZLE_BURST_TICKS;
                 if (random.nextFloat() < intensity) {
                     level.playLocalSound(x, y + 0.2, z, SoundEventRegistry.ROASTER_COOKING.get(), SoundSource.BLOCKS, 0.15F + 0.25F * intensity, 1.1F + random.nextFloat() * 0.3F, false);
-                    level.addParticle(ColorParticleOption.create(ParticleTypeRegistry.DYE_SPLASH.get(), OIL_COLOR), x + (random.nextDouble() - 0.5) * 0.4, y + 0.2, z + (random.nextDouble() - 0.5) * 0.4, (random.nextDouble() - 0.5) * 0.12, 0.05, (random.nextDouble() - 0.5) * 0.12);
+                    level.addParticle(ColorParticleOption.create(FoundationParticles.DYE_SPLASH.get(), OIL_COLOR), x + (random.nextDouble() - 0.5) * 0.4, y + 0.2, z + (random.nextDouble() - 0.5) * 0.4, (random.nextDouble() - 0.5) * 0.12, 0.05, (random.nextDouble() - 0.5) * 0.12);
                 }
             }
             if (PlatformHelper.isWokSteamParticlesEnabled() && random.nextInt(COOKING_STEAM_CHANCE) == 0) {
-                level.addParticle(ParticleTypeRegistry.SOUP_STEAM.get(), x + (random.nextDouble() - 0.5) * 0.35, y + 0.05, z + (random.nextDouble() - 0.5) * 0.35, 0.0, 0.08, 0.0);
+                level.addParticle(FoundationParticles.SOUP_STEAM.get(), x + (random.nextDouble() - 0.5) * 0.35, y + 0.05, z + (random.nextDouble() - 0.5) * 0.35, 0.0, 0.08, 0.0);
             }
             if (random.nextInt(SIZZLE_CHANCE) == 0) {
                 level.playLocalSound(x, y + 0.2, z, SoundEventRegistry.ROASTER_COOKING.get(), SoundSource.BLOCKS, 0.2F, 0.9F + random.nextFloat() * 0.2F, false);
             }
             if (random.nextInt(OIL_CHANCE) == 0) {
-                level.addParticle(ColorParticleOption.create(ParticleTypeRegistry.DYE_SPLASH.get(), OIL_COLOR), x + (random.nextDouble() - 0.5) * 0.4, y + 0.2, z + (random.nextDouble() - 0.5) * 0.4, (random.nextDouble() - 0.5) * 0.08, 0.02, (random.nextDouble() - 0.5) * 0.08);
+                level.addParticle(ColorParticleOption.create(FoundationParticles.DYE_SPLASH.get(), OIL_COLOR), x + (random.nextDouble() - 0.5) * 0.4, y + 0.2, z + (random.nextDouble() - 0.5) * 0.4, (random.nextDouble() - 0.5) * 0.08, 0.02, (random.nextDouble() - 0.5) * 0.08);
             }
             return;
         }
@@ -202,7 +207,7 @@ public class WokBlock extends BaseEntityBlock {
             return;
         }
         if (wok.hasDishes() && PlatformHelper.isWokSteamParticlesEnabled() && random.nextInt(DISH_STEAM_CHANCE) == 0) {
-            level.addParticle(ParticleTypeRegistry.SOUP_STEAM.get(), x + (random.nextDouble() - 0.5) * 0.25, y + 0.05, z + (random.nextDouble() - 0.5) * 0.25, 0.0, 0.07, 0.0);
+            level.addParticle(FoundationParticles.SOUP_STEAM.get(), x + (random.nextDouble() - 0.5) * 0.25, y + 0.05, z + (random.nextDouble() - 0.5) * 0.25, 0.0, 0.07, 0.0);
         }
     }
 
@@ -212,6 +217,7 @@ public class WokBlock extends BaseEntityBlock {
             if (level.getBlockEntity(pos) instanceof WokBlockEntity wok) {
                 Containers.dropContents(level, pos, wok);
                 Containers.dropContents(level, pos, wok.getDishes());
+                wok.getIngredients().forEach(stack -> Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack.copy()));
             }
             super.onRemove(state, level, pos, newState, moved);
         }

@@ -11,10 +11,16 @@ modId = "wok_and_bowl"
 version = "${version}"
 displayName = "[Let's Do] Wok & Bowl"
 authors = "satisfy"
+logoFile = "pack.png"
+displayURL = "https://www.lets-do.ch"
 description = '''
 Fire up the wok – combine fresh ingredients, discover new dishes, and find the perfect moment to serve!
+
+Website: https://www.lets-do.ch
+Wiki: https://lets-do.ch/wiki/wokandbowl/
+Source: https://github.com/Let-s-Do-Collection/WokAndBowl
+Issues: https://github.com/satisfyu/Let-s-Do-Hub
 '''
-logoFile = "pack.png"
 
 [[dependencies.wok_and_bowl]]
 modId = "neoforge"
@@ -26,7 +32,7 @@ side = "BOTH"
 [[dependencies.wok_and_bowl]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.1,)"
+versionRange = "[1.21.1]"
 ordering = "NONE"
 side = "BOTH"
 
@@ -38,8 +44,15 @@ ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.wok_and_bowl]]
+modId = "foundation"
+type = "required"
+versionRange = "[1.0.13,)"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.wok_and_bowl]]
 modId = "farm_and_charm"
 type = "required"
-versionRange = "[1.1.27,)"
+versionRange = "[1.1.30,)"
 ordering = "AFTER"
 side = "BOTH"

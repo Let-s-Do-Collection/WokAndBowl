@@ -10,21 +10,27 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.block.state.properties.DoubleBlockHalf;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.satisfy.wok_and_bowl.core.registry.ObjectRegistry;
 import net.satisfy.wok_and_bowl.platform.PlatformHelper;
+import org.jetbrains.annotations.NotNull;
 
 public class StickyRiceCropBlock extends RiceCropBlock {
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_5;
     public static final BooleanProperty HUNGRY = BooleanProperty.create("hungry");
     private static final int HUNGRY_PARTICLE_CHANCE = 12;
 
     public StickyRiceCropBlock(Properties properties) {
         super(properties);
-        registerDefaultState(stateDefinition.any().setValue(getAgeProperty(), 0).setValue(HUNGRY, false));
+        registerDefaultState(stateDefinition.any().setValue(getAgeProperty(), 0).setValue(HALF, DoubleBlockHalf.LOWER).setValue(HUNGRY, false));
     }
 
     public static boolean isHungry(BlockState state) {
@@ -38,7 +44,17 @@ public class StickyRiceCropBlock extends RiceCropBlock {
     }
 
     @Override
-    protected ItemLike getBaseSeedId() {
+    protected @NotNull IntegerProperty getAgeProperty() {
+        return AGE;
+    }
+
+    @Override
+    public int getMaxAge() {
+        return 5;
+    }
+
+    @Override
+    protected @NotNull ItemLike getBaseSeedId() {
         return ObjectRegistry.STICKY_RICE.get();
     }
 
@@ -48,17 +64,27 @@ public class StickyRiceCropBlock extends RiceCropBlock {
     }
 
     @Override
-    protected void advance(Level level, BlockPos pos, BlockState state, int stages) {
-        if (isHungry(state)) return;
+    protected int targetAge(BlockState state, int stages) {
+        if (isHungry(state)) return getAge(state);
         int age = getAge(state);
         int target = Math.min(age + stages, getMaxAge());
         int nextGate = age + 2 - age % 2;
         if (nextGate < getMaxAge()) target = Math.min(target, nextGate);
-        level.setBlock(pos, getStateForAge(target), 2);
+        return target;
+    }
+
+    @Override
+    public boolean isValidBonemealTarget(LevelReader level, BlockPos pos, BlockState state) {
+        return isHungry(state) || super.isValidBonemealTarget(level, pos, state);
     }
 
     @Override
     public void growCrops(Level level, BlockPos pos, BlockState state) {
+        if (isUpper(state)) {
+            pos = pos.below();
+            state = level.getBlockState(pos);
+            if (!state.is(this)) return;
+        }
         if (isHungry(state)) {
             level.setBlock(pos, state.setValue(HUNGRY, false), 2);
             return;

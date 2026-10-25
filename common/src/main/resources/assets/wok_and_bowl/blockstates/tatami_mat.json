@@ -1,18 +1,78 @@
 {
   "variants": {
-    "facing=north": {
+    "facing=north,layers=1": {
       "model": "wok_and_bowl:block/tatami_mat"
     },
-    "facing=east": {
+    "facing=east,layers=1": {
       "model": "wok_and_bowl:block/tatami_mat",
       "y": 90
     },
-    "facing=south": {
+    "facing=south,layers=1": {
       "model": "wok_and_bowl:block/tatami_mat",
       "y": 180
     },
-    "facing=west": {
+    "facing=west,layers=1": {
       "model": "wok_and_bowl:block/tatami_mat",
+      "y": 270
+    },
+    "facing=north,layers=2": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_0"
+    },
+    "facing=east,layers=2": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_0",
+      "y": 90
+    },
+    "facing=south,layers=2": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_0",
+      "y": 180
+    },
+    "facing=west,layers=2": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_0",
+      "y": 270
+    },
+    "facing=north,layers=3": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_1"
+    },
+    "facing=east,layers=3": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_1",
+      "y": 90
+    },
+    "facing=south,layers=3": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_1",
+      "y": 180
+    },
+    "facing=west,layers=3": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_1",
+      "y": 270
+    },
+    "facing=north,layers=4": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_2"
+    },
+    "facing=east,layers=4": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_2",
+      "y": 90
+    },
+    "facing=south,layers=4": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_2",
+      "y": 180
+    },
+    "facing=west,layers=4": {
+      "model": "wok_and_bowl:block/tatami_mat_stacked_2",
+      "y": 270
+    },
+    "facing=north,layers=5": {
+      "model": "wok_and_bowl:block/tatami_block"
+    },
+    "facing=east,layers=5": {
+      "model": "wok_and_bowl:block/tatami_block",
+      "y": 90
+    },
+    "facing=south,layers=5": {
+      "model": "wok_and_bowl:block/tatami_block",
+      "y": 180
+    },
+    "facing=west,layers=5": {
+      "model": "wok_and_bowl:block/tatami_block",
       "y": 270
     }
   }

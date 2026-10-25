@@ -1,5 +1,6 @@
 package net.satisfy.wok_and_bowl.core.registry;
 
+import net.satisfy.foundation.util.RegistryUtil;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.Registrar;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -16,15 +17,17 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CarpetBlock;
+import net.minecraft.world.level.block.HayBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.satisfy.farm_and_charm.core.block.FacingBlock;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
+import net.satisfy.foundation.block.FacingBlock;
 import net.satisfy.wok_and_bowl.WokAndBowl;
+import net.satisfy.wok_and_bowl.core.block.DishPlateBlock;
 import net.satisfy.wok_and_bowl.core.block.RattanBasketBlock;
-import net.satisfy.wok_and_bowl.core.block.CompletionistBannerBlock;
-import net.satisfy.wok_and_bowl.core.block.CompletionistWallBannerBlock;
+import net.satisfy.foundation.banner.BannerSettings;
+import net.satisfy.foundation.banner.CompletionistBannerBlock;
+import net.satisfy.foundation.banner.CompletionistWallBannerBlock;
 import net.satisfy.wok_and_bowl.core.block.FloorCushionBlock;
 import net.satisfy.wok_and_bowl.core.block.IngredientCubbyBlock;
 import net.satisfy.wok_and_bowl.core.block.PaperLanternBlock;
@@ -60,6 +63,7 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> INGREDIENT_CUBBY = registerWithItem("ingredient_cubby", () -> new IngredientCubbyBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BRICKS).noOcclusion()));
     public static final RegistrySupplier<Block> RICE_BAG = registerWithItem("rice_bag", () -> new FacingBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL)));
     public static final RegistrySupplier<Block> STICKY_RICE_BAG = registerWithItem("sticky_rice_bag", () -> new FacingBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_WOOL)));
+    public static final RegistrySupplier<Block> RICE_BUNDLE = registerWithItem("rice_bundle", () -> new HayBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.HAY_BLOCK)));
     public static final RegistrySupplier<Block> PAPER_LANTERN = registerWithItem("paper_lantern", () -> new PaperLanternBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.LANTERN).lightLevel(state -> state.getValue(PaperLanternBlock.LIT) ? PlatformHelper.getPaperLanternLightLevel() : 0).sound(SoundType.WOOL).strength(0.5F)));
 
     public static final RegistrySupplier<Block> RATTAN_TABLE = registerWithItem("rattan_table", () -> new RattanTableBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS).sound(SoundType.BAMBOO_WOOD).noOcclusion()));
@@ -70,12 +74,14 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Block> RATTAN_BLOCK = registerWithItem("rattan_block", () -> new Block(BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_PLANKS).sound(SoundType.BAMBOO_WOOD)));
     public static final RegistrySupplier<Block> RATTAN_MAT = registerWithItem("rattan_mat", () -> new CarpetBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_CARPET).sound(SoundType.BAMBOO_WOOD)));
     public static final RegistrySupplier<Block> TATAMI_BLOCK = registerWithItem("tatami_block", () -> new FacingBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.HAY_BLOCK)));
-    public static final RegistrySupplier<Block> TATAMI_MAT = registerWithItem("tatami_mat", () -> new TatamiMatBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_CARPET)));
-    public static final RegistrySupplier<Block> WOK_AND_BOWL_BANNER = registerWithItem("wok_and_bowl_banner", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
-    public static final RegistrySupplier<Block> WOK_AND_BOWL_WALL_BANNER = registerWithoutItem("wok_and_bowl_wall_banner", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD)));
+    public static final RegistrySupplier<Block> TATAMI_MAT = registerWithItem("tatami_mat", () -> new TatamiMatBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHITE_CARPET).forceSolidOff().isViewBlocking((state, level, pos) -> state.getValue(TatamiMatBlock.LAYERS) >= TatamiMatBlock.MAX_LAYERS)));
+    private static final BannerSettings BANNER_SETTINGS = new BannerSettings(() -> EntityTypeRegistry.WOK_AND_BOWL_BANNER.get(), () -> ObjectRegistry.WOK_AND_BOWL_WALL_BANNER.get(), WokAndBowl.identifier("textures/banner/wok_and_bowl_banner.png"), "tooltip.wok_and_bowl.banner", MobEffects.MOVEMENT_SPEED);
+    public static final RegistrySupplier<Block> WOK_AND_BOWL_BANNER = registerWithItem("wok_and_bowl_banner", () -> new CompletionistBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD), BANNER_SETTINGS));
+    public static final RegistrySupplier<Block> WOK_AND_BOWL_WALL_BANNER = registerWithoutItem("wok_and_bowl_wall_banner", () -> new CompletionistWallBannerBlock(BlockBehaviour.Properties.of().strength(1F).instrument(NoteBlockInstrument.BASS).noCollission().sound(SoundType.WOOD), BANNER_SETTINGS));
 
     public static final RegistrySupplier<Block> WILD_RICE = registerWithItem("wild_rice", () -> new WildRiceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION)));
 
+    public static final RegistrySupplier<Block> DISH_PLATE = registerWithoutItem("dish_plate", () -> new DishPlateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DECORATED_POT).strength(0.3F).noOcclusion()));
     public static final RegistrySupplier<Block> RICE_PADDY = registerWithoutItem("rice_paddy", () -> new RicePaddyBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FARMLAND)));
     public static final RegistrySupplier<Block> RICE_CROP = registerWithoutItem("rice_crop", () -> new RiceCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
     public static final RegistrySupplier<Block> STICKY_RICE_CROP = registerWithoutItem("sticky_rice_crop", () -> new StickyRiceCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
@@ -89,9 +95,10 @@ public class ObjectRegistry {
 
     public static final RegistrySupplier<Item> FISH_BONES = registerItem("fish_bones", () -> new Item(getSettings()));
     public static final RegistrySupplier<Item> CUT_SALMON = registerItem("cut_salmon", () -> new WokAndBowlFoodItem(getSettings().food(food(WokFood.CUT_SALMON))));
+    public static final RegistrySupplier<Item> CUT_COD = registerItem("cut_cod", () -> new WokAndBowlFoodItem(getSettings().food(food(WokFood.CUT_COD))));
     public static final RegistrySupplier<Item> CHOPPED_PORK = registerItem("chopped_pork", () -> new WokAndBowlFoodItem(getSettings().food(food(WokFood.CHOPPED_PORK))));
     public static final RegistrySupplier<Item> CURED_MEAT = registerItem("cured_meat", () -> new WokAndBowlFoodItem(getSettings().food(food(WokFood.CURED_MEAT))));
-    public static final RegistrySupplier<Item> FERMENTED_SAUCE = registerItem("fermented_sauce", () -> new Item(getSettings().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE)));
+    public static final RegistrySupplier<Item> FERMENTED_SAUCE = registerItem("fermented_sauce", () -> new Item(getSettings().stacksTo(16)));
     public static final RegistrySupplier<Item> BROTH = registerItem("broth", () -> new Item(getSettings().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE)));
 
     public static final RegistrySupplier<Item> STEAMED_RICE = registerItem("steamed_rice", () -> new WokAndBowlFoodItem(getSettings().food(food(WokFood.STEAMED_RICE))));
@@ -104,9 +111,6 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> FISH_STIR_FRY = registerItem("fish_stir_fry", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.FISH_STIR_FRY))));
     public static final RegistrySupplier<Item> STIR_FRIED_NOODLES = registerItem("stir_fried_noodles", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.STIR_FRIED_NOODLES))));
     public static final RegistrySupplier<Item> NOODLE_BOWL = registerItem("noodle_bowl", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.NOODLE_BOWL))));
-    public static final RegistrySupplier<Item> BIG_PLATE_CHICKEN = registerItem("big_plate_chicken", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.BIG_PLATE_CHICKEN))));
-    public static final RegistrySupplier<Item> SWEET_SOUR_LAMB = registerItem("sweet_sour_lamb", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.SWEET_SOUR_LAMB))));
-    public static final RegistrySupplier<Item> PORK_NOODLES = registerItem("pork_noodles", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.PORK_NOODLES))));
     public static final RegistrySupplier<Item> MIXED_STIR_FRY = registerItem("mixed_stir_fry", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.MIXED_STIR_FRY))));
     public static final RegistrySupplier<Item> BURNT_RICE = registerItem("burnt_rice", () -> new BurntRiceItem(getSettings().stacksTo(16).food(foodBuilder(WokFood.BURNT_RICE).effect(new MobEffectInstance(MobEffects.HUNGER, 600, 0), 0.8F).build())));
 
@@ -148,14 +152,14 @@ public class ObjectRegistry {
     }
 
     public static <T extends Block> RegistrySupplier<T> registerWithItem(String name, Supplier<T> block) {
-        return GeneralUtil.registerWithItem(BLOCKS, BLOCK_REGISTRAR, ITEMS, ITEM_REGISTRAR, WokAndBowl.identifier(name), block);
+        return RegistryUtil.registerWithItem(BLOCKS, BLOCK_REGISTRAR, ITEMS, ITEM_REGISTRAR, WokAndBowl.identifier(name), block);
     }
 
     public static <T extends Block> RegistrySupplier<T> registerWithoutItem(String path, Supplier<T> block) {
-        return GeneralUtil.registerWithoutItem(BLOCKS, BLOCK_REGISTRAR, WokAndBowl.identifier(path), block);
+        return RegistryUtil.registerWithoutItem(BLOCKS, BLOCK_REGISTRAR, WokAndBowl.identifier(path), block);
     }
 
     public static <T extends Item> RegistrySupplier<T> registerItem(String path, Supplier<T> itemSupplier) {
-        return GeneralUtil.registerItem(ITEMS, ITEM_REGISTRAR, WokAndBowl.identifier(path), itemSupplier);
+        return RegistryUtil.registerItem(ITEMS, ITEM_REGISTRAR, WokAndBowl.identifier(path), itemSupplier);
     }
 }

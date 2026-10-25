@@ -1,0 +1,16 @@
+{
+  "variants": {
+    "axis=x": {
+      "model": "wok_and_bowl:block/rice_bundle",
+      "x": 90,
+      "y": 90
+    },
+    "axis=y": {
+      "model": "wok_and_bowl:block/rice_bundle"
+    },
+    "axis=z": {
+      "model": "wok_and_bowl:block/rice_bundle",
+      "x": 90
+    }
+  }
+}

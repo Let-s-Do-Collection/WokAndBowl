@@ -1,12 +1,13 @@
 package net.satisfy.wok_and_bowl.compat.rei;
 
+import net.satisfy.wok_and_bowl.compat.WokRecipeLayout;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.display.basic.BasicDisplay;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.satisfy.wok_and_bowl.WokAndBowl;
-import net.satisfy.wok_and_bowl.compat.RecipeViewerLayout;
+import net.satisfy.foundation.compat.RecipeViewerLayout;
 import net.satisfy.wok_and_bowl.core.recipe.WokRecipe;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ public class WokDisplay extends BasicDisplay {
         for (Ingredient ingredient : recipe.getIngredients()) {
             inputs.add(EntryIngredients.ofIngredient(ingredient));
         }
-        inputs.add(EntryIngredients.ofIngredient(RecipeViewerLayout.fermentedSauce()));
+        inputs.add(EntryIngredients.ofIngredient(WokRecipeLayout.fermentedSauce()));
         return inputs;
     }
 

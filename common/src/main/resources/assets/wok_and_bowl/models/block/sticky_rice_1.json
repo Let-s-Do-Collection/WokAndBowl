@@ -1,0 +1,6 @@
+{
+  "parent": "wok_and_bowl:block/rice_crop",
+  "textures": {
+    "crop": "wok_and_bowl:block/sticky_rice_1"
+  }
+}

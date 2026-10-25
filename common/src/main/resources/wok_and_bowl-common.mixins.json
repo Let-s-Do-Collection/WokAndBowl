@@ -3,9 +3,7 @@
   "package": "net.satisfy.wok_and_bowl.core.mixin",
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
-  "client": [
-    "TooltipRenderUtilMixin"
-  ],
+  "client": [],
   "mixins": [],
   "injectors": {
     "defaultRequire": 1

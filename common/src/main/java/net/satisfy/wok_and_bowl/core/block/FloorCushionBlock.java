@@ -1,5 +1,7 @@
 package net.satisfy.wok_and_bowl.core.block;
 
+import net.satisfy.foundation.seat.SeatUtil;
+import net.satisfy.foundation.util.DyeHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ColorParticleOption;
@@ -28,8 +30,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.satisfy.farm_and_charm.core.util.GeneralUtil;
-import net.satisfy.farm_and_charm.core.registry.ParticleTypeRegistry;
+import net.satisfy.foundation.registry.FoundationParticles;
 import net.satisfy.wok_and_bowl.platform.PlatformHelper;
 import org.jetbrains.annotations.NotNull;
 
@@ -38,7 +39,7 @@ public class FloorCushionBlock extends Block {
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
 
     private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 4, 15);
-    private static final double SEAT_OFFSET = -0.0375;
+    private static final double SEAT_OFFSET = -0.575;
     private static final float FALL_DAMAGE_FACTOR = 0.5F;
     private static final float FEATHER_FALL_DISTANCE = 0.5F;
     private static final int FEATHERS = 6;
@@ -55,13 +56,13 @@ public class FloorCushionBlock extends Block {
         if (stack.getItem() instanceof DyeItem dye) {
             return DyeHelper.dye(stack, dye.getDyeColor(), state, COLOR, level, pos, player);
         }
-        return GeneralUtil.onUse(level, player, hand, hitResult, SEAT_OFFSET);
+        return SeatUtil.onUse(level, player, hand, hitResult, SEAT_OFFSET);
     }
 
     @Override
     public void fallOn(Level level, BlockState state, BlockPos pos, Entity entity, float fallDistance) {
         if (fallDistance > FEATHER_FALL_DISTANCE && PlatformHelper.isCushionFeathersEnabled() && level instanceof ServerLevel serverLevel) {
-            ColorParticleOption feather = ColorParticleOption.create(ParticleTypeRegistry.FEATHER.get(), FastColor.ARGB32.opaque(state.getValue(COLOR).getTextureDiffuseColor()));
+            ColorParticleOption feather = ColorParticleOption.create(FoundationParticles.FEATHER.get(), FastColor.ARGB32.opaque(state.getValue(COLOR).getTextureDiffuseColor()));
             serverLevel.sendParticles(feather, pos.getX() + 0.5, pos.getY() + 0.3, pos.getZ() + 0.5, FEATHERS, 0.3, 0.05, 0.3, 0.04);
         }
         super.fallOn(level, state, pos, entity, fallDistance * FALL_DAMAGE_FACTOR);
@@ -82,7 +83,7 @@ public class FloorCushionBlock extends Block {
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
-        GeneralUtil.onStateReplaced(level, pos);
+        SeatUtil.onStateReplaced(level, pos);
         super.onRemove(state, level, pos, newState, moved);
     }
 

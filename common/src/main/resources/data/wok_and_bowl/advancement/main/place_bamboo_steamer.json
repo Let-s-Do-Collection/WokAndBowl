@@ -1,0 +1,46 @@
+{
+  "parent": "wok_and_bowl:main/place_wok",
+  "display": {
+    "icon": {
+      "id": "wok_and_bowl:bamboo_steamer"
+    },
+    "title": {
+      "translate": "advancement.wok_and_bowl.place_bamboo_steamer"
+    },
+    "description": {
+      "translate": "advancement.wok_and_bowl.place_bamboo_steamer.desc"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": false,
+    "hidden": false
+  },
+  "criteria": {
+    "place_bamboo_steamer": {
+      "trigger": "minecraft:item_used_on_block",
+      "conditions": {
+        "location": [
+          {
+            "condition": "minecraft:location_check",
+            "predicate": {
+              "block": {
+                "blocks": "wok_and_bowl:wok"
+              }
+            }
+          },
+          {
+            "condition": "minecraft:match_tool",
+            "predicate": {
+              "items": "wok_and_bowl:bamboo_steamer"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "place_bamboo_steamer"
+    ]
+  ]
+}

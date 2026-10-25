@@ -17,9 +17,6 @@ public class ParticleTypeRegistry {
 
     public static final RegistrySupplier<SimpleParticleType> RATTAN_LEAF = PARTICLE_TYPES.register("rattan_leaf", () -> new SimpleParticleType(false) {
     });
-
-    public static final RegistrySupplier<SimpleParticleType> FIREFLY = PARTICLE_TYPES.register("firefly", () -> new SimpleParticleType(false) {
-    });
     public static final RegistrySupplier<SimpleParticleType> WOK_STEAM = PARTICLE_TYPES.register("wok_steam", () -> new SimpleParticleType(false) {
     });
 

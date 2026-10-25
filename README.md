@@ -1,4 +1,4 @@
-![Wok & Bowl](https://lets-do.ch/assets/mod-logos/wok_and_bowl.webp)
+![Wok & Bowl](https://lets-do.ch/assets/mod-logos/wokandbowl.png)
 
 <br>
 
@@ -18,7 +18,7 @@
 
 <br>
 
-Wok & Bowl brings wok cooking inspired by East Asian cuisine into your world. Flood your rice paddies, prepare your ingredients on the cutting board, toss them into a hot wok and serve your dish at just the right moment.
+Wok & Bowl brings the sizzle of wok cooking into your world: rice, noodles, dumplings and steamed buns, all made from scratch. Flood your rice paddies, prepare your ingredients on the cutting board, toss them into a hot wok and serve your dish at just the right moment.
 
 <br>
 
@@ -148,6 +148,6 @@ Make yourself at home.
 
 <p align="center">
   <a href="https://github.com/Let-s-Do-Collection/Let-s-Do-Collection">GitHub</a> •
-  <a href="https://discord.gg/Jb2bgpYr">Discord</a> •
+  <a href="https://discord.gg/N2N4Wa6nx">Discord</a> •
   <a href="https://www.patreon.com/c/u78595058">Patreon</a>
 </p>

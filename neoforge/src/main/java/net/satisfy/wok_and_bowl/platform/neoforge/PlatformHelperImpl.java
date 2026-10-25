@@ -60,8 +60,24 @@ public class PlatformHelperImpl {
         return WokAndBowlNeoForgeConfig.wokTwoStarBonus;
     }
 
-    public static boolean isBlockInfoEnabled() {
-        return WokAndBowlNeoForgeConfig.blockInfo;
+    public static boolean showWokInfo() {
+        return WokAndBowlNeoForgeConfig.showWokInfo;
+    }
+
+    public static boolean showBambooSteamerInfo() {
+        return WokAndBowlNeoForgeConfig.showBambooSteamerInfo;
+    }
+
+    public static boolean showIngredientCubbyInfo() {
+        return WokAndBowlNeoForgeConfig.showIngredientCubbyInfo;
+    }
+
+    public static boolean showStickyRiceInfo() {
+        return WokAndBowlNeoForgeConfig.showStickyRiceInfo;
+    }
+
+    public static boolean showPlateInfo() {
+        return WokAndBowlNeoForgeConfig.showPlateInfo;
     }
 
     public static int getTatamiRestedSeconds() {
@@ -73,7 +89,7 @@ public class PlatformHelperImpl {
     }
 
     public static boolean isWokQualityEnabled() {
-        return WokAndBowlNeoForgeConfig.wokQualityEnabled;
+        return WokAndBowlNeoForgeConfig.enableWokQuality;
     }
 
     public static int getRattanBasketRange() {
@@ -93,11 +109,11 @@ public class PlatformHelperImpl {
     }
 
     public static boolean isRattanLeafParticlesEnabled() {
-        return WokAndBowlNeoForgeConfig.rattanLeafParticles;
+        return WokAndBowlNeoForgeConfig.enableRattanLeafParticles;
     }
 
     public static boolean isCushionBounceEnabled() {
-        return WokAndBowlNeoForgeConfig.cushionBounce;
+        return WokAndBowlNeoForgeConfig.enableCushionBounce;
     }
 
     public static int getBurntRiceBurnTime() {
@@ -105,7 +121,7 @@ public class PlatformHelperImpl {
     }
 
     public static boolean isWokRecipeHintsEnabled() {
-        return WokAndBowlNeoForgeConfig.wokRecipeHints;
+        return WokAndBowlNeoForgeConfig.enableWokRecipeHints;
     }
 
     public static float getSteamingSpeed() {
@@ -121,27 +137,19 @@ public class PlatformHelperImpl {
     }
 
     public static boolean isWokSteamParticlesEnabled() {
-        return WokAndBowlNeoForgeConfig.wokSteamParticles;
+        return WokAndBowlNeoForgeConfig.enableWokSteamParticles;
     }
 
-    public static boolean isBasketFlightAnimationEnabled() {
-        return WokAndBowlNeoForgeConfig.basketFlightAnimation;
-    }
-
-    public static boolean isFirefliesEnabled() {
-        return WokAndBowlNeoForgeConfig.fireflies;
+    public static boolean isAnimationsEnabled() {
+        return WokAndBowlNeoForgeConfig.animations;
     }
 
     public static boolean isCushionFeathersEnabled() {
-        return WokAndBowlNeoForgeConfig.cushionFeathers;
-    }
-
-    public static boolean isItemTooltipsEnabled() {
-        return WokAndBowlNeoForgeConfig.itemTooltips;
+        return WokAndBowlNeoForgeConfig.enableCushionFeathers;
     }
 
     public static boolean isWokTossTimingEnabled() {
-        return WokAndBowlNeoForgeConfig.wokTossTiming;
+        return WokAndBowlNeoForgeConfig.enableWokTossTiming;
     }
 
     public static int getWokPerfectTossTicks() {
