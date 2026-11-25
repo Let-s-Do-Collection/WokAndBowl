@@ -147,3 +147,88 @@ tasks.register("curseforge1824446", net.darkhax.curseforgegradle.TaskPublishCurs
     mainFile.addOptional("jei")
     mainFile.addOptional("emi")
 }
+
+tasks.register("releaseChangelog") {
+    group = "publishing"
+    description = "Send the latest changelog block to Discord"
+
+    doLast {
+        def discordWebhookUrl = (project.findProperty("webhook") ?: System.getenv("DISCORD_WEBHOOK_URL"))?.toString()?.trim()
+        if (!discordWebhookUrl) {
+            println "No Discord webhook set. Provide -Pwebhook=... or set DISCORD_WEBHOOK_URL"
+            return
+        }
+        println "Using Discord webhook: ${discordWebhookUrl.replaceAll('/api/webhooks/[^/]+/[^/]+$', '/api/webhooks/********/********')}"
+
+        def modName = (project.findProperty("modDisplayName") ?: "Wok & Bowl").toString()
+        def versionLabel = rootProject.mod_version
+        def full = rootProject.file("CHANGELOG.md").exists() ? rootProject.file("CHANGELOG.md").text : ""
+        def m = (full =~ /(?ms)^(\[[^\]\n]+\][ \t]*$.*?)(?:^\*\*\*[ \t]*$|\z)/)
+        def block = m.find() ? m.group(1).trim() : full.trim()
+
+        int embedLimit = 4000
+        int messageLimit = 5500
+        def chunks = []
+        def current = new StringBuilder()
+        block.readLines().each { line ->
+            if (current.length() + line.length() + 1 > embedLimit) {
+                chunks << current.toString().trim()
+                current = new StringBuilder()
+            }
+            current.append(line).append("\n")
+        }
+        if (current.toString().trim()) chunks << current.toString().trim()
+
+        def links = "[Modrinth](https://modrinth.com/mod/lets-do-wok-bowl)\n[CurseForge](https://www.curseforge.com/minecraft/mc-mods/lets-do-wok-bowl)"
+        def messages = [[]]
+        int messageSize = 0
+        chunks.eachWithIndex { chunk, index ->
+            if (messages.last().size() == 10 || messageSize + chunk.length() > messageLimit) {
+                messages << []
+                messageSize = 0
+            }
+            def embed = [description: chunk]
+            if (index == 0) embed.title = "**Changelog**"
+            if (index == chunks.size() - 1) embed.fields = [[name: "**Download it on**", value: links, inline: false]]
+            messages.last() << embed
+            messageSize += chunk.length()
+        }
+
+        boolean dryRun = (project.findProperty("dryRun") ?: "false").toString().toBoolean()
+        messages.eachWithIndex { embeds, index ->
+            def payload = [
+                    username  : "[Let’s Do] Assistant",
+                    avatar_url: "https://raw.githubusercontent.com/Let-s-Do-Collection/WokAndBowl/main/common/src/main/resources/pack.png",
+                    embeds    : embeds
+            ]
+            if (index == 0) payload.content = "**${modName} ${versionLabel} has been released! 🎉**\n\nLearn about all changes and improvements below:".toString()
+            def json = groovy.json.JsonOutput.toJson(payload)
+            if (dryRun) {
+                println "DRY RUN — message ${index + 1}/${messages.size()}:\n${groovy.json.JsonOutput.prettyPrint(json)}"
+                return
+            }
+            HttpURLConnection conn = (HttpURLConnection) new URL(discordWebhookUrl).openConnection()
+            try {
+                conn.setRequestMethod("POST")
+                conn.setDoOutput(true)
+                byte[] body = json.getBytes("UTF-8")
+                conn.setRequestProperty("Content-Type", "application/json")
+                conn.setRequestProperty("Content-Length", Integer.toString(body.length))
+                conn.getOutputStream().write(body)
+                int code = conn.getResponseCode()
+                println "Discord message ${index + 1}/${messages.size()}: ${code} ${conn.getResponseMessage()}"
+                if (code >= 300) {
+                    def error = conn.getErrorStream()
+                    if (error != null) println error.getText("UTF-8")
+                }
+            } finally {
+                conn.disconnect()
+            }
+            if (index < messages.size() - 1) Thread.sleep(1000)
+        }
+    }
+}
+
+tasks.named("modrinth").configure {
+    finalizedBy(tasks.named("releaseChangelog"))
+}
