@@ -51,6 +51,11 @@ public class RiceCropBlock extends CropBlock {
     }
 
     @Override
+    public int getAge(BlockState state) {
+        return isUpper(state) ? getMaxAge() : super.getAge(state);
+    }
+
+    @Override
     public int getMaxAge() {
         return 4;
     }
@@ -80,7 +85,7 @@ public class RiceCropBlock extends CropBlock {
 
     @Override
     protected @NotNull VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        int age = getAge(state);
+        int age = state.getValue(getAgeProperty());
         if (isUpper(state)) {
             return Block.box(0.0, 0.0, 0.0, 16.0, 16.0 * (age - TALL_AGE + 1) / (getMaxAge() - TALL_AGE + 1), 16.0);
         }
@@ -103,7 +108,15 @@ public class RiceCropBlock extends CropBlock {
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (level.isClientSide() || isUpper(state) || !isTall(getAge(state))) {
+        if (level.isClientSide()) {
+            return;
+        }
+        BlockState below = level.getBlockState(pos.below());
+        if (!isUpper(state) && oldState.is(this) && isUpper(oldState) && below.is(this) && !isUpper(below)) {
+            level.setBlock(pos, below.setValue(HALF, DoubleBlockHalf.UPPER), 3);
+            return;
+        }
+        if (isUpper(state) || !isTall(getAge(state))) {
             return;
         }
         BlockPos above = pos.above();
@@ -142,7 +155,7 @@ public class RiceCropBlock extends CropBlock {
         if (isUpper(state)) {
             return;
         }
-        if (level.getRawBrightness(pos, 0) >= 9 && !isMaxAge(state) && random.nextInt((int) (25.0F / PlatformHelper.getRiceGrowthSpeed()) + 1) == 0) {
+        if (level.getRawBrightness(pos, 0) >= 9 && !isMaxAge(state) && random.nextInt((int) (25.0F / PlatformHelper.getRiceGrowthMultiplier()) + 1) == 0) {
             advance(level, pos, state, 1);
         }
     }

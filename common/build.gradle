@@ -12,6 +12,7 @@ dependencies {
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
     modCompileOnlyApi(files(rootProject.file("local-mods/letsdo-farm_and_charm-fabric-${rootProject.farm_and_charm_version}.jar")))
     modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
+    modCompileOnly("dev.emi:emi-xplat-intermediary:${rootProject.emi_version}:api")
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rootProject.rei_version}") { exclude group: "net.fabricmc", module: "fabric-loader" }
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-default-plugin:${rootProject.rei_version}") { exclude group: "net.fabricmc", module: "fabric-loader" }
 }
@@ -26,4 +27,9 @@ publishing {
 
     repositories {
     }
+}
+
+tasks.register("release") {
+    group = "publishing"
+    dependsOn([":fabric", ":neoforge"].collect { path -> project(path).tasks.matching { it.name == "modrinth" || it.name.startsWith("curseforge") } })
 }

@@ -36,7 +36,6 @@ public class WokInfoProvider implements BlockInfoProvider {
     private static final int SCAN_INTERVAL = 10;
     private static final int TOSS_START_COLOR = 0xFFFFD700;
     private static final int TOSS_END_COLOR = 0xFFE0301E;
-    private static final int TICKS_PER_SECOND = 20;
     private static final int START_HINT_DELAY = 40;
 
     private static final List<BlockPos> OWNED_WOKS = new ArrayList<>();
@@ -52,6 +51,9 @@ public class WokInfoProvider implements BlockInfoProvider {
             return;
         }
         OWNED_WOKS.clear();
+        if (!PlatformHelper.showWokInfo()) {
+            return;
+        }
         BlockPos center = minecraft.player.blockPosition();
         for (BlockPos pos : BlockPos.betweenClosed(center.offset(-OWNED_WOK_RANGE, -OWNED_WOK_RANGE, -OWNED_WOK_RANGE), center.offset(OWNED_WOK_RANGE, OWNED_WOK_RANGE, OWNED_WOK_RANGE))) {
             if (minecraft.level.getBlockEntity(pos) instanceof WokBlockEntity wok && wok.isCooking() && minecraft.player.getUUID().equals(wok.getOwner())) {
@@ -73,7 +75,7 @@ public class WokInfoProvider implements BlockInfoProvider {
 
     @Override
     public void beforeBackground(Level level, BlockPos pos, BlockState state) {
-        if (!(state.getBlock() instanceof WokBlock) || state.getValue(WokBlock.HAS_STEAMER)) {
+        if (!PlatformHelper.showWokInfo() || !(state.getBlock() instanceof WokBlock) || state.getValue(WokBlock.HAS_STEAMER)) {
             return;
         }
         if (level.getBlockEntity(pos) instanceof WokBlockEntity wok) {
@@ -97,22 +99,34 @@ public class WokInfoProvider implements BlockInfoProvider {
 
     private static List<InfoSection> describeWok(WokBlockEntity wok) {
         List<InfoSection> sections = new ArrayList<>();
+        if (!wok.isCooking() && wok.hasDishes()) {
+            List<ItemStack> dishes = wok.getDishes().stream().filter(stack -> !stack.isEmpty()).toList();
+            boolean burnt = dishes.stream().allMatch(stack -> stack.is(ObjectRegistry.BURNT_RICE.get()));
+            sections.add(InfoSection.icons(burnt ? Component.translatable("hud.wok_and_bowl.burnt").withStyle(ChatFormatting.RED) : Component.translatable("hud.wok_and_bowl.take").withStyle(ChatFormatting.GREEN), dishes, InfoSection.ROW_COLUMNS).withDecorations());
+            sections.add(hint(wok.hasBurntRice() ? "hud.wok_and_bowl.hint_empty" : "hud.wok_and_bowl.hint_take"));
+            return sections;
+        }
         if (!wok.isHeatedForDisplay()) {
             sections.add(InfoSection.title(Component.translatable("hud.wok_and_bowl.needs_heat").withStyle(ChatFormatting.GOLD)));
             return sections;
         }
         if (wok.isCooking()) {
+            boolean canCook = canCook(wok);
             ItemStack result = wok.getCurrentResult();
             List<ItemStack> cooking = result.isEmpty() ? wok.getIngredients() : List.of(result);
             if (wok.isAwaitingToss()) {
                 sections.add(InfoSection.image(Component.translatable("hud.wok_and_bowl.toss").withStyle(Style.EMPTY.withBold(true).withColor(TextColor.fromRgb(tossColor(wok)))), TOSS_ICON, TOSS_SIZE));
-                sections.add(hint("hud.wok_and_bowl.hint_toss"));
+                if (canCook) {
+                    sections.add(hint("hud.wok_and_bowl.hint_toss"));
+                }
             } else if (wok.isSauced() && wok.getTimer() >= wok.getReadyTime()) {
                 sections.add(InfoSection.icons(Component.translatable("hud.wok_and_bowl.serve").withStyle(ChatFormatting.GREEN), cooking, InfoSection.ROW_COLUMNS));
-                sections.add(hint("hud.wok_and_bowl.hint_serve"));
+                if (canCook || !PlatformHelper.isWokQualityEnabled()) {
+                    sections.add(hint("hud.wok_and_bowl.hint_serve"));
+                }
             } else {
                 sections.add(InfoSection.icons(Component.translatable("hud.wok_and_bowl.cooking"), cooking, InfoSection.ROW_COLUMNS));
-                if (!wok.isSauced() && PlatformHelper.isWokRecipeHintsEnabled()) {
+                if (canCook && !wok.isSauced() && PlatformHelper.isWokRecipeHintsEnabled()) {
                     List<ItemStack> next = wok.getNextIngredients();
                     if (!next.isEmpty()) {
                         sections.add(InfoSection.icons(Component.translatable("hud.wok_and_bowl.next"), next, InfoSection.GRID_COLUMNS));
@@ -121,17 +135,13 @@ public class WokInfoProvider implements BlockInfoProvider {
                         sections.add(InfoSection.icons(Component.translatable("hud.wok_and_bowl.finish"), List.of(new ItemStack(ObjectRegistry.FERMENTED_SAUCE.get())), InfoSection.GRID_COLUMNS));
                     }
                 }
-                if (!wok.isSauced()) {
+                if (canCook && !wok.isSauced()) {
                     sections.add(hint(wok.canFinish() ? "hud.wok_and_bowl.hint_add_or_finish" : "hud.wok_and_bowl.hint_add"));
+                    if (!wok.isFlambeed()) {
+                        sections.add(hint("hud.wok_and_bowl.hint_flambe"));
+                    }
                 }
             }
-            return sections;
-        }
-        if (wok.hasDishes()) {
-            List<ItemStack> dishes = wok.getDishes().stream().filter(stack -> !stack.isEmpty()).toList();
-            boolean burnt = dishes.stream().allMatch(stack -> stack.is(ObjectRegistry.BURNT_RICE.get()));
-            sections.add(InfoSection.icons(burnt ? Component.translatable("hud.wok_and_bowl.burnt").withStyle(ChatFormatting.RED) : Component.translatable("hud.wok_and_bowl.take").withStyle(ChatFormatting.GREEN), dishes, InfoSection.ROW_COLUMNS).withDecorations());
-            sections.add(hint(burnt ? "hud.wok_and_bowl.hint_empty" : "hud.wok_and_bowl.hint_take"));
             return sections;
         }
         long sinceEmptied = Objects.requireNonNull(wok.getLevel()).getGameTime() - wok.getLastEmptied();
@@ -146,13 +156,21 @@ public class WokInfoProvider implements BlockInfoProvider {
         return sections;
     }
 
+    private static boolean canCook(WokBlockEntity wok) {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (!PlatformHelper.isWokOwnerOnly() || wok.getOwner() == null || minecraft.player == null || minecraft.player.getUUID().equals(wok.getOwner())) {
+            return true;
+        }
+        return minecraft.getConnection() != null && minecraft.getConnection().getPlayerInfo(wok.getOwner()) == null;
+    }
+
     private static InfoSection hint(String key) {
         return InfoSection.title(Component.translatable(key).withStyle(ChatFormatting.GRAY));
     }
 
     private static int tossColor(WokBlockEntity wok) {
         Level level = Objects.requireNonNull(wok.getLevel());
-        float window = PlatformHelper.getWokTossWindowSeconds() * TICKS_PER_SECOND / WokBlock.getHeat(level, wok.getBlockPos());
+        float window = WokBlockEntity.getTossWindow() / WokBlock.getHeat(level, wok.getBlockPos());
         float progress = Mth.clamp((level.getGameTime() - wok.getTossCalled()) / Math.max(1.0F, window), 0.0F, 1.0F);
         return FastColor.ARGB32.lerp(progress, TOSS_START_COLOR, TOSS_END_COLOR) & 0xFFFFFF;
     }

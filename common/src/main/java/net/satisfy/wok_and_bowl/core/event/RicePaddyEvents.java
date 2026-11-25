@@ -1,5 +1,7 @@
 package net.satisfy.wok_and_bowl.core.event;
 
+import net.minecraft.world.item.Items;
+import net.satisfy.wok_and_bowl.core.block.crops.StickyRiceCropBlock;
 import dev.architectury.event.EventResult;
 import dev.architectury.event.events.common.InteractionEvent;
 import net.minecraft.core.BlockPos;
@@ -22,16 +24,24 @@ import net.satisfy.wok_and_bowl.platform.PlatformHelper;
 public class RicePaddyEvents {
     public static void init() {
         InteractionEvent.RIGHT_CLICK_BLOCK.register(RicePaddyEvents::lowerFarmland);
+        InteractionEvent.RIGHT_CLICK_BLOCK.register(RicePaddyEvents::rejectBoneMeal);
     }
 
     private static boolean canBecomePaddy(BlockState state) {
         return state.is(net.satisfy.farm_and_charm.core.registry.ObjectRegistry.FERTILIZED_FARM_BLOCK.get()) || (!PlatformHelper.isRicePaddyFertilizedFarmlandRequired() && state.is(Blocks.FARMLAND));
     }
 
+    private static EventResult rejectBoneMeal(Player player, InteractionHand hand, BlockPos pos, Direction face) {
+        BlockState state = player.level().getBlockState(pos);
+        boolean hungry = state.getBlock() instanceof StickyRiceCropBlock && StickyRiceCropBlock.isHungry(state);
+        return hungry && player.getItemInHand(hand).is(Items.BONE_MEAL) ? EventResult.interruptFalse() : EventResult.pass();
+    }
+
     private static EventResult lowerFarmland(Player player, InteractionHand hand, BlockPos pos, Direction face) {
         ItemStack stack = player.getItemInHand(hand);
         Level level = player.level();
         if (!(stack.getItem() instanceof ShovelItem) || face == Direction.DOWN) return EventResult.pass();
+        if (player.isSpectator() || !player.mayUseItemAt(pos.relative(face), face, stack)) return EventResult.pass();
         if (!canBecomePaddy(level.getBlockState(pos))) return EventResult.pass();
         if (!level.getBlockState(pos.above()).isAir()) return EventResult.pass();
 

@@ -4,16 +4,16 @@ import net.satisfy.wok_and_bowl.core.util.WokFood;
 import net.satisfy.wok_and_bowl.neoforge.core.config.WokAndBowlNeoForgeConfig;
 
 public class PlatformHelperImpl {
-    public static int getWokBaseCookingSeconds() {
-        return WokAndBowlNeoForgeConfig.wokBaseCookingSeconds;
+    public static int getWokBaseCookingDuration() {
+        return WokAndBowlNeoForgeConfig.wokBaseCookingDuration;
     }
 
-    public static int getWokSecondsPerIngredient() {
-        return WokAndBowlNeoForgeConfig.wokSecondsPerIngredient;
+    public static int getWokIngredientCookingDuration() {
+        return WokAndBowlNeoForgeConfig.wokIngredientCookingDuration;
     }
 
-    public static int getWokMaxCookingSeconds() {
-        return WokAndBowlNeoForgeConfig.wokMaxCookingSeconds;
+    public static int getWokMaxCookingDuration() {
+        return WokAndBowlNeoForgeConfig.wokMaxCookingDuration;
     }
 
     public static boolean isWokHeatRequired() {
@@ -28,36 +28,36 @@ public class PlatformHelperImpl {
         return WokAndBowlNeoForgeConfig.getSaturation(food);
     }
 
-    public static float getRiceGrowthSpeed() {
-        return WokAndBowlNeoForgeConfig.riceGrowthSpeed;
+    public static float getRiceGrowthMultiplier() {
+        return WokAndBowlNeoForgeConfig.riceGrowthMultiplier;
     }
 
     public static boolean isStickyRiceFertilizerRequired() {
         return WokAndBowlNeoForgeConfig.stickyRiceFertilizerRequired;
     }
 
-    public static int getWokTossIntervalSeconds() {
-        return WokAndBowlNeoForgeConfig.wokTossIntervalSeconds;
+    public static int getWokTossInterval() {
+        return WokAndBowlNeoForgeConfig.wokTossInterval;
     }
 
-    public static int getWokTossWindowSeconds() {
-        return WokAndBowlNeoForgeConfig.wokTossWindowSeconds;
+    public static int getWokTossWindowDuration() {
+        return WokAndBowlNeoForgeConfig.wokTossWindowDuration;
     }
 
-    public static int getWokServeWindowSeconds() {
-        return WokAndBowlNeoForgeConfig.wokServeWindowSeconds;
+    public static int getWokServeWindowDuration() {
+        return WokAndBowlNeoForgeConfig.wokServeWindowDuration;
     }
 
-    public static int getWokBurnSeconds() {
-        return WokAndBowlNeoForgeConfig.wokBurnSeconds;
+    public static int getWokBurnDuration() {
+        return WokAndBowlNeoForgeConfig.wokBurnDuration;
     }
 
-    public static int getWokThreeStarBonus() {
-        return WokAndBowlNeoForgeConfig.wokThreeStarBonus;
+    public static int getWokThreeFlameBonus() {
+        return WokAndBowlNeoForgeConfig.wokThreeFlameBonus;
     }
 
-    public static int getWokTwoStarBonus() {
-        return WokAndBowlNeoForgeConfig.wokTwoStarBonus;
+    public static int getWokTwoFlameBonus() {
+        return WokAndBowlNeoForgeConfig.wokTwoFlameBonus;
     }
 
     public static boolean showWokInfo() {
@@ -76,12 +76,8 @@ public class PlatformHelperImpl {
         return WokAndBowlNeoForgeConfig.showStickyRiceInfo;
     }
 
-    public static boolean showPlateInfo() {
-        return WokAndBowlNeoForgeConfig.showPlateInfo;
-    }
-
-    public static int getTatamiRestedSeconds() {
-        return WokAndBowlNeoForgeConfig.tatamiRestedSeconds;
+    public static int getTatamiRestedDuration() {
+        return WokAndBowlNeoForgeConfig.tatamiRestedDuration;
     }
 
     public static boolean isWokOwnerOnly() {
@@ -96,16 +92,16 @@ public class PlatformHelperImpl {
         return WokAndBowlNeoForgeConfig.rattanBasketRange;
     }
 
-    public static float getRattanGrowthSpeed() {
-        return WokAndBowlNeoForgeConfig.rattanGrowthSpeed;
+    public static float getRattanGrowthMultiplier() {
+        return WokAndBowlNeoForgeConfig.rattanGrowthMultiplier;
     }
 
     public static int getIngredientCubbySlotSize() {
         return WokAndBowlNeoForgeConfig.ingredientCubbySlotSize;
     }
 
-    public static float getRattanBranchDensity() {
-        return WokAndBowlNeoForgeConfig.rattanBranchDensity;
+    public static float getRattanBranchChance() {
+        return WokAndBowlNeoForgeConfig.rattanBranchChance / 100.0F;
     }
 
     public static boolean isRattanLeafParticlesEnabled() {
@@ -116,16 +112,16 @@ public class PlatformHelperImpl {
         return WokAndBowlNeoForgeConfig.enableCushionBounce;
     }
 
-    public static int getBurntRiceBurnTime() {
-        return WokAndBowlNeoForgeConfig.burntRiceBurnTime;
+    public static int getBurntRiceBurnDuration() {
+        return WokAndBowlNeoForgeConfig.burntRiceBurnDuration;
     }
 
     public static boolean isWokRecipeHintsEnabled() {
         return WokAndBowlNeoForgeConfig.enableWokRecipeHints;
     }
 
-    public static float getSteamingSpeed() {
-        return WokAndBowlNeoForgeConfig.steamingSpeed;
+    public static float getSteamingSpeedMultiplier() {
+        return WokAndBowlNeoForgeConfig.steamingSpeedMultiplier;
     }
 
     public static boolean isRicePaddyFertilizedFarmlandRequired() {
@@ -152,20 +148,20 @@ public class PlatformHelperImpl {
         return WokAndBowlNeoForgeConfig.enableWokTossTiming;
     }
 
-    public static int getWokPerfectTossTicks() {
-        return WokAndBowlNeoForgeConfig.wokPerfectTossTicks;
+    public static int getWokPerfectTossDuration() {
+        return WokAndBowlNeoForgeConfig.wokPerfectTossDuration;
     }
 
-    public static float getWokCampfireHeat() {
-        return WokAndBowlNeoForgeConfig.wokCampfireHeat;
+    public static float getWokCampfireHeatMultiplier() {
+        return WokAndBowlNeoForgeConfig.wokCampfireHeatMultiplier;
     }
 
-    public static float getWokStoveHeat() {
-        return WokAndBowlNeoForgeConfig.wokStoveHeat;
+    public static float getWokStoveHeatMultiplier() {
+        return WokAndBowlNeoForgeConfig.wokStoveHeatMultiplier;
     }
 
-    public static float getWokSoulFireHeat() {
-        return WokAndBowlNeoForgeConfig.wokSoulFireHeat;
+    public static float getWokSoulFireHeatMultiplier() {
+        return WokAndBowlNeoForgeConfig.wokSoulFireHeatMultiplier;
     }
 
     public static int getTatamiRestedFlameBonus() {

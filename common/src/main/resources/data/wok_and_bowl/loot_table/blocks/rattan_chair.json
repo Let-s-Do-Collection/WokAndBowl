@@ -7,16 +7,7 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "wok_and_bowl:rattan_chair",
-          "conditions": [
-            {
-              "condition": "minecraft:block_state_property",
-              "block": "wok_and_bowl:rattan_chair",
-              "properties": {
-                "half": "lower"
-              }
-            }
-          ]
+          "name": "wok_and_bowl:rattan_chair"
         }
       ],
       "conditions": [

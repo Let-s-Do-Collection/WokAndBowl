@@ -22,7 +22,10 @@
         "location": [
           {
             "condition": "minecraft:block_state_property",
-            "block": "wok_and_bowl:wok"
+            "block": "wok_and_bowl:wok",
+            "properties": {
+              "heat": "true"
+            }
           }
         ]
       }

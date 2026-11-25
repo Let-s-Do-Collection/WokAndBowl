@@ -38,7 +38,7 @@ public class FloorCushionBlock extends Block {
     public static final DirectionProperty FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final EnumProperty<DyeColor> COLOR = EnumProperty.create("color", DyeColor.class);
 
-    private static final VoxelShape SHAPE = Block.box(1, 0, 1, 15, 4, 15);
+    private static final VoxelShape SHAPE = Block.box(2, 0, 2, 14, 4, 14);
     private static final double SEAT_OFFSET = -0.575;
     private static final float FALL_DAMAGE_FACTOR = 0.5F;
     private static final float FEATHER_FALL_DISTANCE = 0.5F;
@@ -83,7 +83,9 @@ public class FloorCushionBlock extends Block {
 
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
-        SeatUtil.onStateReplaced(level, pos);
+        if (!state.is(newState.getBlock())) {
+            SeatUtil.onStateReplaced(level, pos);
+        }
         super.onRemove(state, level, pos, newState, moved);
     }
 

@@ -1,4 +1,4 @@
-![Wok & Bowl](https://lets-do.ch/assets/mod-logos/wokandbowl.png)
+![Wok & Bowl](https://lets-do.ch/assets/mod-logos/wokandbowl.webp)
 
 <br>
 
@@ -36,8 +36,8 @@ Wok & Bowl builds on the ingredients of [Let's Do] Farm & Charm and adds its own
 
 - Wild Rice in swamps and flooded Rice Paddies for growing Rice and Sticky Rice  
 - Sticky Rice that needs fertilizer as it grows  
-- A Cutting Board and Cleaver for filleting fish and chopping meat  
-- Place an axe on the Cutting Board to strip logs  
+- Fillet salmon and cod on Farm & Charm's Cutting Board, with Fish Bones as a byproduct  
+- Chop pork in Farm & Charm's Mincer  
 - Assemble dumplings, buns, seaweed salmon rolls, rice balls and sweet rice cakes by hand on the Cutting Board  
 
 <br>

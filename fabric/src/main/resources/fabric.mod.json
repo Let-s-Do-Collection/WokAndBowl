@@ -13,7 +13,7 @@
     "sources": "https://github.com/Let-s-Do-Collection/WokAndBowl",
     "issues": "https://github.com/satisfyu/Let-s-Do-Hub"
   },
-  "license": "Custom",
+  "license": "All-Rights-Reserved",
   "icon": "pack.png",
   "environment": "*",
   "entrypoints": {
@@ -29,6 +29,9 @@
     "rei_client": [
       "net.satisfy.wok_and_bowl.compat.rei.WokAndBowlREIClientPlugin"
     ],
+    "emi": [
+      "net.satisfy.wok_and_bowl.compat.emi.WokAndBowlEmiPlugin"
+    ],
     "jei_mod_plugin": [
       "net.satisfy.wok_and_bowl.compat.jei.WokAndBowlJEIPlugin"
     ]
@@ -41,7 +44,7 @@
     "fabric-api": "*",
     "minecraft": "~1.21.1",
     "architectury": ">=13.0.8",
-    "foundation": ">=1.0.13",
+    "foundation": ">=1.1.0",
     "cloth-config": "*",
     "farm_and_charm": ">=1.1.30"
   }

@@ -100,6 +100,7 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
     private static final String STEAMING_PROGRESS_KEY = "SteamingProgress";
     private static final String STEAMING_TOTAL_KEY = "SteamingTotal";
     private static final String STEAMING_KEY = "Steaming";
+    private static final String STEAMING_RECIPE_KEY = "SteamingRecipe";
     private static final int STEAMER_SYNC_INTERVAL = 10;
 
     private final List<ItemStack> ingredients = new ArrayList<>();
@@ -126,7 +127,8 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
     private int steamingTotal;
     private boolean steaming;
     private boolean steamerDirty = true;
-    private @Nullable SteamingRecipe cachedRecipe;
+    private @Nullable RecipeHolder<SteamingRecipe> cachedRecipe;
+    private @Nullable ResourceLocation steamingRecipe;
 
     public WokBlockEntity(BlockPos pos, BlockState state) {
         super(EntityTypeRegistry.WOK_BLOCK_ENTITY.get(), pos, state);
@@ -192,6 +194,13 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
         level.playSound(null, this.worldPosition, SoundEvents.GENERIC_EXTINGUISH_FIRE, SoundSource.BLOCKS, 0.25F, 1.8F);
         this.markUpdated();
         return ItemInteractionResult.CONSUME;
+    }
+
+    public boolean canStartWith(ItemStack stack) {
+        Level level = Objects.requireNonNull(this.level);
+        return this.clientHeated && !this.isCooking() && !stack.is(REJECTS) && this.dishes.stream().anyMatch(ItemStack::isEmpty)
+                && level.getRecipeManager().getAllRecipesFor(RecipeTypeRegistry.WOK_RECIPE_TYPE.get()).stream()
+                .anyMatch(recipe -> recipe.value().startsWith(List.of(stack)));
     }
 
     private ItemInteractionResult flambe(ItemStack stack, Player player) {
@@ -389,11 +398,11 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
                 level.playSound(null, this.worldPosition, SoundEvents.FIRE_EXTINGUISH, SoundSource.BLOCKS, 0.5F, 0.8F);
                 this.markUpdated();
             }
-            int tossInterval = PlatformHelper.getWokTossIntervalSeconds() * TICKS_PER_SECOND;
+            int tossInterval = PlatformHelper.getWokTossInterval();
             if (!this.awaitingToss && this.timer % tossInterval == 0 && this.timer < cookingTicks) {
                 this.awaitingToss = true;
                 this.tossCalled = level.getGameTime();
-                this.tossDeadline = this.timer + PlatformHelper.getWokTossWindowSeconds() * TICKS_PER_SECOND;
+                this.tossDeadline = this.timer + getTossWindow();
                 level.playSound(null, this.worldPosition, SoundEvents.NOTE_BLOCK_BELL.value(), SoundSource.BLOCKS, 0.8F, 1.4F);
                 this.markUpdated();
             }
@@ -408,7 +417,7 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
         if (level instanceof ServerLevel serverLevel && this.timer % 10 == 0) {
             serverLevel.sendParticles(ParticleTypes.SMOKE, this.worldPosition.getX() + 0.5, this.worldPosition.getY() + 0.4, this.worldPosition.getZ() + 0.5, 2, 0.2, 0.05, 0.2, 0.01);
         }
-        if (PlatformHelper.isWokQualityEnabled() && this.timer > cookingTicks + PlatformHelper.getWokBurnSeconds() * TICKS_PER_SECOND) {
+        if (PlatformHelper.isWokQualityEnabled() && this.timer > cookingTicks + PlatformHelper.getWokBurnDuration()) {
             this.burn(level);
         }
     }
@@ -416,7 +425,7 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
     private void toss() {
         Level level = Objects.requireNonNull(this.level);
         boolean late = this.awaitingToss && PlatformHelper.isWokQualityEnabled() && PlatformHelper.isWokTossTimingEnabled()
-                && this.timer - (this.tossDeadline - PlatformHelper.getWokTossWindowSeconds() * TICKS_PER_SECOND) > PlatformHelper.getWokPerfectTossTicks();
+                && this.timer - (this.tossDeadline - getTossWindow()) > PlatformHelper.getWokPerfectTossDuration();
         this.awaitingToss = false;
         this.lastToss = level.getGameTime();
         if (late) {
@@ -437,7 +446,7 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
         Level level = Objects.requireNonNull(this.level);
         this.toss();
         Optional<WokRecipe> recipe = this.findCurrentDish();
-        int serveWindow = PlatformHelper.getWokServeWindowSeconds() * TICKS_PER_SECOND;
+        int serveWindow = PlatformHelper.getWokServeWindowDuration();
         boolean perfect = Math.abs(this.timer - this.getCookingTicks()) <= serveWindow;
         int quality = PlatformHelper.isWokQualityEnabled() ? Math.max(1, WokDishItem.MAX_QUALITY - this.missedTosses - this.lateTosses / LATE_TOSSES_PER_FLAME - (perfect ? 0 : 1) + (this.flambeed ? 1 : 0)) : WokDishItem.MAX_QUALITY;
         quality = Math.min(WokDishItem.MAX_QUALITY, quality);
@@ -522,16 +531,23 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
     }
 
     public int getCookingTicks() {
-        int seconds = PlatformHelper.getWokBaseCookingSeconds() + PlatformHelper.getWokSecondsPerIngredient() * Math.max(0, this.ingredients.size() - 1);
-        return Math.min(seconds, PlatformHelper.getWokMaxCookingSeconds()) * TICKS_PER_SECOND;
+        int ticks = PlatformHelper.getWokBaseCookingDuration() + PlatformHelper.getWokIngredientCookingDuration() * Math.max(0, this.ingredients.size() - 1);
+        return Math.min(ticks, PlatformHelper.getWokMaxCookingDuration());
     }
 
     private int getReadyTicks() {
-        return Math.max(0, this.getCookingTicks() - PlatformHelper.getWokServeWindowSeconds() * TICKS_PER_SECOND);
+        return Math.max(0, this.getCookingTicks() - PlatformHelper.getWokServeWindowDuration());
+    }
+
+    public static int getTossWindow() {
+        return Math.min(PlatformHelper.getWokTossWindowDuration(), PlatformHelper.getWokTossInterval() - 1);
     }
 
     private boolean canCook(Player player) {
-        return !PlatformHelper.isWokOwnerOnly() || player.getUUID().equals(this.owner);
+        if (!PlatformHelper.isWokOwnerOnly() || this.owner == null || player.getUUID().equals(this.owner)) {
+            return true;
+        }
+        return player.getServer() != null && player.getServer().getPlayerList().getPlayer(this.owner) == null;
     }
 
     public List<ItemStack> getNextIngredients() {
@@ -587,6 +603,10 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
         return this.sauced;
     }
 
+    public boolean isFlambeed() {
+        return this.flambeed;
+    }
+
     public int getReadyTime() {
         return this.clientReadyTicks;
     }
@@ -626,12 +646,16 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
 
     private void runSteamer(Level level) {
         if (!this.isHeated()) {
+            this.steaming = false;
             return;
         }
-        if (this.steamerDirty || (this.cachedRecipe == null && level.getGameTime() % STEAMER_RECHECK_INTERVAL == 0)) {
-            SteamingRecipe recipe = this.findSteamingRecipe(level).orElse(null);
-            if (recipe != this.cachedRecipe) {
-                this.steamingProgress = 0;
+        if (this.steamerDirty || level.getGameTime() % STEAMER_RECHECK_INTERVAL == 0) {
+            RecipeHolder<SteamingRecipe> recipe = this.findSteamingRecipe(level).orElse(null);
+            if (recipe != null) {
+                if (this.steamingRecipe != null && !recipe.id().equals(this.steamingRecipe)) {
+                    this.steamingProgress = 0;
+                }
+                this.steamingRecipe = recipe.id();
             }
             this.cachedRecipe = recipe;
             this.steamerDirty = false;
@@ -643,9 +667,9 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
             }
             return;
         }
-        SteamingRecipe recipe = this.cachedRecipe;
+        SteamingRecipe recipe = this.cachedRecipe.value();
         this.steaming = true;
-        this.steamingTotal = Math.max(1, Math.round(recipe.getSteamingTime() / PlatformHelper.getSteamingSpeed()));
+        this.steamingTotal = Math.max(1, Math.round(recipe.getSteamingTime() / PlatformHelper.getSteamingSpeedMultiplier()));
         this.steamerHeatProgress += this.getHeat();
         while (this.steamerHeatProgress >= 1.0F) {
             this.steamerHeatProgress -= 1.0F;
@@ -683,14 +707,13 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
         this.steaming = false;
     }
 
-    private Optional<SteamingRecipe> findSteamingRecipe(Level level) {
+    private Optional<RecipeHolder<SteamingRecipe>> findSteamingRecipe(Level level) {
         ItemStack input = this.steamer.get(INPUT_SLOT);
         if (input.isEmpty()) {
             return Optional.empty();
         }
         return level.getRecipeManager().getRecipeFor(RecipeTypeRegistry.STEAMING_RECIPE_TYPE.get(), new SingleRecipeInput(input), level)
-                .map(RecipeHolder::value)
-                .filter(recipe -> canAcceptOutput(this.steamer.get(OUTPUT_SLOT), recipe.getResultItem(level.registryAccess())));
+                .filter(recipe -> canAcceptOutput(this.steamer.get(OUTPUT_SLOT), recipe.value().getResultItem(level.registryAccess())));
     }
 
     private static boolean canAcceptOutput(ItemStack output, ItemStack result) {
@@ -840,6 +863,9 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
         tag.putInt(STEAMING_PROGRESS_KEY, this.steamingProgress);
         tag.putInt(STEAMING_TOTAL_KEY, this.steamingTotal);
         tag.putBoolean(STEAMING_KEY, this.steaming);
+        if (this.steamingRecipe != null) {
+            tag.putString(STEAMING_RECIPE_KEY, this.steamingRecipe.toString());
+        }
     }
 
     @Override
@@ -875,6 +901,7 @@ public class WokBlockEntity extends BlockEntity implements WorldlyContainer {
         this.steamingProgress = tag.getInt(STEAMING_PROGRESS_KEY);
         this.steamingTotal = tag.getInt(STEAMING_TOTAL_KEY);
         this.steaming = tag.getBoolean(STEAMING_KEY);
+        this.steamingRecipe = tag.contains(STEAMING_RECIPE_KEY) ? ResourceLocation.tryParse(tag.getString(STEAMING_RECIPE_KEY)) : null;
     }
 
     @Override

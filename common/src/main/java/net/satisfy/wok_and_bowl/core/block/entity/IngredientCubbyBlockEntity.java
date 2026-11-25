@@ -43,10 +43,11 @@ public class IngredientCubbyBlockEntity extends BlockEntity implements Container
 
     public boolean insert(int slot, ItemStack stack) {
         ItemStack current = this.items.get(slot);
+        int limit = this.getMaxStackSize(stack);
         if (current.isEmpty()) {
-            this.items.set(slot, stack.split(PlatformHelper.getIngredientCubbySlotSize()));
-        } else if (ItemStack.isSameItemSameComponents(current, stack) && current.getCount() < PlatformHelper.getIngredientCubbySlotSize()) {
-            int moved = Math.min(stack.getCount(), PlatformHelper.getIngredientCubbySlotSize() - current.getCount());
+            this.items.set(slot, stack.split(limit));
+        } else if (ItemStack.isSameItemSameComponents(current, stack) && current.getCount() < limit) {
+            int moved = Math.min(stack.getCount(), limit - current.getCount());
             current.grow(moved);
             stack.shrink(moved);
         } else {

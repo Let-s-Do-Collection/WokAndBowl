@@ -1,5 +1,7 @@
 package net.satisfy.wok_and_bowl.core.block;
 
+import net.minecraft.world.level.block.Mirror;
+import net.minecraft.world.level.block.Rotation;
 import net.satisfy.foundation.util.ShapeUtil;
 import com.mojang.serialization.MapCodec;
 import net.minecraft.core.BlockPos;
@@ -108,7 +110,7 @@ public class RattanBranchBlock extends HorizontalDirectionalBlock implements Bon
 
     @Override
     protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
-        if (random.nextInt(Math.max(1, Math.round(GROWTH_CHANCE / PlatformHelper.getRattanGrowthSpeed()))) == 0) {
+        if (random.nextInt(Math.max(1, Math.round(GROWTH_CHANCE / PlatformHelper.getRattanGrowthMultiplier()))) == 0) {
             level.setBlock(pos, state.setValue(MATURE, true), Block.UPDATE_CLIENTS);
         }
     }
@@ -153,6 +155,16 @@ public class RattanBranchBlock extends HorizontalDirectionalBlock implements Bon
     @Override
     protected @NotNull VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPES.get(state.getValue(FACING));
+    }
+
+    @Override
+    protected @NotNull BlockState rotate(BlockState state, Rotation rotation) {
+        return state.setValue(FACING, rotation.rotate(state.getValue(FACING)));
+    }
+
+    @Override
+    protected @NotNull BlockState mirror(BlockState state, Mirror mirror) {
+        return state.rotate(mirror.getRotation(state.getValue(FACING)));
     }
 
     @Override

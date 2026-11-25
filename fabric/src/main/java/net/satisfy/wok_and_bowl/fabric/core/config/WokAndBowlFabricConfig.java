@@ -28,16 +28,16 @@ public class WokAndBowlFabricConfig implements ConfigData {
 
     public static class WokSettings {
         @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(min = 1, max = 600)
-        public int wokBaseCookingSeconds = 16;
+        @ConfigEntry.BoundedDiscrete(min = 20, max = 12000)
+        public int wokBaseCookingDuration = 320;
 
         @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 60)
-        public int wokSecondsPerIngredient = 2;
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 1200)
+        public int wokIngredientCookingDuration = 40;
 
         @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(min = 1, max = 600)
-        public int wokMaxCookingSeconds = 20;
+        @ConfigEntry.BoundedDiscrete(min = 20, max = 12000)
+        public int wokMaxCookingDuration = 400;
 
         @ConfigEntry.Gui.Tooltip
         public boolean wokHeatRequired = true;
@@ -49,16 +49,16 @@ public class WokAndBowlFabricConfig implements ConfigData {
         public boolean enableWokQuality = true;
 
         @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(min = 1, max = 60)
-        public int wokTossIntervalSeconds = 5;
+        @ConfigEntry.BoundedDiscrete(min = 20, max = 1200)
+        public int wokTossInterval = 100;
 
         @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(min = 1, max = 20)
-        public int wokTossWindowSeconds = 2;
+        @ConfigEntry.BoundedDiscrete(min = 20, max = 400)
+        public int wokTossWindowDuration = 40;
 
         @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 30)
-        public int wokServeWindowSeconds = 2;
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 600)
+        public int wokServeWindowDuration = 40;
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 1, max = 64)
@@ -85,16 +85,16 @@ public class WokAndBowlFabricConfig implements ConfigData {
         public int wokSoulFireDishesThreeFlames = 4;
 
         @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(min = 1, max = 120)
-        public int wokBurnSeconds = 6;
+        @ConfigEntry.BoundedDiscrete(min = 20, max = 2400)
+        public int wokBurnDuration = 120;
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-        public int wokThreeStarBonus = 10;
+        public int wokThreeFlameBonus = 10;
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-        public int wokTwoStarBonus = 5;
+        public int wokTwoFlameBonus = 5;
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
@@ -104,28 +104,28 @@ public class WokAndBowlFabricConfig implements ConfigData {
         public boolean enableWokRecipeHints = true;
 
         @ConfigEntry.Gui.Tooltip
-        public float steamingSpeed = 1.0F;
+        public double steamingSpeedMultiplier = 1.0;
 
         @ConfigEntry.Gui.Tooltip
         public boolean enableWokTossTiming = true;
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-        public int wokPerfectTossTicks = 20;
+        public int wokPerfectTossDuration = 20;
 
         @ConfigEntry.Gui.Tooltip
-        public float wokCampfireHeat = 1.0F;
+        public double wokCampfireHeatMultiplier = 1.0;
 
         @ConfigEntry.Gui.Tooltip
-        public float wokStoveHeat = 1.25F;
+        public double wokStoveHeatMultiplier = 1.25;
 
         @ConfigEntry.Gui.Tooltip
-        public float wokSoulFireHeat = 1.5F;
+        public double wokSoulFireHeatMultiplier = 1.5;
     }
 
     public static class FarmingSettings {
         @ConfigEntry.Gui.Tooltip
-        public float riceGrowthSpeed = 4.0F;
+        public double riceGrowthMultiplier = 4.0;
 
         @ConfigEntry.Gui.Tooltip
         public boolean stickyRiceFertilizerRequired = true;
@@ -134,10 +134,11 @@ public class WokAndBowlFabricConfig implements ConfigData {
         public boolean ricePaddyRequiresFertilizedFarmland = true;
 
         @ConfigEntry.Gui.Tooltip
-        public float rattanGrowthSpeed = 1.0F;
+        public double rattanGrowthMultiplier = 1.0;
 
         @ConfigEntry.Gui.Tooltip
-        public float rattanBranchDensity = 0.07F;
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+        public int rattanBranchChance = 7;
     }
 
     public static class GameplaySettings {
@@ -150,8 +151,8 @@ public class WokAndBowlFabricConfig implements ConfigData {
         public int ingredientCubbySlotSize = 64;
 
         @ConfigEntry.Gui.Tooltip
-        @ConfigEntry.BoundedDiscrete(min = 0, max = 600)
-        public int tatamiRestedSeconds = 60;
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 12000)
+        public int tatamiRestedDuration = 1200;
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 200)
@@ -159,7 +160,7 @@ public class WokAndBowlFabricConfig implements ConfigData {
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 32000)
-        public int burntRiceBurnTime = 1600;
+        public int burntRiceBurnDuration = 1600;
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 15)
@@ -181,9 +182,6 @@ public class WokAndBowlFabricConfig implements ConfigData {
 
         @ConfigEntry.Gui.Tooltip
         public boolean showStickyRiceInfo = true;
-
-        @ConfigEntry.Gui.Tooltip
-        public boolean showPlateInfo = true;
     }
 
     public static class MiscSettings {
@@ -235,6 +233,20 @@ public class WokAndBowlFabricConfig implements ConfigData {
 
         @ConfigEntry.Gui.Tooltip
         public float steamedRiceSaturation = 0.4F;
+
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
+        public int steamedStickyRiceNutrition = 3;
+
+        @ConfigEntry.Gui.Tooltip
+        public float steamedStickyRiceSaturation = 0.4F;
+
+        @ConfigEntry.Gui.Tooltip
+        @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
+        public int brothNutrition = 2;
+
+        @ConfigEntry.Gui.Tooltip
+        public float brothSaturation = 0.2F;
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
@@ -315,17 +327,17 @@ public class WokAndBowlFabricConfig implements ConfigData {
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
-        public int porkDumplingsNutrition = 5;
+        public int porkDumplingsNutrition = 6;
 
         @ConfigEntry.Gui.Tooltip
-        public float porkDumplingsSaturation = 0.5F;
+        public float porkDumplingsSaturation = 0.6F;
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
-        public int vegetableDumplingsNutrition = 5;
+        public int vegetableDumplingsNutrition = 6;
 
         @ConfigEntry.Gui.Tooltip
-        public float vegetableDumplingsSaturation = 0.5F;
+        public float vegetableDumplingsSaturation = 0.6F;
 
         @ConfigEntry.Gui.Tooltip
         @ConfigEntry.BoundedDiscrete(min = 0, max = 20)
@@ -355,6 +367,8 @@ public class WokAndBowlFabricConfig implements ConfigData {
                 case CHOPPED_PORK -> choppedPorkNutrition;
                 case CURED_MEAT -> curedMeatNutrition;
                 case STEAMED_RICE -> steamedRiceNutrition;
+                case STEAMED_STICKY_RICE -> steamedStickyRiceNutrition;
+                case BROTH -> brothNutrition;
                 case RICE_BALL -> riceBallNutrition;
                 case SWEET_RICE_CAKE -> sweetRiceCakeNutrition;
                 case SIMPLE_FRIED_RICE -> simpleFriedRiceNutrition;
@@ -381,6 +395,8 @@ public class WokAndBowlFabricConfig implements ConfigData {
                 case CHOPPED_PORK -> choppedPorkSaturation;
                 case CURED_MEAT -> curedMeatSaturation;
                 case STEAMED_RICE -> steamedRiceSaturation;
+                case STEAMED_STICKY_RICE -> steamedStickyRiceSaturation;
+                case BROTH -> brothSaturation;
                 case RICE_BALL -> riceBallSaturation;
                 case SWEET_RICE_CAKE -> sweetRiceCakeSaturation;
                 case SIMPLE_FRIED_RICE -> simpleFriedRiceSaturation;
@@ -403,21 +419,22 @@ public class WokAndBowlFabricConfig implements ConfigData {
 
     @Override
     public void validatePostLoad() {
-        if (wok.wokMaxCookingSeconds < wok.wokBaseCookingSeconds) {
-            wok.wokMaxCookingSeconds = wok.wokBaseCookingSeconds;
+        if (wok.wokMaxCookingDuration < wok.wokBaseCookingDuration) {
+            wok.wokMaxCookingDuration = wok.wokBaseCookingDuration;
         }
-        wok.steamingSpeed = Math.clamp(wok.steamingSpeed, 0.1F, 10.0F);
-        wok.wokCampfireHeat = Math.clamp(wok.wokCampfireHeat, 0.1F, 5.0F);
-        wok.wokStoveHeat = Math.clamp(wok.wokStoveHeat, 0.1F, 5.0F);
-        wok.wokSoulFireHeat = Math.clamp(wok.wokSoulFireHeat, 0.1F, 5.0F);
-        farming.riceGrowthSpeed = Math.clamp(farming.riceGrowthSpeed, 0.1F, 25.0F);
-        farming.rattanGrowthSpeed = Math.clamp(farming.rattanGrowthSpeed, 0.1F, 10.0F);
-        farming.rattanBranchDensity = Math.clamp(farming.rattanBranchDensity, 0.0F, 1.0F);
+        wok.steamingSpeedMultiplier = Math.clamp(wok.steamingSpeedMultiplier, 0.1, 10.0);
+        wok.wokCampfireHeatMultiplier = Math.clamp(wok.wokCampfireHeatMultiplier, 0.1, 5.0);
+        wok.wokStoveHeatMultiplier = Math.clamp(wok.wokStoveHeatMultiplier, 0.1, 5.0);
+        wok.wokSoulFireHeatMultiplier = Math.clamp(wok.wokSoulFireHeatMultiplier, 0.1, 5.0);
+        farming.riceGrowthMultiplier = Math.clamp(farming.riceGrowthMultiplier, 0.1, 25.0);
+        farming.rattanGrowthMultiplier = Math.clamp(farming.rattanGrowthMultiplier, 0.1, 10.0);
         food.cutSalmonSaturation = Math.clamp(food.cutSalmonSaturation, 0.0F, 2.0F);
         food.cutCodSaturation = Math.clamp(food.cutCodSaturation, 0.0F, 2.0F);
         food.choppedPorkSaturation = Math.clamp(food.choppedPorkSaturation, 0.0F, 2.0F);
         food.curedMeatSaturation = Math.clamp(food.curedMeatSaturation, 0.0F, 2.0F);
         food.steamedRiceSaturation = Math.clamp(food.steamedRiceSaturation, 0.0F, 2.0F);
+        food.steamedStickyRiceSaturation = Math.clamp(food.steamedStickyRiceSaturation, 0.0F, 2.0F);
+        food.brothSaturation = Math.clamp(food.brothSaturation, 0.0F, 2.0F);
         food.riceBallSaturation = Math.clamp(food.riceBallSaturation, 0.0F, 2.0F);
         food.sweetRiceCakeSaturation = Math.clamp(food.sweetRiceCakeSaturation, 0.0F, 2.0F);
         food.simpleFriedRiceSaturation = Math.clamp(food.simpleFriedRiceSaturation, 0.0F, 2.0F);

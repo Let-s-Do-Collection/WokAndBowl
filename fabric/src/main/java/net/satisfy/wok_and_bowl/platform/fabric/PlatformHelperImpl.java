@@ -9,16 +9,16 @@ public class PlatformHelperImpl {
         return AutoConfig.getConfigHolder(WokAndBowlFabricConfig.class).getConfig();
     }
 
-    public static int getWokBaseCookingSeconds() {
-        return config().wok.wokBaseCookingSeconds;
+    public static int getWokBaseCookingDuration() {
+        return config().wok.wokBaseCookingDuration;
     }
 
-    public static int getWokSecondsPerIngredient() {
-        return config().wok.wokSecondsPerIngredient;
+    public static int getWokIngredientCookingDuration() {
+        return config().wok.wokIngredientCookingDuration;
     }
 
-    public static int getWokMaxCookingSeconds() {
-        return config().wok.wokMaxCookingSeconds;
+    public static int getWokMaxCookingDuration() {
+        return config().wok.wokMaxCookingDuration;
     }
 
     public static boolean isWokHeatRequired() {
@@ -33,36 +33,36 @@ public class PlatformHelperImpl {
         return config().food.saturation(food);
     }
 
-    public static float getRiceGrowthSpeed() {
-        return config().farming.riceGrowthSpeed;
+    public static float getRiceGrowthMultiplier() {
+        return (float) config().farming.riceGrowthMultiplier;
     }
 
     public static boolean isStickyRiceFertilizerRequired() {
         return config().farming.stickyRiceFertilizerRequired;
     }
 
-    public static int getWokTossIntervalSeconds() {
-        return config().wok.wokTossIntervalSeconds;
+    public static int getWokTossInterval() {
+        return config().wok.wokTossInterval;
     }
 
-    public static int getWokTossWindowSeconds() {
-        return config().wok.wokTossWindowSeconds;
+    public static int getWokTossWindowDuration() {
+        return config().wok.wokTossWindowDuration;
     }
 
-    public static int getWokServeWindowSeconds() {
-        return config().wok.wokServeWindowSeconds;
+    public static int getWokServeWindowDuration() {
+        return config().wok.wokServeWindowDuration;
     }
 
-    public static int getWokBurnSeconds() {
-        return config().wok.wokBurnSeconds;
+    public static int getWokBurnDuration() {
+        return config().wok.wokBurnDuration;
     }
 
-    public static int getWokThreeStarBonus() {
-        return config().wok.wokThreeStarBonus;
+    public static int getWokThreeFlameBonus() {
+        return config().wok.wokThreeFlameBonus;
     }
 
-    public static int getWokTwoStarBonus() {
-        return config().wok.wokTwoStarBonus;
+    public static int getWokTwoFlameBonus() {
+        return config().wok.wokTwoFlameBonus;
     }
 
     public static boolean showWokInfo() {
@@ -81,12 +81,8 @@ public class PlatformHelperImpl {
         return config().infoTooltips.showStickyRiceInfo;
     }
 
-    public static boolean showPlateInfo() {
-        return config().infoTooltips.showPlateInfo;
-    }
-
-    public static int getTatamiRestedSeconds() {
-        return config().gameplay.tatamiRestedSeconds;
+    public static int getTatamiRestedDuration() {
+        return config().gameplay.tatamiRestedDuration;
     }
 
     public static boolean isWokOwnerOnly() {
@@ -101,16 +97,16 @@ public class PlatformHelperImpl {
         return config().gameplay.rattanBasketRange;
     }
 
-    public static float getRattanGrowthSpeed() {
-        return config().farming.rattanGrowthSpeed;
+    public static float getRattanGrowthMultiplier() {
+        return (float) config().farming.rattanGrowthMultiplier;
     }
 
     public static int getIngredientCubbySlotSize() {
         return config().gameplay.ingredientCubbySlotSize;
     }
 
-    public static float getRattanBranchDensity() {
-        return config().farming.rattanBranchDensity;
+    public static float getRattanBranchChance() {
+        return config().farming.rattanBranchChance / 100.0F;
     }
 
     public static boolean isRattanLeafParticlesEnabled() {
@@ -121,16 +117,16 @@ public class PlatformHelperImpl {
         return config().gameplay.enableCushionBounce;
     }
 
-    public static int getBurntRiceBurnTime() {
-        return config().gameplay.burntRiceBurnTime;
+    public static int getBurntRiceBurnDuration() {
+        return config().gameplay.burntRiceBurnDuration;
     }
 
     public static boolean isWokRecipeHintsEnabled() {
         return config().wok.enableWokRecipeHints;
     }
 
-    public static float getSteamingSpeed() {
-        return config().wok.steamingSpeed;
+    public static float getSteamingSpeedMultiplier() {
+        return (float) config().wok.steamingSpeedMultiplier;
     }
 
     public static boolean isRicePaddyFertilizedFarmlandRequired() {
@@ -157,20 +153,20 @@ public class PlatformHelperImpl {
         return config().wok.enableWokTossTiming;
     }
 
-    public static int getWokPerfectTossTicks() {
-        return config().wok.wokPerfectTossTicks;
+    public static int getWokPerfectTossDuration() {
+        return config().wok.wokPerfectTossDuration;
     }
 
-    public static float getWokCampfireHeat() {
-        return config().wok.wokCampfireHeat;
+    public static float getWokCampfireHeatMultiplier() {
+        return (float) config().wok.wokCampfireHeatMultiplier;
     }
 
-    public static float getWokStoveHeat() {
-        return config().wok.wokStoveHeat;
+    public static float getWokStoveHeatMultiplier() {
+        return (float) config().wok.wokStoveHeatMultiplier;
     }
 
-    public static float getWokSoulFireHeat() {
-        return config().wok.wokSoulFireHeat;
+    public static float getWokSoulFireHeatMultiplier() {
+        return (float) config().wok.wokSoulFireHeatMultiplier;
     }
 
     public static int getTatamiRestedFlameBonus() {

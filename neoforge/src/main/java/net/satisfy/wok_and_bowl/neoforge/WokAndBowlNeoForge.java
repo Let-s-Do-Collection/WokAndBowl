@@ -20,7 +20,7 @@ public class WokAndBowlNeoForge {
 
         modContainer.registerConfig(ModConfig.Type.STARTUP, WokAndBowlNeoForgeConfig.STARTUP_CONFIG);
 
-        WokAndBowlNeoForgeConfig.syncFood();
+        WokAndBowlNeoForgeConfig.syncStartup();
         modEventBus.addListener(WokAndBowlNeoForgeConfig::onLoad);
         modEventBus.addListener(WokAndBowlNeoForgeConfig::onReload);
 

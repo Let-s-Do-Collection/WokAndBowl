@@ -1,12 +1,12 @@
 {
   "type": "farm_and_charm:mincer",
   "ingredient": {
-    "item": "minecraft:porkchop"
+    "item": "farm_and_charm:bacon"
   },
   "recipe_type": "MEAT",
   "result": {
     "id": "wok_and_bowl:chopped_pork",
-    "count": 2
+    "count": 1
   },
   "experience": 0.2
 }

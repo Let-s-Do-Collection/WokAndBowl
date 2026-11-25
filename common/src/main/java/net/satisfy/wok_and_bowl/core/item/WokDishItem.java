@@ -28,8 +28,8 @@ public class WokDishItem extends WokAndBowlFoodItem {
 
     private static int getBonusPercent(int quality) {
         return switch (quality) {
-            case 3 -> PlatformHelper.getWokThreeStarBonus();
-            case 2 -> PlatformHelper.getWokTwoStarBonus();
+            case 3 -> PlatformHelper.getWokThreeFlameBonus();
+            case 2 -> PlatformHelper.getWokTwoFlameBonus();
             default -> 0;
         };
     }

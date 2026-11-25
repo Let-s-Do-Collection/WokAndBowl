@@ -131,7 +131,7 @@ public class WokBlock extends BaseEntityBlock {
             return wok.addToSteamer(stack, player);
         }
         if (level.isClientSide) {
-            return wok.isCooking() ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            return wok.isCooking() || wok.canStartWith(stack) ? ItemInteractionResult.SUCCESS : ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         return wok.addIngredient(stack, player);
     }
@@ -217,7 +217,7 @@ public class WokBlock extends BaseEntityBlock {
             if (level.getBlockEntity(pos) instanceof WokBlockEntity wok) {
                 Containers.dropContents(level, pos, wok);
                 Containers.dropContents(level, pos, wok.getDishes());
-                wok.getIngredients().forEach(stack -> Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack.copy()));
+                wok.getIngredients().stream().filter(stack -> !stack.getItem().hasCraftingRemainingItem()).forEach(stack -> Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack.copy()));
             }
             super.onRemove(state, level, pos, newState, moved);
         }
@@ -271,12 +271,16 @@ public class WokBlock extends BaseEntityBlock {
     public static float getHeat(LevelReader level, BlockPos pos) {
         BlockState below = level.getBlockState(pos.below());
         if (below.is(Blocks.SOUL_CAMPFIRE) || below.is(Blocks.SOUL_FIRE)) {
-            return PlatformHelper.getWokSoulFireHeat();
+            return PlatformHelper.getWokSoulFireHeatMultiplier();
         }
         if (below.is(BlockTags.CAMPFIRES)) {
-            return PlatformHelper.getWokCampfireHeat();
+            return PlatformHelper.getWokCampfireHeatMultiplier();
         }
-        return PlatformHelper.getWokStoveHeat();
+        BlockState state = level.getBlockState(pos);
+        if (state.getBlock() instanceof WokBlock && !state.getValue(HEAT)) {
+            return 1.0F;
+        }
+        return PlatformHelper.getWokStoveHeatMultiplier();
     }
 
     public static boolean isOnCampfire(LevelReader level, BlockPos pos) {

@@ -1,5 +1,7 @@
 package net.satisfy.wok_and_bowl;
 
+import net.satisfy.wok_and_bowl.core.registry.CompostableRegistry;
+import net.satisfy.wok_and_bowl.core.registry.FlammableBlockRegistry;
 import dev.architectury.event.events.common.LifecycleEvent;
 import dev.architectury.registry.fuel.FuelRegistry;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -13,7 +15,6 @@ import net.satisfy.foundation.rarity.FoundationRarities;
 import net.satisfy.foundation.rarity.FoundationRarity;
 import net.satisfy.wok_and_bowl.core.block.entity.IngredientCubbyBlockEntity;
 import net.satisfy.wok_and_bowl.core.block.entity.RattanBasketBlockEntity;
-import net.satisfy.wok_and_bowl.core.event.DishPlacementEvents;
 import net.satisfy.wok_and_bowl.core.event.LootEvents;
 import net.satisfy.wok_and_bowl.core.event.RicePaddyEvents;
 import net.satisfy.wok_and_bowl.core.registry.DataComponentRegistry;
@@ -43,12 +44,13 @@ public class WokAndBowl {
         TriggerRegistry.init();
         TabRegistry.init();
         RicePaddyEvents.init();
-        DishPlacementEvents.init();
         LootEvents.init();
+        CompostableRegistry.init();
+        FlammableBlockRegistry.init();
         CuttingBoardBlockEntity.registerOutputHandler((level, pos, stack) -> RattanBasketBlockEntity.collect(level, pos, IngredientCubbyBlockEntity.collect(level, pos, stack)));
         LifecycleEvent.SETUP.register(() -> {
-            if (PlatformHelper.getBurntRiceBurnTime() > 0) {
-                FuelRegistry.register(PlatformHelper.getBurntRiceBurnTime(), ObjectRegistry.BURNT_RICE.get());
+            if (PlatformHelper.getBurntRiceBurnDuration() > 0) {
+                FuelRegistry.register(PlatformHelper.getBurntRiceBurnDuration(), ObjectRegistry.BURNT_RICE.get());
             }
         });
         LifecycleEvent.SETUP.register(WokAndBowl::registerRarities);

@@ -1,6 +1,6 @@
 modLoader = "javafml"
 loaderVersion = "[4,)"
-license = "Custom"
+license = "All Rights Reserved"
 issueTrackerURL = "https://github.com/satisfyu/Let-s-Do-Hub"
 
 [[mixins]]
@@ -46,7 +46,7 @@ side = "BOTH"
 [[dependencies.wok_and_bowl]]
 modId = "foundation"
 type = "required"
-versionRange = "[1.0.13,)"
+versionRange = "[1.1.0,)"
 ordering = "AFTER"
 side = "BOTH"
 

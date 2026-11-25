@@ -99,6 +99,9 @@ public class RattanChairBlock extends Block {
     @Override
     protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
         if (!state.is(newState.getBlock())) {
+            if (state.getValue(HALF) == DoubleBlockHalf.LOWER) {
+                SeatUtil.onStateReplaced(level, pos);
+            }
             BlockPos other = state.getValue(HALF) == DoubleBlockHalf.LOWER ? pos.above() : pos.below();
             BlockState otherState = level.getBlockState(other);
             if (otherState.is(this) && otherState.getValue(HALF) != state.getValue(HALF)) {

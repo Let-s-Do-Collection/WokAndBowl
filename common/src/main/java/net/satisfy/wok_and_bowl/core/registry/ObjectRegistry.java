@@ -23,7 +23,6 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.satisfy.foundation.block.FacingBlock;
 import net.satisfy.wok_and_bowl.WokAndBowl;
-import net.satisfy.wok_and_bowl.core.block.DishPlateBlock;
 import net.satisfy.wok_and_bowl.core.block.RattanBasketBlock;
 import net.satisfy.foundation.banner.BannerSettings;
 import net.satisfy.foundation.banner.CompletionistBannerBlock;
@@ -41,6 +40,7 @@ import net.satisfy.wok_and_bowl.core.block.WokBlock;
 import net.satisfy.wok_and_bowl.core.block.crops.RiceCropBlock;
 import net.satisfy.wok_and_bowl.core.block.crops.StickyRiceCropBlock;
 import net.satisfy.wok_and_bowl.core.item.BambooSteamerItem;
+import net.satisfy.wok_and_bowl.core.item.BrothItem;
 import net.satisfy.wok_and_bowl.core.item.BurntRiceItem;
 import net.satisfy.wok_and_bowl.core.item.WokAndBowlFoodItem;
 import net.satisfy.wok_and_bowl.core.item.WokDishItem;
@@ -81,7 +81,6 @@ public class ObjectRegistry {
 
     public static final RegistrySupplier<Block> WILD_RICE = registerWithItem("wild_rice", () -> new WildRiceBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DANDELION)));
 
-    public static final RegistrySupplier<Block> DISH_PLATE = registerWithoutItem("dish_plate", () -> new DishPlateBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.DECORATED_POT).strength(0.3F).noOcclusion()));
     public static final RegistrySupplier<Block> RICE_PADDY = registerWithoutItem("rice_paddy", () -> new RicePaddyBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.FARMLAND)));
     public static final RegistrySupplier<Block> RICE_CROP = registerWithoutItem("rice_crop", () -> new RiceCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
     public static final RegistrySupplier<Block> STICKY_RICE_CROP = registerWithoutItem("sticky_rice_crop", () -> new StickyRiceCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT)));
@@ -99,10 +98,10 @@ public class ObjectRegistry {
     public static final RegistrySupplier<Item> CHOPPED_PORK = registerItem("chopped_pork", () -> new WokAndBowlFoodItem(getSettings().food(food(WokFood.CHOPPED_PORK))));
     public static final RegistrySupplier<Item> CURED_MEAT = registerItem("cured_meat", () -> new WokAndBowlFoodItem(getSettings().food(food(WokFood.CURED_MEAT))));
     public static final RegistrySupplier<Item> FERMENTED_SAUCE = registerItem("fermented_sauce", () -> new Item(getSettings().stacksTo(16)));
-    public static final RegistrySupplier<Item> BROTH = registerItem("broth", () -> new Item(getSettings().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE)));
+    public static final RegistrySupplier<Item> BROTH = registerItem("broth", () -> new BrothItem(getSettings().stacksTo(16).craftRemainder(Items.GLASS_BOTTLE).food(foodBuilder(WokFood.BROTH).usingConvertsTo(Items.GLASS_BOTTLE).build())));
 
     public static final RegistrySupplier<Item> STEAMED_RICE = registerItem("steamed_rice", () -> new WokAndBowlFoodItem(getSettings().food(food(WokFood.STEAMED_RICE))));
-    public static final RegistrySupplier<Item> STEAMED_STICKY_RICE = registerItem("steamed_sticky_rice", () -> new Item(getSettings()));
+    public static final RegistrySupplier<Item> STEAMED_STICKY_RICE = registerItem("steamed_sticky_rice", () -> new WokAndBowlFoodItem(getSettings().food(food(WokFood.STEAMED_STICKY_RICE))));
 
     public static final RegistrySupplier<Item> SIMPLE_FRIED_RICE = registerItem("simple_fried_rice", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.SIMPLE_FRIED_RICE))));
     public static final RegistrySupplier<Item> EGG_FRIED_RICE = registerItem("egg_fried_rice", () -> new WokDishItem(getSettings().stacksTo(16).food(food(WokFood.EGG_FRIED_RICE))));

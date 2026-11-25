@@ -24,6 +24,7 @@ import java.util.List;
 
 public class WokRenderer implements BlockEntityRenderer<WokBlockEntity> {
     private static final ResourceLocation TEXTURE = WokAndBowl.identifier("textures/entity/wok.png");
+    private static final long TIME_WRAP = 72000L;
     private static final float TOSS_TICKS = 12.0F;
     private static final float DUMP_TICKS = 16.0F;
     private static final float DUMP_TILT = 70.0F;
@@ -59,7 +60,7 @@ public class WokRenderer implements BlockEntityRenderer<WokBlockEntity> {
     @Override
     public void render(WokBlockEntity wok, float partialTick, PoseStack poseStack, MultiBufferSource buffers, int light, int overlay) {
         Level level = wok.getLevel();
-        float time = level == null ? 0.0F : level.getGameTime() + partialTick;
+        float time = level == null ? 0.0F : level.getGameTime() % TIME_WRAP + partialTick;
         Direction facing = wok.getBlockState().getValue(WokBlock.FACING);
         boolean steamer = wok.getBlockState().getValue(WokBlock.HAS_STEAMER);
 
@@ -67,7 +68,7 @@ public class WokRenderer implements BlockEntityRenderer<WokBlockEntity> {
         poseStack.translate(0.5, 0.0, 0.5);
         poseStack.mulPose(Axis.YP.rotationDegrees(180.0F - facing.toYRot()));
         if (!steamer) {
-            this.applyMotion(wok, time, poseStack);
+            this.applyMotion(wok, time, partialTick, poseStack);
         }
         poseStack.translate(-0.5, 0.0, -0.5);
 
@@ -82,14 +83,19 @@ public class WokRenderer implements BlockEntityRenderer<WokBlockEntity> {
         poseStack.popPose();
 
         if (!steamer) {
-            this.renderContents(wok, time, poseStack, buffers, light, overlay);
+            this.renderContents(wok, time, partialTick, poseStack, buffers, light, overlay);
         }
         poseStack.popPose();
     }
 
-    private void applyMotion(WokBlockEntity wok, float time, PoseStack poseStack) {
-        float sinceToss = time - wok.getLastToss();
-        float sinceDump = time - wok.getLastDump();
+    private static float ticksSince(WokBlockEntity wok, long start, float partialTick) {
+        Level level = wok.getLevel();
+        return level == null ? -1.0F : level.getGameTime() - start + partialTick;
+    }
+
+    private void applyMotion(WokBlockEntity wok, float time, float partialTick, PoseStack poseStack) {
+        float sinceToss = ticksSince(wok, wok.getLastToss(), partialTick);
+        float sinceDump = ticksSince(wok, wok.getLastDump(), partialTick);
         if (sinceDump >= 0.0F && sinceDump < DUMP_TICKS) {
             float progress = sinceDump / DUMP_TICKS;
             float tilt = (float) Math.sin(Math.PI * progress);
@@ -109,11 +115,11 @@ public class WokRenderer implements BlockEntityRenderer<WokBlockEntity> {
         }
     }
 
-    private void renderContents(WokBlockEntity wok, float time, PoseStack poseStack, MultiBufferSource buffers, int light, int overlay) {
+    private void renderContents(WokBlockEntity wok, float time, float partialTick, PoseStack poseStack, MultiBufferSource buffers, int light, int overlay) {
         int seed = (int) wok.getBlockPos().asLong();
         List<ItemStack> ingredients = wok.getIngredients();
         if (!ingredients.isEmpty()) {
-            float sinceToss = time - wok.getLastToss();
+            float sinceToss = ticksSince(wok, wok.getLastToss(), partialTick);
             float tossProgress = sinceToss >= 0.0F && sinceToss < TOSS_TICKS ? sinceToss / TOSS_TICKS : -1.0F;
             for (int i = 0; i < ingredients.size(); i++) {
                 this.renderIngredient(ingredients.get(i), i, ingredients.size(), time, tossProgress, poseStack, buffers, light, overlay, wok.getLevel(), seed + i);

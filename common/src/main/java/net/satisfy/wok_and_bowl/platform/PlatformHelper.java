@@ -5,17 +5,17 @@ import net.satisfy.wok_and_bowl.core.util.WokFood;
 
 public abstract class PlatformHelper {
     @ExpectPlatform
-    public static int getWokBaseCookingSeconds() {
+    public static int getWokBaseCookingDuration() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static int getWokSecondsPerIngredient() {
+    public static int getWokIngredientCookingDuration() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static int getWokMaxCookingSeconds() {
+    public static int getWokMaxCookingDuration() {
         throw new AssertionError();
     }
 
@@ -35,7 +35,7 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static float getRiceGrowthSpeed() {
+    public static float getRiceGrowthMultiplier() {
         throw new AssertionError();
     }
 
@@ -45,32 +45,32 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static int getWokTossIntervalSeconds() {
+    public static int getWokTossInterval() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static int getWokTossWindowSeconds() {
+    public static int getWokTossWindowDuration() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static int getWokServeWindowSeconds() {
+    public static int getWokServeWindowDuration() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static int getWokBurnSeconds() {
+    public static int getWokBurnDuration() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static int getWokThreeStarBonus() {
+    public static int getWokThreeFlameBonus() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static int getWokTwoStarBonus() {
+    public static int getWokTwoFlameBonus() {
         throw new AssertionError();
     }
 
@@ -95,12 +95,7 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static boolean showPlateInfo() {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    public static int getTatamiRestedSeconds() {
+    public static int getTatamiRestedDuration() {
         throw new AssertionError();
     }
 
@@ -120,7 +115,7 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static float getRattanGrowthSpeed() {
+    public static float getRattanGrowthMultiplier() {
         throw new AssertionError();
     }
 
@@ -130,7 +125,7 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static float getRattanBranchDensity() {
+    public static float getRattanBranchChance() {
         throw new AssertionError();
     }
 
@@ -145,7 +140,7 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static int getBurntRiceBurnTime() {
+    public static int getBurntRiceBurnDuration() {
         throw new AssertionError();
     }
 
@@ -155,7 +150,7 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static float getSteamingSpeed() {
+    public static float getSteamingSpeedMultiplier() {
         throw new AssertionError();
     }
 
@@ -190,22 +185,22 @@ public abstract class PlatformHelper {
     }
 
     @ExpectPlatform
-    public static int getWokPerfectTossTicks() {
+    public static int getWokPerfectTossDuration() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static float getWokCampfireHeat() {
+    public static float getWokCampfireHeatMultiplier() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static float getWokStoveHeat() {
+    public static float getWokStoveHeatMultiplier() {
         throw new AssertionError();
     }
 
     @ExpectPlatform
-    public static float getWokSoulFireHeat() {
+    public static float getWokSoulFireHeatMultiplier() {
         throw new AssertionError();
     }
 

@@ -19,7 +19,6 @@ import org.jetbrains.annotations.NotNull;
 
 public class WokAndBowlFoodItem extends Item {
     public static final TagKey<Block> TATAMI = TagKey.create(Registries.BLOCK, WokAndBowl.identifier("tatami"));
-    private static final int TICKS_PER_SECOND = 20;
 
     public WokAndBowlFoodItem(Properties properties) {
         super(properties);
@@ -27,15 +26,19 @@ public class WokAndBowlFoodItem extends Item {
 
     @Override
     public @NotNull ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
+        rewardTatami(stack, level, entity);
+        return super.finishUsingItem(stack, level, entity);
+    }
+
+    private static void rewardTatami(ItemStack stack, Level level, LivingEntity entity) {
         if (entity instanceof ServerPlayer player && isOnTatami(level, player.blockPosition())) {
             int flames = stack.getOrDefault(DataComponentRegistry.QUALITY.get(), 1);
-            int seconds = Math.round(PlatformHelper.getTatamiRestedSeconds() * (1.0F + Math.max(0, flames - 1) * PlatformHelper.getTatamiRestedFlameBonus() / 100.0F));
-            if (seconds > 0) {
-                player.addEffect(new MobEffectInstance(MobEffectRegistry.getHolder(MobEffectRegistry.RESTED), seconds * TICKS_PER_SECOND));
+            int duration = Math.round(PlatformHelper.getTatamiRestedDuration() * (1.0F + Math.max(0, flames - 1) * PlatformHelper.getTatamiRestedFlameBonus() / 100.0F));
+            if (duration > 0) {
+                player.addEffect(new MobEffectInstance(MobEffectRegistry.getHolder(MobEffectRegistry.RESTED), duration));
             }
             TriggerRegistry.ATE_ON_TATAMI.get().trigger(player);
         }
-        return super.finishUsingItem(stack, level, entity);
     }
 
     private static boolean isOnTatami(Level level, BlockPos feet) {

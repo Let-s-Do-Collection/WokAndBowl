@@ -19,6 +19,8 @@ public class StickyRiceInfoProvider implements BlockInfoProvider {
         if (!PlatformHelper.showStickyRiceInfo() || !(state.getBlock() instanceof StickyRiceCropBlock) || !StickyRiceCropBlock.isHungry(state)) {
             return List.of();
         }
-        return List.of(InfoSection.title(Component.translatable("hud.wok_and_bowl.needs_fertilizer").withStyle(ChatFormatting.GOLD)));
+        return List.of(
+                InfoSection.title(Component.translatable("hud.wok_and_bowl.needs_fertilizer").withStyle(ChatFormatting.GOLD)),
+                InfoSection.title(Component.translatable("hud.wok_and_bowl.sticky_rice.hint").withStyle(ChatFormatting.GRAY)));
     }
 }

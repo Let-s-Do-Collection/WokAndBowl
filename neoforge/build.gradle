@@ -1,7 +1,10 @@
 plugins {
     id "com.github.johnrengelman.shadow" version "8.0.0"
     id "com.modrinth.minotaur" version "2.+"
+    id "net.darkhax.curseforgegradle" version "1.1.25"
 }
+
+def changelogText = rootProject.file("CHANGELOG.md").exists() ? rootProject.file("CHANGELOG.md").text : " "
 
 architectury {
     platformSetupLoomIde()
@@ -30,7 +33,7 @@ configurations {
 }
 
 dependencies {
-    include(modImplementation("net.satisfy.foundation:foundation-neoforge:${rootProject.foundation_version}") { transitive = false })
+    modImplementation("net.satisfy.foundation:foundation-neoforge:${rootProject.foundation_version}") { transitive = false }
     neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
     modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
 
@@ -39,6 +42,8 @@ dependencies {
     modImplementation "me.shedaniel:RoughlyEnoughItems-neoforge:${rootProject.rei_version}"
     modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
     modCompileOnlyApi("mezz.jei:jei-${rootProject.minecraft_version}-neoforge-api:${rootProject.jei_version}")
+    modCompileOnly("dev.emi:emi-neoforge:${rootProject.emi_version}:api")
+    modLocalRuntime("dev.emi:emi-neoforge:${rootProject.emi_version}")
     modRuntimeOnly("mezz.jei:jei-${rootProject.minecraft_version}-neoforge:${rootProject.jei_version}")
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
@@ -102,14 +107,37 @@ modrinth {
     versionNumber = rootProject.mod_version
     versionName = "${rootProject.archives_base_name}-${rootProject.mod_version} [${rootProject.minecraft_version}-neoforge]"
     versionType = "release"
-    changelog = rootProject.file("CHANGELOG.md").exists() ? rootProject.file("CHANGELOG.md").text : " "
+    changelog = changelogText
     gameVersions = [rootProject.minecraft_version]
     loaders = ["neoforge"]
     uploadFile = remapJar
-    additionalFiles = [tasks.sourcesJar.archiveFile]
 
     dependencies {
+        required.project "lets-do-foundation"
         required.project "architectury-api"
         required.project "lets-do-farm-charm"
+        optional.project "rei"
+        optional.project "jei"
+        optional.project "emi"
     }
+}
+
+tasks.register("curseforge1824446", net.darkhax.curseforgegradle.TaskPublishCurseForge) {
+    apiToken = System.getenv("CURSEFORGE_API_KEY")
+    disableVersionDetection()
+
+    def mainFile = upload("1824446", remapJar)
+    mainFile.releaseType = "release"
+    mainFile.changelog = changelogText
+    mainFile.changelogType = "markdown"
+    mainFile.displayName = "Wok & Bowl - ${rootProject.mod_version} - NEOFORGE - ${rootProject.minecraft_version}"
+    mainFile.addGameVersion(rootProject.minecraft_version)
+    mainFile.addModLoader("NeoForge")
+    mainFile.addEnvironment("Client", "Server")
+    mainFile.addRequirement("lets-do-foundation")
+    mainFile.addRequirement("architectury-api")
+    mainFile.addRequirement("lets-do-farm-charm")
+    mainFile.addOptional("roughly-enough-items")
+    mainFile.addOptional("jei")
+    mainFile.addOptional("emi")
 }

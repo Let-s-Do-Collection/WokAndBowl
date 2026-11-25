@@ -29,7 +29,7 @@ public class BambooSteamerInfoProvider implements BlockInfoProvider {
 
     @Override
     public void beforeBackground(Level level, BlockPos pos, BlockState state) {
-        if (state.getBlock() instanceof WokBlock && state.getValue(WokBlock.HAS_STEAMER) && state.getValue(WokBlock.HEAT)) {
+        if (PlatformHelper.showBambooSteamerInfo() && state.getBlock() instanceof WokBlock && state.getValue(WokBlock.HAS_STEAMER) && state.getValue(WokBlock.HEAT)) {
             if (WokBlock.isSoulFire(level, pos)) {
                 TooltipBorder.markSoul();
             } else if (!WokBlock.isOnCampfire(level, pos)) {
