@@ -87,7 +87,8 @@ public class RiceCropBlock extends CropBlock {
     protected @NotNull VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         int age = state.getValue(getAgeProperty());
         if (isUpper(state)) {
-            return Block.box(0.0, 0.0, 0.0, 16.0, 16.0 * (age - TALL_AGE + 1) / (getMaxAge() - TALL_AGE + 1), 16.0);
+            int upperAge = Math.max(age, TALL_AGE);
+            return Block.box(0.0, 0.0, 0.0, 16.0, 16.0 * (upperAge - TALL_AGE + 1) / (getMaxAge() - TALL_AGE + 1), 16.0);
         }
         return Block.box(0.0, 0.0, 0.0, 16.0, isTall(age) ? 16.0 : 4.0 * (age + 1), 16.0);
     }

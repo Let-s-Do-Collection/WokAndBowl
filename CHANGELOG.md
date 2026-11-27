@@ -1,3 +1,10 @@
+[1.0.1]
+
+**Fixed**
+* With MoreCulling present, the game could get stuck on the loading screen or drop all your resource packs because of Rice and Sticky Rice crops
+
+***
+
 [1.0.0]
 
 **Initial Release**
